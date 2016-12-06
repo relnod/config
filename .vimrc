@@ -1,4 +1,9 @@
-set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+if !empty(glob("/usr/lib/python2.7/site-packages/powerline/bindings/vim/"))
+set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/
+endif
+if !empty(glob("/usr/lib/python3.5/site-packages/powerline/bindings/vim/"))
+set rtp+=/usr/lib/python3.5/site-packages/powerline/bindings/vim/
+endif
 
 " Always show statusline
 set laststatus=2
