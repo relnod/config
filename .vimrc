@@ -1,4 +1,4 @@
-""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""
 " POWERLINE
 """"""""""""""""""""""""""""""""""""""
 " python2.7
@@ -32,17 +32,19 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'ervandew/supertab'
+
+Plugin 'scrooloose/nerdtree'
+Plugin 'altercation/vim-colors-solarized'
+"Plugin 'ervandew/supertab'
 
 call vundle#end()
 filetype plugin indent on
 
-""""""""""""""""""""""""""""""""""""""COCLORSCHEME
+""""""""""""""""""""""""""""""""""""""
 " COCLORSCHEME
 """"""""""""""""""""""""""""""""""""""
 set background=dark
-colorscheme elflord
-
+colorscheme solarized
 
 """"""""""""""""""""""""""""""""""""""
 " FORMATTING
@@ -64,9 +66,27 @@ set textwidth=80
 set number
 
 " Syntax
-syntax on
+
+syntax enable
 
 " Filetype
 "filetype on
 "filetype plugin on
 "filetype indent on
+
+
+""""""""""""""""""""""""""""""""""""""
+" MOVE
+""""""""""""""""""""""""""""""""""""""
+" MOVE LINES UP/DOWN
+
+" Normal Mode
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+" INSERT MODE
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+" VISUAL MODE
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+"
