@@ -1,3 +1,4 @@
+nnoremap <C-r> :so ~/.vimrc <CR>
 """""""""""""""""""""""""""""""""""""
 " POWERLINE
 """"""""""""""""""""""""""""""""""""""
@@ -95,6 +96,6 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 """"""""""""""""""""""""""""""""""""""
 " TABS
 """"""""""""""""""""""""""""""""""""""
-nnoremap <C-p> :tabprevious<CR>
+"nnoremap <C-p> :tabprevious<CR>
 nnoremap <C-n> :tabnext<CR>
 nnoremap <C-x> :tabclose<CR>
