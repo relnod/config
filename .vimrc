@@ -89,4 +89,12 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 " VISUAL MODE
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
-"
+
+
+
+""""""""""""""""""""""""""""""""""""""
+" TABS
+""""""""""""""""""""""""""""""""""""""
+nnoremap <C-p> :tabprevious<CR>
+nnoremap <C-n> :tabnext<CR>
+nnoremap <C-x> :tabclose<CR>
