@@ -1,4 +1,12 @@
+"""""""""""""""""""""""""""""""""""""
+" GENERAL
+""""""""""""""""""""""""""""""""""""""
+" Refresh .vimrc
 nnoremap <C-r> :so ~/.vimrc <CR>
+
+" Highlight Search
+noremap <F4> :set hlsearch! hlsearch?<CR>
+
 """""""""""""""""""""""""""""""""""""
 " POWERLINE
 """"""""""""""""""""""""""""""""""""""
@@ -21,6 +29,13 @@ set t_Co=256
 
 
 """"""""""""""""""""""""""""""""""""""
+" AUTOCOMPLETION
+""""""""""""""""""""""""""""""""""""""
+au Filetype php setlocal ofu=phpcomplete#CompletePHP
+
+"set completeopt=longest,menuone
+
+""""""""""""""""""""""""""""""""""""""
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""
 " Requirements
@@ -37,7 +52,11 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'altercation/vim-colors-solarized'
 "Plugin 'ervandew/supertab'
+" let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'shawncplus/phpcomplete.vim'
 
+let g:phpfmt_standard = 'PSR2'
 call vundle#end()
 filetype plugin indent on
 
@@ -58,6 +77,7 @@ set shiftwidth=4
 
 " Auto Indentation
 set autoindent
+set smartindent
 set textwidth=80
 
 """"""""""""""""""""""""""""""""""""""
@@ -74,7 +94,6 @@ syntax enable
 "filetype on
 "filetype plugin on
 "filetype indent on
-
 
 """"""""""""""""""""""""""""""""""""""
 " MOVE
@@ -97,5 +116,5 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 " TABS
 """"""""""""""""""""""""""""""""""""""
 "nnoremap <C-p> :tabprevious<CR>
-nnoremap <C-n> :tabnext<CR>
-nnoremap <C-x> :tabclose<CR>
+"nnoremap <C-n> :tabnext<CR>
+"nnoremap <C-x> :tabclose<CR>
