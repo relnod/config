@@ -33,10 +33,9 @@
 " disable compatibility for vi
 set nocompatible
 
-" TODO: why is it a requirement?
 filetype off
 
-filetype plugin indent on
+filetype plugin indent off
 
 """"""""""""""""""""""""""""""""""""""
 " 1.2 Instalation
@@ -153,10 +152,10 @@ set textwidth=80
 nnoremap <leader>vr :so ~/.vimrc <CR>
 
 " Open .vimrc
-nnoremap <leader>vo :enew <CR> :e ~/.vimrc <CR> " TODO: fix
+nnoremap <leader>vo :e  ~/.vimrc <CR>
 
 " Toggle Highlight Search
-noremap <F4> :set invhlsearch<CR> " TODO: remap
+noremap <leader>st :set invhlsearch<CR> " TODO: remap
 
 
 """"""""""""""""""""""""""""""""""""""
@@ -199,7 +198,9 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 """"""""""""""""""""""""""""""""""""""
 " 3.3.1 Buffers
 """"""""""""""""""""""""""""""""""""""
-set hidden " TODO: what's this?
+
+" hide buffers when :e
+set hidden
 
 nmap <leader>o :enew<CR>
 nmap <leader>l :bnext<CR>
