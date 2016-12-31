@@ -27,7 +27,7 @@
 """"""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""
-" 1.1 Requirements 
+" 1.1 Requirements
 """"""""""""""""""""""""""""""""""""""
 
 " disable compatibility for vi
@@ -39,7 +39,7 @@ filetype off
 filetype plugin indent on
 
 """"""""""""""""""""""""""""""""""""""
-" 1.2 Instalation 
+" 1.2 Instalation
 """"""""""""""""""""""""""""""""""""""
 
 " Plugins are managed with Vundle
@@ -64,11 +64,11 @@ Plugin 'shawncplus/phpcomplete.vim'
 call vundle#end()
 
 """"""""""""""""""""""""""""""""""""""
-" 1.3 Customization 
+" 1.3 Customization
 """"""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""
-" 1.3.1 CtrlP 
+" 1.3.1 CtrlP
 """"""""""""""""""""""""""""""""""""""
 
 let g:ctrlp_working_path_mode = 'ra'
@@ -76,23 +76,24 @@ let g:ctrlp_working_path_mode = 'ra'
 nnoremap <leader>p :CtrlP<CR>
 
 """"""""""""""""""""""""""""""""""""""
-" 1.3.2 Airline 
+" 1.3.2 Airline
 """"""""""""""""""""""""""""""""""""""
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
+let g:airline_theme='solarized'
 
 """"""""""""""""""""""""""""""""""""""
-" 1.3.2 PHPComplete 
+" 1.3.2 PHPComplete
 """"""""""""""""""""""""""""""""""""""
 au Filetype php setlocal ofu=phpcomplete#CompletePHP
 
 """"""""""""""""""""""""""""""""""""""
-" 2. Looks 
+" 2. Looks
 """"""""""""""""""""""""""""""""""""""
 
-" Use 256 colours 
+" Use 256 colours
 set t_Co=256 " TODO: move elsewhere
 
 """"""""""""""""""""""""""""""""""""""
@@ -105,7 +106,7 @@ colorscheme solarized
 set guifont=Hack:h9
 
 """"""""""""""""""""""""""""""""""""""
-" 2.2 Statusline 
+" 2.2 Statusline
 """"""""""""""""""""""""""""""""""""""
 
 " Always show statusline
@@ -123,7 +124,7 @@ set number
 set relativenumber
 
 " enable syntax highting
-syntax on 
+syntax on
 
 " Tabs " TODO: move elsewhere?
 set expandtab
@@ -141,7 +142,7 @@ set textwidth=80
 """"""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""
-" 3.1 General 
+" 3.1 General
 """"""""""""""""""""""""""""""""""""""
 
 " Map Leader Key to Space
@@ -163,7 +164,7 @@ noremap <F4> :set invhlsearch<CR> " TODO: remap
 """"""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""
-" 3.2.1 Cursor 
+" 3.2.1 Cursor
 """"""""""""""""""""""""""""""""""""""
 
 " Move in Insert Mode
@@ -179,7 +180,7 @@ nnoremap <S-k> gg
 nnoremap <S-l> $
 
 """"""""""""""""""""""""""""""""""""""
-" 3.2.2 Text 
+" 3.2.2 Text
 """"""""""""""""""""""""""""""""""""""
 
 " Move Line Up/Down
@@ -192,7 +193,7 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 
 
 """"""""""""""""""""""""""""""""""""""
-" 3.3 Navigation 
+" 3.3 Navigation
 """"""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""
@@ -208,7 +209,7 @@ nmap <leader>bl :ls<CR>
 
 
 """"""""""""""""""""""""""""""""""""""
-" 3.3.2 Window 
+" 3.3.2 Window
 """"""""""""""""""""""""""""""""""""""
 
 " TODO: remap window movement
