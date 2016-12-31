@@ -1,120 +1,222 @@
-"""""""""""""""""""""""""""""""""""""
-" GENERAL
 """"""""""""""""""""""""""""""""""""""
-" Refresh .vimrc
-nnoremap <C-r> :so ~/.vimrc <CR>
-
-" Highlight Search
-noremap <F4> :set hlsearch! hlsearch?<CR>
-
-"""""""""""""""""""""""""""""""""""""
-" POWERLINE
+" Vimrc Structure
 """"""""""""""""""""""""""""""""""""""
-" python2.7
-" local
-if !empty(glob("~/.local/lib/python2.7/site-packages/powerline/bindings/vim/"))
-set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
-endif
-" python3.5
-"global
-if !empty(glob("/usr/lib/python3.5/site-packages/powerline/bindings/vim/"))
-set rtp+=/usr/lib/python3.5/site-packages/powerline/bindings/vim/
-endif
+" 1. Plugins
+"   1.1 Requiremments
+"   1.2 Installation
+"   1.3 Plugin Customization
+"       1.3.1 CtrlP
+"       1.3.2 Airline
+" 2. Looks
+"   2.1 Theme
+" 3. Mappings
+"   3.1 General
+"   3.2 Movement
+"   3.3 Navigation
+"       3.3.1 Buffer
+"       3.3.2 Window
+"       3.3.3 Tab
 
-" Always show statusline
-set laststatus=2
 
-" Use 256 colours 
-set t_Co=256
-
+" TDOD's:
+" - jump to last cursor position
+" - mapping for moving up and down a few lines
 
 """"""""""""""""""""""""""""""""""""""
-" AUTOCOMPLETION
+" 1. PLUGINS
 """"""""""""""""""""""""""""""""""""""
-au Filetype php setlocal ofu=phpcomplete#CompletePHP
-
-"set completeopt=longest,menuone
 
 """"""""""""""""""""""""""""""""""""""
-" PLUGINS
+" 1.1 Requirements 
 """"""""""""""""""""""""""""""""""""""
-" Requirements
+
+" disable compatibility for vi
 set nocompatible
+
+" TODO: why is it a requirement?
 filetype off
 
-" Vundle
+filetype plugin indent on
+
+""""""""""""""""""""""""""""""""""""""
+" 1.2 Instalation 
+""""""""""""""""""""""""""""""""""""""
+
+" Plugins are managed with Vundle
+"
 set rtp+=~/.vim/bundle/Vundle.vim
+
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-
 Plugin 'scrooloose/nerdtree'
+Plugin 'ctrlpvim/ctrlp.vim'
+
 Plugin 'altercation/vim-colors-solarized'
-"Plugin 'ervandew/supertab'
-" let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'shawncplus/phpcomplete.vim'
 
-let g:phpfmt_standard = 'PSR2'
+
 call vundle#end()
-filetype plugin indent on
 
 """"""""""""""""""""""""""""""""""""""
-" COCLORSCHEME
+" 1.3 Customization 
 """"""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""
+" 1.3.1 CtrlP 
+""""""""""""""""""""""""""""""""""""""
+
+let g:ctrlp_working_path_mode = 'ra'
+
+nnoremap <leader>p :CtrlP<CR>
+
+""""""""""""""""""""""""""""""""""""""
+" 1.3.2 Airline 
+""""""""""""""""""""""""""""""""""""""
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_powerline_fonts = 1
+
+""""""""""""""""""""""""""""""""""""""
+" 1.3.2 PHPComplete 
+""""""""""""""""""""""""""""""""""""""
+au Filetype php setlocal ofu=phpcomplete#CompletePHP
+
+""""""""""""""""""""""""""""""""""""""
+" 2. Looks 
+""""""""""""""""""""""""""""""""""""""
+
+" Use 256 colours 
+set t_Co=256 " TODO: move elsewhere
+
+""""""""""""""""""""""""""""""""""""""
+" 2.1 Theme
+""""""""""""""""""""""""""""""""""""""
+
 set background=dark
 colorscheme solarized
 
+set guifont=Hack:h9
+
 """"""""""""""""""""""""""""""""""""""
-" FORMATTING
+" 2.2 Statusline 
 """"""""""""""""""""""""""""""""""""""
-" Tabs
+
+" Always show statusline
+set laststatus=2
+
+" @see 1.3.2 Airline
+
+""""""""""""""""""""""""""""""""""""""
+" 2.3 Code
+""""""""""""""""""""""""""""""""""""""
+
+" show line number
+set number
+" show relative line numbers
+set relativenumber
+
+" enable syntax highting
+syntax on 
+
+" Tabs " TODO: move elsewhere?
 set expandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 
-" Auto Indentation
+" Auto Indentation " TODO: move elsewhere?
 set autoindent
 set smartindent
 set textwidth=80
 
+"""""""""""""""""""""""""""""""""""""
+" 3. Mappings
 """"""""""""""""""""""""""""""""""""""
-" FORMATTING
-""""""""""""""""""""""""""""""""""""""
-" Show linenumbers
-set number
-
-" Syntax
-
-syntax enable
-
-" Filetype
-"filetype on
-"filetype plugin on
-"filetype indent on
 
 """"""""""""""""""""""""""""""""""""""
-" MOVE
+" 3.1 General 
 """"""""""""""""""""""""""""""""""""""
-" MOVE LINES UP/DOWN
 
-" Normal Mode
+" Map Leader Key to Space
+:let mapleader = "\<space>"
+
+
+" Refresh .vimrc
+nnoremap <leader>vr :so ~/.vimrc <CR>
+
+" Open .vimrc
+nnoremap <leader>vo :enew <CR> :e ~/.vimrc <CR> " TODO: fix
+
+" Toggle Highlight Search
+noremap <F4> :set invhlsearch<CR> " TODO: remap
+
+
+""""""""""""""""""""""""""""""""""""""
+" 3.2 Movement
+""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""
+" 3.2.1 Cursor 
+""""""""""""""""""""""""""""""""""""""
+
+" Move in Insert Mode
+imap <C-h> <C-o>h
+imap <C-j> <C-o>j
+imap <C-k> <C-o>k
+imap <C-l> <C-o>l
+
+" faster hjkl movement " TODO: make text objects ?
+nnoremap <S-h> ^
+nnoremap <S-J> G
+nnoremap <S-k> gg
+nnoremap <S-l> $
+
+""""""""""""""""""""""""""""""""""""""
+" 3.2.2 Text 
+""""""""""""""""""""""""""""""""""""""
+
+" Move Line Up/Down
 nnoremap <A-j> :m .+1<CR>==
 nnoremap <A-k> :m .-2<CR>==
-" INSERT MODE
 inoremap <A-j> <Esc>:m .+1<CR>==gi
 inoremap <A-k> <Esc>:m .-2<CR>==gi
-" VISUAL MODE
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 
+""""""""""""""""""""""""""""""""""""""
+" 3.3 Navigation 
+""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""
-" TABS
+" 3.3.1 Buffers
 """"""""""""""""""""""""""""""""""""""
-"nnoremap <C-p> :tabprevious<CR>
-"nnoremap <C-n> :tabnext<CR>
-"nnoremap <C-x> :tabclose<CR>
+set hidden " TODO: what's this?
+
+nmap <leader>o :enew<CR>
+nmap <leader>l :bnext<CR>
+nmap <leader>h :bprevious<CR>
+nmap <leader>q :bp <BAR> bd #<CR>
+nmap <leader>bl :ls<CR>
+
+
+""""""""""""""""""""""""""""""""""""""
+" 3.3.2 Window 
+""""""""""""""""""""""""""""""""""""""
+
+" TODO: remap window movement
+
+""""""""""""""""""""""""""""""""""""""
+" 3.3.3 Tab
+""""""""""""""""""""""""""""""""""""""
+nnoremap <leader>tl :tabnext<CR>
+nnoremap <leader>th :tabprevious<CR>
+nnoremap <leader>to :tabedit<CR>
+nnoremap <leader>tq :tabclose<CR>
