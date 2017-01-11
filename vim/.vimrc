@@ -1,34 +1,12 @@
-""""""""""""""""""""""""""""""""""""""
-" Vimrc Structure
-""""""""""""""""""""""""""""""""""""""
-" 1. Plugins
-"   1.1 Requiremments
-"   1.2 Installation
-"   1.3 Plugin Customization
-"       1.3.1 CtrlP
-"       1.3.2 Airline
-" 2. Looks
-"   2.1 Theme
-" 3. Mappings
-"   3.1 General
-"   3.2 Movement
-"   3.3 Navigation
-"       3.3.1 Buffer
-"       3.3.2 Window
-"       3.3.3 Tab
-
+" vim:fdm=marker
 
 " TDOD's:
 " - jump to last cursor position
 " - mapping for moving up and down a few lines
 
-""""""""""""""""""""""""""""""""""""""
-" 1. PLUGINS
-""""""""""""""""""""""""""""""""""""""
+" 1. PLUGINS {{{
 
-""""""""""""""""""""""""""""""""""""""
-" 1.1 Requirements
-""""""""""""""""""""""""""""""""""""""
+" 1.1 Requirements {{{
 
 " disable compatibility for vi
 set nocompatible
@@ -37,9 +15,9 @@ filetype off
 
 filetype plugin indent off
 
-""""""""""""""""""""""""""""""""""""""
-" 1.2 Instalation
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" 1.2 Instalation {{{
 
 " Plugins are managed with Vundle
 "
@@ -62,60 +40,61 @@ Plugin 'shawncplus/phpcomplete.vim'
 
 call vundle#end()
 
-""""""""""""""""""""""""""""""""""""""
-" 1.3 Customization
-""""""""""""""""""""""""""""""""""""""
+" }}}
 
-""""""""""""""""""""""""""""""""""""""
-" 1.3.1 CtrlP
-""""""""""""""""""""""""""""""""""""""
+" 1.3 Customization {{{
+
+" 1.3.1 CtrlP {{{
 
 let g:ctrlp_working_path_mode = 'ra'
 
 nnoremap <leader>p :CtrlP<CR>
 
-""""""""""""""""""""""""""""""""""""""
-" 1.3.2 Airline
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" 1.3.2 Airline {{{
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:airline_theme='solarized'
 
-""""""""""""""""""""""""""""""""""""""
-" 1.3.2 PHPComplete
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" 1.3.2 PHPComplete {{{
+
 au Filetype php setlocal ofu=phpcomplete#CompletePHP
 
-""""""""""""""""""""""""""""""""""""""
-" 2. Looks
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" }}}
+
+" }}}
+
+" 2. Looks {{{
 
 " Use 256 colours
 set t_Co=256 " TODO: move elsewhere
 
-""""""""""""""""""""""""""""""""""""""
-" 2.1 Theme
-""""""""""""""""""""""""""""""""""""""
+" 2.1 Theme {{{
 
 set background=dark
 colorscheme solarized
 
 set guifont=Hack:h9
 
-""""""""""""""""""""""""""""""""""""""
-" 2.2 Statusline
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" 2.2 Statusline {{{
 
 " Always show statusline
 set laststatus=2
 
 " @see 1.3.2 Airline
 
-""""""""""""""""""""""""""""""""""""""
-" 2.3 Code
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" 2.3 Code {{{
 
 " show line number
 set number
@@ -136,13 +115,13 @@ set autoindent
 set smartindent
 set textwidth=80
 
-"""""""""""""""""""""""""""""""""""""
-" 3. Mappings
-""""""""""""""""""""""""""""""""""""""
+" }}}
 
-""""""""""""""""""""""""""""""""""""""
-" 3.1 General
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" 3. Mappings {{{
+
+" 3.1 General {{{
 
 " Map Leader Key to Space
 :let mapleader = "\<space>"
@@ -157,14 +136,11 @@ nnoremap <leader>vo :e  ~/.vimrc <CR>
 " Toggle Highlight Search
 noremap <leader>st :set invhlsearch<CR> " TODO: remap
 
+" }}}
 
-""""""""""""""""""""""""""""""""""""""
-" 3.2 Movement
-""""""""""""""""""""""""""""""""""""""
+" 3.2 Movement {{{
 
-""""""""""""""""""""""""""""""""""""""
-" 3.2.1 Cursor
-""""""""""""""""""""""""""""""""""""""
+" 3.2.1 Cursor {{{
 
 " Move in Insert Mode
 imap <C-h> <C-o>h
@@ -178,9 +154,9 @@ nnoremap <S-J> G
 nnoremap <S-k> gg
 nnoremap <S-l> $
 
-""""""""""""""""""""""""""""""""""""""
-" 3.2.2 Text
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" 3.2.2 Text {{{
 
 " Move Line Up/Down
 nnoremap <A-j> :m .+1<CR>==
@@ -190,14 +166,13 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+" }}}
 
-""""""""""""""""""""""""""""""""""""""
-" 3.3 Navigation
-""""""""""""""""""""""""""""""""""""""
+" }}}
 
-""""""""""""""""""""""""""""""""""""""
-" 3.3.1 Buffers
-""""""""""""""""""""""""""""""""""""""
+" 3.3 Navigation {{{
+
+" 3.3.1 Buffers {{{
 
 " hide buffers when :e
 set hidden
@@ -208,17 +183,23 @@ nmap <leader>h :bprevious<CR>
 nmap <leader>q :bp <BAR> bd #<CR>
 nmap <leader>bl :ls<CR>
 
+" }}}
 
-""""""""""""""""""""""""""""""""""""""
-" 3.3.2 Window
-""""""""""""""""""""""""""""""""""""""
+" 3.3.2 Window {{{
 
 " TODO: remap window movement
 
-""""""""""""""""""""""""""""""""""""""
-" 3.3.3 Tab
-""""""""""""""""""""""""""""""""""""""
+" }}}
+
+" 3.3.3 Tab {{{
+
 nnoremap <leader>tl :tabnext<CR>
 nnoremap <leader>th :tabprevious<CR>
 nnoremap <leader>to :tabedit<CR>
 nnoremap <leader>tq :tabclose<CR>
+
+" }}}
+
+" }}}
+
+" }}}
