@@ -29,7 +29,7 @@ link() {
         then
             mv "$to$file" "$to$file.dotm.tmp"
         fi
-        if [ ! -f $to$file ]
+        if [ ! -f $to$file ] && [ ! -L $to$file ]
         then
             ln -s $from$file $to
         fi
