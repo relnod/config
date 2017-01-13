@@ -5,7 +5,6 @@
 " - mapping for moving up and down a few lines
 
 " 1. PLUGINS {{{
-
 " 1.1 Requirements {{{
 
 " disable compatibility for vi
@@ -16,34 +15,32 @@ filetype off
 filetype plugin indent off
 
 " }}}
-
 " 1.2 Instalation {{{
 
-" Plugins are managed with Vundle
-"
-set rtp+=~/.vim/bundle/Vundle.vim
+" Plugins are managed with dein
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-call vundle#begin()
+call dein#begin(expand('~/vim/dein'))
 
-Plugin 'VundleVim/Vundle.vim'
+call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 
-Plugin 'scrooloose/nerdtree'
-Plugin 'ctrlpvim/ctrlp.vim'
+call dein#add('scrooloose/nerdtree')
+call dein#add('ctrlpvim/ctrlp.vim')
 
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+call dein#add('altercation/vim-colors-solarized')
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
 
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'shawncplus/phpcomplete.vim'
+"call dein#add('Valloric/YouCompleteMe')
+call dein#add('Shougo/neocomplete')
+call dein#add('shawncplus/phpcomplete.vim')
 
+call dein#add('airblade/vim-gitgutter')
 
-call vundle#end()
+call dein#end()
 
 " }}}
-
 " 1.3 Customization {{{
-
 " 1.3.1 CtrlP {{{
 
 let g:ctrlp_working_path_mode = 'ra'
@@ -51,7 +48,6 @@ let g:ctrlp_working_path_mode = 'ra'
 nnoremap <leader>p :CtrlP<CR>
 
 " }}}
-
 " 1.3.2 Airline {{{
 
 let g:airline#extensions#tabline#enabled = 1
@@ -60,21 +56,19 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='solarized'
 
 " }}}
-
 " 1.3.2 PHPComplete {{{
 
 au Filetype php setlocal ofu=phpcomplete#CompletePHP
 
 " }}}
-
 " }}}
-
 " }}}
-
 " 2. Looks {{{
-
 " Use 256 colours
 set t_Co=256 " TODO: move elsewhere
+
+" only redraw when needed
+set lazyredraw
 
 " 2.1 Theme {{{
 
@@ -84,7 +78,6 @@ colorscheme solarized
 set guifont=Hack:h9
 
 " }}}
-
 " 2.2 Statusline {{{
 
 " Always show statusline
@@ -93,13 +86,16 @@ set laststatus=2
 " @see 1.3.2 Airline
 
 " }}}
-
 " 2.3 Code {{{
 
 " show line number
 set number
 " show relative line numbers
 set relativenumber
+
+"set ruler
+
+set cursorline
 
 " enable syntax highting
 syntax on
@@ -116,9 +112,7 @@ set smartindent
 set textwidth=80
 
 " }}}
-
 " }}}
-
 " 3. Mappings {{{
 
 " 3.1 General {{{
@@ -175,7 +169,7 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 " 3.3.1 Buffers {{{
 
 " hide buffers when :e
-set hidden
+" set hidden
 
 nmap <leader>o :enew<CR>
 nmap <leader>l :bnext<CR>
@@ -202,4 +196,12 @@ nnoremap <leader>tq :tabclose<CR>
 
 " }}}
 
+" }}}
+" 4. Misc {{{
+" 4.1 Search {{{
+
+" search as characters are entere
+set incsearch
+
+" }}}
 " }}}
