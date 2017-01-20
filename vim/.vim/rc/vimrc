@@ -31,6 +31,7 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('stanangeloff/php.vim')
     call dein#add('Shougo/neco-vim')
     call dein#add('shawncplus/phpcomplete.vim')
+    call dein#add('fatih/vim-go')
 
     " COMPLETION
     call dein#add('ervandew/supertab')
@@ -45,6 +46,7 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('scrooloose/nerdtree')
     call dein#add('eugen0329/vim-esearch')
     call dein#add('majutsushi/tagbar')
+    call dein#add('mileszs/ack.vim')
 
     " LOOKS
     call dein#add('altercation/vim-colors-solarized')
@@ -111,7 +113,7 @@ if dein#tap('vim-esearch')
     let g:esearch = {
       \ 'adapter':    'ack',
       \ 'backend':    'nvim',
-      \ 'out':        'win',
+      \ 'out':        'qflist',
       \ 'batch_size': 1000,
       \ 'use':        ['visual', 'hlsearch', 'last'],
       \}
@@ -122,6 +124,25 @@ endif
 if dein#tap('tagbar')
     nnoremap <F8> :TagbarToggle<CR>
     let g:airline#extensions#tagbar#enabled = 1
+endif
+" }}}
+" Ack {{{
+if dein#tap('ack.vim')
+    nnoremap <leader>a :Ack!<space>
+endif
+" }}}
+" Vim-go {{{
+if dein#tap('vim-go')
+    au FileType go nmap <leader>r <Plug>(go-run)
+    au FileType go nmap <leader>b <Plug>(go-build)
+    au FileType go nmap <leader>t <Plug>(go-test)
+    au FileType go nmap <leader>c <Plug>(go-coverage)
+
+    if has('nvim')
+        au Filetype go nmap <leader>rt <PLUG>(go-run-tab)
+        au Filetype go nmap <leader>rs <PLUG>(go-run-split)
+        au Filetype go nmap <leader>rv <PLUG>(go-run-vertical)
+    endif
 endif
 " }}}
 " }}}
@@ -253,6 +274,7 @@ nnoremap <leader>tq :tabclose<CR>
 
 " search as characters are entere
 set incsearch
+set grepprg=ack
 
 " }}}
 " Undo {{{
