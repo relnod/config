@@ -31,6 +31,8 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('stanangeloff/php.vim')
     call dein#add('Shougo/neco-vim')
     call dein#add('shawncplus/phpcomplete.vim')
+    call dein#add('StanAngeloff/php.vim')
+    call dein#add('rayburgemeestre/phpfolding.vim')
     call dein#add('fatih/vim-go')
 
     " COMPLETION
@@ -71,12 +73,12 @@ if dein#tap('ctrlp.vim')
     let g:ctrlp_working_path_mode = 'ra'
     let g:ctrlp_show_hidden = 1
     let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
-          \ --ignore .git
-          \ --ignore .svn
-          \ --ignore .hg
-          \ --ignore .DS_Store
-          \ --ignore "**/*.pyc"
-          \ -g ""'
+                \ --ignore .git
+                \ --ignore .svn
+                \ --ignore .hg
+                \ --ignore .DS_Store
+                \ --ignore "**/*.pyc"
+                \ -g ""'
     nnoremap <leader>p :CtrlP <CR>
 endif
 " }}}
@@ -94,9 +96,17 @@ if dein#tap('phpcomplete.vim')
     au Filetype php setlocal ofu=phpcomplete#CompletePHP
 endif
 " }}}
+" Php {{{
+
+" }}}
 " Deoplete {{{
 if dein#tap('deoplete.nvim')
     let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_ignore_case = 1
+    let g:deoplete#enable_smart_case = 1
+    let g:deoplete#enable_camel_case = 1
+    let g:deoplete#enable_refresh_always = 0
+    let g:deoplete#auto_complete_start_length = 4
     let g:deoplete#omni_patterns = {}
     let g:deoplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 endif
@@ -104,19 +114,23 @@ endif
 " Neocomplete {{{
 if dein#tap('neocomplete.vim')
     let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#enable_camel_case = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
     let g:neocomplete#omni_patterns = {}
-    let g:neocomplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+    "let g:neocomplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+    let g:neocomplete#sources#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 endif
 " }}}
 " ESearch {{{
 if dein#tap('vim-esearch')
     let g:esearch = {
-      \ 'adapter':    'ack',
-      \ 'backend':    'nvim',
-      \ 'out':        'qflist',
-      \ 'batch_size': 1000,
-      \ 'use':        ['visual', 'hlsearch', 'last'],
-      \}
+                \ 'adapter':    'ack',
+                \ 'backend':    'nvim',
+                \ 'out':        'qflist',
+                \ 'batch_size': 1000,
+                \ 'use':        ['visual', 'hlsearch', 'last'],
+                \}
     "call esearch#map('<leader>ff, 'esearch')
 endif
 " }}}
@@ -217,17 +231,15 @@ noremap <leader>st :set invhlsearch<CR> " TODO: remap
 
 " }}}
 " 3.2 Movement {{{
-
 " 3.2.1 Cursor {{{
 
 " faster hjkl movement " TODO: make text objects ?
 nnoremap <S-h> ^
-nnoremap <S-J> 5j<CR>
-nnoremap <S-k> 5k<CR>
+"nnoremap <S-J>5j<CR>
+"vnoremap <S-k>5k<CR>
 nnoremap <S-l> $
 
 " }}}
-
 " 3.2.2 Text {{{
 
 " Move Line Up/Down
@@ -239,7 +251,6 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " }}}
-
 " }}}
 " 3.3 Navigation {{{
 " 3.3.1 Buffers {{{

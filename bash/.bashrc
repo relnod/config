@@ -8,5 +8,7 @@ if [[ -r /usr/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh ]
     source /usr/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
 fi
 
-GOPPATH=$HOME/dev/go
-PATH=$GOPPATH/bin:$PATH
+export GOPATH=$HOME/dev/go
+export GOROOT=/usr/local/go
+export PATH=$GOPATH/bin:$PATH
+export PATH=$GOROOT/bin:$PATH
