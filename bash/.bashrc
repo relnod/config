@@ -1,14 +1,10 @@
-
-
 #powerline
-if [ -r ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh ]; then
-    source ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
-fi
-if [[ -r /usr/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh ]]; then
-    source /usr/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
-fi
+source ~/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
 
-export GOPATH=$HOME/dev/go
-export GOROOT=/usr/local/go
-export PATH=$GOPATH/bin:$PATH
-export PATH=$GOROOT/bin:$PATH
+# Go Path
+if [ -d "/usr/local/go" ]; then
+    export GOPATH=$HOME/dev/go
+    export GOROOT=/usr/local/go
+    export PATH=$GOPATH/bin:$PATH
+    export PATH=$GOROOT/bin:$PATH
+fi
