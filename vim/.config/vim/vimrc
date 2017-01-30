@@ -1,4 +1,4 @@
-" vim:fdm=marker
+"vim:fdm=marker
 
 " 1. PLUGINS {{{
 " 1.1 Requirements {{{
@@ -9,7 +9,7 @@ filetype off
 filetype plugin indent off
 
 " }}}
-" 1.2 Instalation {{{
+" Instalation {{{
 
 set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(expand('~/.vim/dein'))
@@ -49,7 +49,7 @@ if dein#load_state(expand('~/.vim/dein'))
 
     " LOOKS
     call dein#add('altercation/vim-colors-solarized')
-    call dein#add('vim-airline/vim-airline',        { 'hook_source': 'source ~/.config/vim/plugins/airline.vim' })
+    call dein#add('vim-airline/vim-airline',        { 'hook_add': 'source ~/.config/vim/plugins/airline.vim' })
     call dein#add('vim-airline/vim-airline-themes')
 
     " GIT
@@ -58,7 +58,7 @@ if dein#load_state(expand('~/.vim/dein'))
 
     " MISC
     call dein#add('benizi/vim-automkdir')
-    call dein#add('neomake/neomake')
+    call dein#add('neomake/neomake',                { 'hook_source': 'source ~/.config/vim/plugins/neomake.vim' })
 
     call dein#end()
     call dein#save_state()
@@ -91,9 +91,6 @@ let g:gitgutter_map_keys = 0
 " }}}
 " Rooter {{{
 let g:rooter_silent_chdir=1
-" }}}
-" Neomake {{{
-autocmd! BufWritePost * Neomake
 " }}}
 " }}}
 " }}}
@@ -158,7 +155,6 @@ let mapleader = "\<space>"
 
 " Refresh .vimrc
 nnoremap <leader>vr :so ~/.vimrc <CR>
-
 " Open .vimrc
 nnoremap <leader>vo :e  ~/.dotfiles/vim/.config/vim/vimrc<CR>
 
@@ -231,4 +227,11 @@ set undofile
 set backupdir=~/.vim/tmp/backup//
 set backup
 " }}}
+" }}}
+" Functions {{{
+function! ClearCache()
+    :! rm -rf ~/.vim/dein/.cache/*
+    call dein#update()
+    source ~/.vimrc
+endfunction
 " }}}
