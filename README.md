@@ -3,6 +3,7 @@
 * ack
 * bash
 * ctags
+* tmux
 * vim/nvim
 * xorg
 
