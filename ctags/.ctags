@@ -4,3 +4,4 @@
 --exclude=tmp/*
 --exclude=tasks/*
 --exclude=.phpstorm*
+--exclude=build/*

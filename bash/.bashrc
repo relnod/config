@@ -8,3 +8,5 @@ if [ -d "/usr/local/go" ]; then
     export PATH=$GOPATH/bin:$PATH
     export PATH=$GOROOT/bin:$PATH
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
