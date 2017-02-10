@@ -3,6 +3,7 @@ noremap <silent><leader>fg :GFiles<CR>
 noremap <silent><leader>fh :Helptags<CR>
 noremap <silent><leader>ft :Tags<CR>
 noremap <silent><leader>fm :Maps<CR>
+noremap <silent><leader>fc :Commits<CR>
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -f -g ""'
 let g:fzf_action = {
             \ 'ctrl-t': 'tab split',

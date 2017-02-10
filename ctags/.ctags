@@ -5,3 +5,5 @@
 --exclude=tasks/*
 --exclude=.phpstorm*
 --exclude=build/*
+--exclude=*.min.js
+--exclude=*-min.js
