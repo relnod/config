@@ -48,6 +48,7 @@ if dein#load_state(expand('~/.vim/dein'))
     else
         call dein#add('Rip-Rip/clang_complete',     { 'on_ft': 'cpp', 'build': 'make install' })
     endif
+    call dein#add('JamshedVesuna/vim-markdown-preview', { 'on_ft': 'markdown' })
 
     " NAVIGATION
     call dein#add('airblade/vim-rooter')
@@ -94,6 +95,8 @@ endif
 
 filetype plugin indent on
 
+let g:vim_markdown_preview_browser = 'Firefox'
+" let vim_markdown_preview_github=1
 " PHPComplete {{{
 au Filetype php setlocal ofu=phpcomplete#CompletePHP
 " }}}
@@ -160,8 +163,8 @@ set textwidth=80
 
 " }}}
 " }}}
-" 3. Mappings {{{
-" 3.1 General {{{
+" Mappings {{{
+" General {{{
 
 nnoremap Y y$
 "nnoremap V v$
@@ -181,8 +184,8 @@ noremap <leader>st :set invhlsearch<CR> " TODO: remap
 " save
 nnoremap <leader>w :w<CR>
 " }}}
-" 3.2 Movement {{{
-" 3.2.1 Cursor {{{
+" Movement {{{
+" Cursor {{{
 
 " faster hjkl movement " TODO: make text objects ?
 nnoremap <S-h> ^
@@ -191,7 +194,7 @@ nnoremap <S-h> ^
 nnoremap <S-l> $
 
 " }}}
-" 3.2.2 Text {{{
+" Text {{{
 
 " Move Line Up/Down
 nnoremap <A-j> :m .+1<CR>==
@@ -203,8 +206,8 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " }}}
 " }}}
-" 3.3 Navigation {{{
-" 3.3.1 Buffers {{{
+" Navigation {{{
+" Buffers {{{
 
 " hide buffers when :e
 " set hidden
@@ -216,12 +219,15 @@ noremap <leader>q :bp <BAR> bd #<CR>
 noremap <leader>bl :ls<CR>
 
 " }}}
-" 3.3.2 Window {{{
+" Window {{{
 
-nnoremap <CR> <C-w>w
+nnoremap <C-h> :wincmd h<CR>
+nnoremap <C-j> :wincmd j<CR>
+nnoremap <C-k> :wincmd k<CR>
+nnoremap <C-l> :wincmd l<CR>
 
 " }}}
-" 3.3.3 Tab {{{
+" Tab {{{
 
 nnoremap <leader>tl :tabnext<CR>
 nnoremap <leader>th :tabprevious<CR>
@@ -231,11 +237,7 @@ nnoremap <leader>tq :tabclose<CR>
 " }}}
 " }}}
 " }}}
-" 4. Misc {{{
-" 4.1 Search {{{
-
-
-" }}}
+" Misc {{{
 " Undo {{{
 set noswapfile
 set undodir=~/.vim/tmp/undo//
