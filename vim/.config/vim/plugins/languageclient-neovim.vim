@@ -1,6 +1,8 @@
 autocmd FileType php LanguageClientStart
 
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-inoremap <silent> <F5> <CR>:call LanguageClient_textDocument_completion()<CR>i
+nnoremap <silent> sh :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> sd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> sr :call LanguageClient_textDocument_references()<CR>
+nnoremap <silent> se :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent> sd :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent> sw :call LanguageClient_workspace_symbol()<CR>
