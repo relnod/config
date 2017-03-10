@@ -1,6 +1,6 @@
 " vim:fdm=marker
 
-" 1. PLUGINS {{{
+" PLUGINS {{{
 
 set nocompatible
 
@@ -30,12 +30,13 @@ if dein#load_state(expand('~/.vim/dein'))
     else
         call dein#add('Shougo/neocomplete.vim',     { 'hook_add': 'source ~/.config/vim/plugins/neocomplete.vim' })
     endif
+    call dein#add('Shougo/echodoc.vim')
+    call dein#add('autozimu/LanguageClient-neovim', { 'hook_add': 'source ~/.config/vim/plugins/languageclient-neovim.vim' })
 
     " LANGUAGE
     call dein#add('Shougo/neco-vim',                { 'on_ft': 'vim' })
-    call dein#add('shawncplus/phpcomplete.vim',     { 'on_ft': 'php' })
-    call dein#add('m2mdas/phpcomplete-extended',    { 'on_ft': 'php' })
     call dein#add('StanAngeloff/php.vim',           { 'on_ft': 'php' })
+    call dein#add('roxma/LanguageServer-php-neovim', { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
     call dein#add('rayburgemeestre/phpfolding.vim', { 'on_ft': 'php' })
     call dein#add('fatih/vim-go',                   { 'on_ft': 'go', 'hook_add': 'source ~/.config/vim/plugins/vim-go.vim' })
     call dein#add('zchee/deoplete-go',              { 'on_ft': 'go', 'build': 'make' })
@@ -60,7 +61,6 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('junegunn/fzf',                   { 'rtp': '~/.fzf', 'build': './install --all', 'merged': 0 })
     call dein#add('junegunn/fzf.vim',               { 'hook_add': 'source ~/.config/vim/plugins/fzf.vim' })
 
-
     " LOOKS
     call dein#add('altercation/vim-colors-solarized')
     call dein#add('vim-airline/vim-airline',        { 'hook_add': 'source ~/.config/vim/plugins/airline.vim' })
@@ -76,14 +76,11 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('tpope/vim-surround')
     call dein#add('tpope/vim-commentary')
     call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-sleuth')
+    call dein#add('junegunn/vim-easy-align')
 
     " MISC
     call dein#add('benizi/vim-automkdir')
     call dein#add('neomake/neomake',                { 'hook_add': 'source ~/.config/vim/plugins/neomake.vim' })
-
-    call dein#disable('m2mdas/phpcomplete-extended')
-    call dein#disable('StanAngeloff/php.vim')
 
     call dein#end()
     call dein#save_state()
@@ -95,17 +92,15 @@ endif
 
 filetype plugin indent on
 
-let g:vim_markdown_preview_browser = 'Firefox'
-" let vim_markdown_preview_github=1
-" PHPComplete {{{
-au Filetype php setlocal ofu=phpcomplete#CompletePHP
-" }}}
+xmap <leader>a <Plug>(EasyAlign)
+nmap <leader>a <Plug>(EasyAlign)
+
 " Tagbar {{{
 nnoremap <F4> :TagbarToggle<CR>
 let g:airline#extensions#tagbar#enabled = 1
 " }}}
 " Ack {{{
-nnoremap <leader>a :Ack!<space>
+nnoremap <leader>s :Ack!<space>
 " }}}
 " GitGutter {{{
 let g:gitgutter_map_keys = 0
@@ -118,14 +113,14 @@ au FileType go nmap <leader>dd <Plug>(godebug-debug)
 au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
 " }}}
 " }}}
-" 2. Looks {{{
+" Looks {{{
 " Use 256 colours
 set t_Co=256
 
 " only redraw when needed
 set lazyredraw
 
-" 2.1 Theme {{{
+" Theme {{{
 
 set background=dark
 colorscheme solarized
@@ -133,13 +128,13 @@ colorscheme solarized
 set guifont=Hack:h9
 set mouse=a
 " }}}
-" 2.2 Statusline {{{
+" Statusline {{{
 
 " Always show statusline
 set laststatus=2
 
 " }}}
-" 2.3 Code {{{
+" Code {{{
 
 " show line number
 set number
@@ -238,6 +233,9 @@ nnoremap <leader>tq :tabclose<CR>
 " }}}
 " }}}
 " Misc {{{
+
+set hidden
+
 " Undo {{{
 set noswapfile
 set undodir=~/.vim/tmp/undo//
@@ -249,6 +247,8 @@ set backup
 " Functions {{{
 function! ClearCache()
     :! rm -rf ~/.vim/dein/.cache/*
+    :! rm -rf ~/.vim/dein/cache_*
+    :! rm -rf ~/.vim/dein/state*
     call dein#update()
     source ~/.vimrc
 endfunction

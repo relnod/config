@@ -10,3 +10,5 @@ if [ -d "/usr/local/go" ]; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+set -o vi
