@@ -31,9 +31,9 @@ if dein#load_state(expand('~/.vim/dein'))
         call dein#add('Shougo/neocomplete.vim',     { 'hook_add': 'source ~/.config/vim/plugins/neocomplete.vim' })
     endif
     call dein#add('Shougo/echodoc.vim')
-    call dein#add('autozimu/LanguageClient-neovim', { 'hook_add': 'source ~/.config/vim/plugins/languageclient-neovim.vim' })
 
     " LANGUAGE
+    call dein#add('autozimu/LanguageClient-neovim', { 'hook_add': 'source ~/.config/vim/plugins/languageclient-neovim.vim' })
     call dein#add('Shougo/neco-vim',                { 'on_ft': 'vim' })
     call dein#add('StanAngeloff/php.vim',           { 'on_ft': 'php' })
     call dein#add('roxma/LanguageServer-php-neovim', { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
@@ -49,7 +49,6 @@ if dein#load_state(expand('~/.vim/dein'))
     else
         call dein#add('Rip-Rip/clang_complete',     { 'on_ft': 'cpp', 'build': 'make install' })
     endif
-    call dein#add('JamshedVesuna/vim-markdown-preview', { 'on_ft': 'markdown' })
 
     " NAVIGATION
     call dein#add('airblade/vim-rooter')
