@@ -1,5 +1,3 @@
-" vim:fdm=marker
-
 " PLUGINS {{{
 
 set nocompatible
@@ -26,50 +24,46 @@ if dein#load_state(expand('~/.vim/dein'))
     " COMPLETION
     call dein#add('ervandew/supertab')
     if has('nvim')
-        call dein#add('Shougo/deoplete.nvim',       { 'hook_add': 'source ~/.config/vim/plugins/deoplete.vim'})
+        call dein#add('Shougo/deoplete.nvim',         { 'hook_add': 'source ~/.config/vim/plugins/deoplete.vim'})
     else
-        call dein#add('Shougo/neocomplete.vim',     { 'hook_add': 'source ~/.config/vim/plugins/neocomplete.vim' })
+        call dein#add('Shougo/neocomplete.vim',       { 'hook_add': 'source ~/.config/vim/plugins/neocomplete.vim' })
     endif
     call dein#add('Shougo/echodoc.vim')
 
     " LANGUAGE
-    call dein#add('autozimu/LanguageClient-neovim', { 'hook_add': 'source ~/.config/vim/plugins/languageclient-neovim.vim' })
-    call dein#add('Shougo/neco-vim',                { 'on_ft': 'vim' })
-    call dein#add('StanAngeloff/php.vim',           { 'on_ft': 'php' })
-    call dein#add('roxma/LanguageServer-php-neovim', { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
-    call dein#add('rayburgemeestre/phpfolding.vim', { 'on_ft': 'php' })
-    call dein#add('fatih/vim-go',                   { 'on_ft': 'go', 'hook_add': 'source ~/.config/vim/plugins/vim-go.vim' })
-    call dein#add('zchee/deoplete-go',              { 'on_ft': 'go', 'build': 'make' })
-    call dein#add('jodosha/vim-godebug',            { 'on_ft': 'go' })
-    call dein#add('carlitux/deoplete-ternjs',       { 'on_ft': 'javascript' })
-    call dein#add('jelera/vim-javascript-syntax',   { 'on_ft': 'javascript' })
-    call dein#add('rhysd/vim-clang-format',         { 'on_ft': 'cpp' })
+    call dein#add('autozimu/LanguageClient-neovim',   { 'hook_add': 'source ~/.config/vim/plugins/languageclient-neovim.vim' })
+    call dein#add('Shougo/neco-vim',                  { 'on_ft': 'vim' })
+    call dein#add('StanAngeloff/php.vim',             { 'on_ft': 'php' })
+    call dein#add('roxma/LanguageServer-php-neovim',  { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
+    call dein#add('rayburgemeestre/phpfolding.vim',   { 'on_ft': 'php' })
+    call dein#add('fatih/vim-go',                     { 'on_ft': 'go', 'hook_add': 'source ~/.config/vim/plugins/vim-go.vim' })
+    call dein#add('zchee/deoplete-go',                { 'on_ft': 'go', 'build': 'make' })
+    call dein#add('jodosha/vim-godebug',              { 'on_ft': 'go' })
+    call dein#add('jelera/vim-javascript-syntax',     { 'on_ft': 'javascript' })
+    call dein#add('rhysd/vim-clang-format',           { 'on_ft': 'cpp' })
     if has('nvim')
-        call dein#add('tweekmonster/deoplete-clang2',   { 'on_ft': 'cpp' })
+        call dein#add('tweekmonster/deoplete-clang2', { 'on_ft': 'cpp' })
     else
-        call dein#add('Rip-Rip/clang_complete',     { 'on_ft': 'cpp', 'build': 'make install' })
+        call dein#add('Rip-Rip/clang_complete',       { 'on_ft': 'cpp', 'build': 'make install' })
     endif
 
     " NAVIGATION
     call dein#add('airblade/vim-rooter')
-    call dein#add('ctrlpvim/ctrlp.vim',             { 'hook_add': 'source ~/.config/vim/plugins/ctrlp.vim' })
-    call dein#add('voronkovich/ctrlp-nerdtree.vim')
-    call dein#add('scrooloose/nerdtree',            { 'hook_add': 'source ~/.config/vim/plugins/nerdtree.vim' })
+    call dein#add('scrooloose/nerdtree',              { 'hook_add': 'source ~/.config/vim/plugins/nerdtree.vim' })
     call dein#add('majutsushi/tagbar')
-    call dein#add('mileszs/ack.vim')
-    call dein#add('junegunn/fzf',                   { 'rtp': '~/.fzf', 'build': './install --all', 'merged': 0 })
-    call dein#add('junegunn/fzf.vim',               { 'hook_add': 'source ~/.config/vim/plugins/fzf.vim' })
+    call dein#add('junegunn/fzf',                     { 'rtp': '~/.fzf', 'build': './install --all', 'merged': 0 })
+    call dein#add('junegunn/fzf.vim',                 { 'hook_add': 'source ~/.config/vim/plugins/fzf.vim' })
 
     " LOOKS
     call dein#add('altercation/vim-colors-solarized')
-    call dein#add('vim-airline/vim-airline',        { 'hook_add': 'source ~/.config/vim/plugins/airline.vim' })
+    call dein#add('vim-airline/vim-airline',          { 'hook_add': 'source ~/.config/vim/plugins/airline.vim' })
     call dein#add('vim-airline/vim-airline-themes')
     call dein#add('Yggdroot/indentLine')
     call dein#add('valloric/MatchTagAlways')
 
     " GIT
     call dein#add('airblade/vim-gitgutter')
-    call dein#add('tpope/vim-fugitive',             { 'hook_add': 'source ~/.config/vim/plugins/vim-fugitive.vim' })
+    call dein#add('tpope/vim-fugitive',               { 'hook_add': 'source ~/.config/vim/plugins/vim-fugitive.vim' })
 
     " UTILS
     call dein#add('tpope/vim-surround')
@@ -79,7 +73,6 @@ if dein#load_state(expand('~/.vim/dein'))
 
     " MISC
     call dein#add('benizi/vim-automkdir')
-    call dein#add('neomake/neomake',                { 'hook_add': 'source ~/.config/vim/plugins/neomake.vim' })
 
     call dein#end()
     call dein#save_state()
@@ -94,13 +87,6 @@ filetype plugin indent on
 xmap <leader>a <Plug>(EasyAlign)
 nmap <leader>a <Plug>(EasyAlign)
 
-" Tagbar {{{
-nnoremap <F4> :TagbarToggle<CR>
-let g:airline#extensions#tagbar#enabled = 1
-" }}}
-" Ack {{{
-" nnoremap <leader>s :Ack!<space>
-" }}}
 " GitGutter {{{
 let g:gitgutter_map_keys = 0
 " }}}
@@ -112,28 +98,31 @@ au FileType go nmap <leader>dd <Plug>(godebug-debug)
 au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
 " }}}
 " }}}
-" Looks {{{
+" Settings {{{
+
+set hidden
+
+" undo/backup
+set noswapfile
+set undodir=~/.vim/tmp/undo//
+set undofile
+set backupdir=~/.vim/tmp/backup//
+set backup
+
 " Use 256 colours
 set t_Co=256
 
 " only redraw when needed
 set lazyredraw
 
-" Theme {{{
-
 set background=dark
 colorscheme solarized
 
 set guifont=Hack:h9
 set mouse=a
-" }}}
-" Statusline {{{
 
 " Always show statusline
 set laststatus=2
-
-" }}}
-" Code {{{
 
 " show line number
 set number
@@ -156,9 +145,7 @@ set cindent
 set textwidth=80
 
 " }}}
-" }}}
 " Mappings {{{
-" General {{{
 
 nnoremap Y y$
 "nnoremap V v$
@@ -167,28 +154,18 @@ nnoremap Y y$
 " Map Leader Key to Space
 let mapleader = "\<space>"
 
-" Refresh .vimrc
 nnoremap <leader>vr :so ~/.vimrc <CR>
-" Open .vimrc
 nnoremap <leader>vo :e  ~/.dotfiles/vim/.config/vim/vimrc<CR>
 
 " Toggle Highlight Search
 noremap <leader>st :set invhlsearch<CR> " TODO: remap
 
-" save
 nnoremap <leader>w :w<CR>
-" }}}
-" Movement {{{
-" Cursor {{{
 
-" faster hjkl movement " TODO: make text objects ?
 nnoremap <S-h> ^
 "nnoremap <S-J>5j<CR>
 "vnoremap <S-k>5k<CR>
 nnoremap <S-l> $
-
-" }}}
-" Text {{{
 
 " Move Line Up/Down
 nnoremap <A-j> :m .+1<CR>==
@@ -198,57 +175,31 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-" }}}
-" }}}
-" Navigation {{{
-" Buffers {{{
 
-" hide buffers when :e
-" set hidden
-
-noremap <leader>o :enew<CR>
+" buffers
 noremap <silent><leader>l :bnext<CR>
 noremap <silent><leader>h :bprev<CR>
 noremap <leader>q :bp <BAR> bd #<CR>
 noremap <leader>bl :ls<CR>
 
-" }}}
-" Window {{{
-
+" windows
 nnoremap <C-h> :wincmd h<CR>
 nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
 
-" }}}
-" Tab {{{
-
+" tabs
 nnoremap <leader>tl :tabnext<CR>
 nnoremap <leader>th :tabprevious<CR>
 nnoremap <leader>to :tabedit<CR>
 nnoremap <leader>tq :tabclose<CR>
 
 " }}}
-" }}}
-" }}}
-" Misc {{{
-
-set hidden
-
-" Undo {{{
-set noswapfile
-set undodir=~/.vim/tmp/undo//
-set undofile
-set backupdir=~/.vim/tmp/backup//
-set backup
-" }}}
-" }}}
 " Functions {{{
-function! ClearCache()
-    :! rm -rf ~/.vim/dein/.cache/*
-    :! rm -rf ~/.vim/dein/cache_*
-    :! rm -rf ~/.vim/dein/state*
+function! ClearPluginCache()
+    :! rm -rf ~/.vim/dein/.cache/
     call dein#update()
-    source ~/.vimrc
 endfunction
 " }}}
+
+" vim:fdm=marker
