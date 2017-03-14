@@ -11,3 +11,9 @@ let g:fzf_action = {
             \ 'ctrl-v': 'vsplit' }
 let g:fzf_buffers_jump = 1
 let g:fzf_tags_command = 'ctags *'
+
+function! s:fzf_ag_dir(cmd)
+  call fzf#vim#grep('ag --hidden --ignore .git -f "." ' . a:cmd, 0, {'down': '40%'})
+endfunction
+
+autocmd! VimEnter * command! -nargs=* -complete=file Ag :call s:fzf_ag_dir(<q-args>)

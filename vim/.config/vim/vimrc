@@ -69,7 +69,7 @@ if dein#load_state(expand('~/.vim/dein'))
 
     " GIT
     call dein#add('airblade/vim-gitgutter')
-    call dein#add('tpope/vim-fugitive')
+    call dein#add('tpope/vim-fugitive',             { 'hook_add': 'source ~/.config/vim/plugins/vim-fugitive.vim' })
 
     " UTILS
     call dein#add('tpope/vim-surround')
