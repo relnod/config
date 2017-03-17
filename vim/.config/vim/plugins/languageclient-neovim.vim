@@ -1,5 +1,6 @@
 let g:LanguageClient_serverCommands = {
     \ 'python': ['~/tools/repos/palantir/python-language-server/pyls'],
+    \ 'go': ['go-langserver'],
 \ }
 
 autocmd FileType php LanguageClientStart

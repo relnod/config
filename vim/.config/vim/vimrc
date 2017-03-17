@@ -35,7 +35,6 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('Shougo/neco-vim',                  { 'on_ft': 'vim' })
     call dein#add('StanAngeloff/php.vim',             { 'on_ft': 'php' })
     call dein#add('roxma/LanguageServer-php-neovim',  { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
-    call dein#add('rayburgemeestre/phpfolding.vim',   { 'on_ft': 'php' })
     call dein#add('fatih/vim-go',                     { 'on_ft': 'go', 'hook_add': 'source ~/.config/vim/plugins/vim-go.vim' })
     call dein#add('zchee/deoplete-go',                { 'on_ft': 'go', 'build': 'make' })
     call dein#add('jodosha/vim-godebug',              { 'on_ft': 'go' })
@@ -102,13 +101,6 @@ au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
 
 set hidden
 
-" undo/backup
-set noswapfile
-set undodir=~/.vim/tmp/undo//
-set undofile
-set backupdir=~/.vim/tmp/backup//
-set backup
-
 " Use 256 colours
 set t_Co=256
 
@@ -128,6 +120,7 @@ set laststatus=2
 set number
 
 set cursorline
+highlight CursorLine ctermbg=LightBlue
 
 " enable syntax highting
 syntax on
@@ -144,15 +137,22 @@ set smartindent
 set cindent
 set textwidth=80
 
+" undo/backup
+set noswapfile
+set undodir=~/.vim/tmp/undo//
+set undofile
+set backupdir=~/.vim/tmp/backup//
+set backup
+
 " }}}
 " Mappings {{{
 
-nnoremap Y y$
-"nnoremap V v$
-"nnoremap vv 0v$
-
 " Map Leader Key to Space
 let mapleader = "\<space>"
+
+nnoremap Y y$
+" nnoremap V v$
+" nnoremap vv 0v$
 
 nnoremap <leader>vr :so ~/.vimrc <CR>
 nnoremap <leader>vo :e  ~/.dotfiles/vim/.config/vim/vimrc<CR>
@@ -167,20 +167,10 @@ nnoremap <S-h> ^
 "vnoremap <S-k>5k<CR>
 nnoremap <S-l> $
 
-" Move Line Up/Down
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
-
-
 " buffers
 noremap <silent><leader>l :bnext<CR>
 noremap <silent><leader>h :bprev<CR>
-noremap <leader>q :bp <BAR> bd #<CR>
-noremap <leader>bl :ls<CR>
+noremap <silent><leader>q :bdelete<CR>
 
 " windows
 nnoremap <C-h> :wincmd h<CR>
