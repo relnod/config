@@ -1,4 +1,4 @@
-" PLUGINS {{{
+" Plugins {{{
 
 set nocompatible
 
@@ -77,25 +77,27 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#save_state()
 
 endif
-if !has('vim_starting') && dein#check_install()
-    call dein#install()
-endif
 
 filetype plugin indent on
 
 xmap <leader>a <Plug>(EasyAlign)
 nmap <leader>a <Plug>(EasyAlign)
 
-" GitGutter {{{
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
 let g:gitgutter_map_keys = 0
-" }}}
-" Rooter {{{
 let g:rooter_silent_chdir=1
-" }}}
-" vim-godebug {{{
+
 au FileType go nmap <leader>dd <Plug>(godebug-debug)
 au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
-" }}}
+
 " }}}
 " Settings {{{
 
