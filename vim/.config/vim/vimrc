@@ -15,54 +15,56 @@ if dein#load_state(expand('~/.vim/dein'))
         call dein#add('Shougo/denite.nvim')
     endif
 
-    if !has('nvim')
-        call dein#add('Shougo/vimshell.vim')
-    endif
-
-    call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
+    call dein#add('Shougo/vimproc.vim',                  { 'build': 'make' })
 
     " COMPLETION
     call dein#add('ervandew/supertab')
     if has('nvim')
-        call dein#add('Shougo/deoplete.nvim',         { 'hook_add': 'source ~/.config/vim/plugins/deoplete.vim'})
+        call dein#add('Shougo/deoplete.nvim',            { 'hook_add': 'source ~/.config/vim/plugins/deoplete.vim'})
     else
-        call dein#add('Shougo/neocomplete.vim',       { 'hook_add': 'source ~/.config/vim/plugins/neocomplete.vim' })
+        call dein#add('Shougo/neocomplete.vim',          { 'hook_add': 'source ~/.config/vim/plugins/neocomplete.vim' })
     endif
     call dein#add('Shougo/echodoc.vim')
 
     " LANGUAGE
-    call dein#add('autozimu/LanguageClient-neovim',   { 'hook_add': 'source ~/.config/vim/plugins/languageclient-neovim.vim' })
-    call dein#add('Shougo/neco-vim',                  { 'on_ft': 'vim' })
-    call dein#add('StanAngeloff/php.vim',             { 'on_ft': 'php' })
-    call dein#add('roxma/LanguageServer-php-neovim',  { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
-    call dein#add('fatih/vim-go',                     { 'on_ft': 'go', 'hook_add': 'source ~/.config/vim/plugins/vim-go.vim' })
-    call dein#add('zchee/deoplete-go',                { 'on_ft': 'go', 'build': 'make' })
-    call dein#add('jodosha/vim-godebug',              { 'on_ft': 'go' })
-    call dein#add('jelera/vim-javascript-syntax',     { 'on_ft': 'javascript' })
-    call dein#add('rhysd/vim-clang-format',           { 'on_ft': 'cpp' })
     if has('nvim')
-        call dein#add('tweekmonster/deoplete-clang2', { 'on_ft': 'cpp' })
+        call dein#add('autozimu/LanguageClient-neovim',  { 'hook_add': 'source ~/.config/vim/plugins/languageclient-neovim.vim' })
+    endif
+    call dein#add('Shougo/neco-vim',                     { 'on_ft': 'vim' })
+    call dein#add('StanAngeloff/php.vim',                { 'on_ft': 'php' })
+    if has('nvim')
+        call dein#add('roxma/LanguageServer-php-neovim', { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
+    endif
+    call dein#add('fatih/vim-go',                        { 'on_ft': 'go', 'hook_add': 'source ~/.config/vim/plugins/vim-go.vim' })
+    if has('nvim')
+        call dein#add('zchee/deoplete-go',               { 'on_ft': 'go', 'build': 'make' })
+        call dein#add('jodosha/vim-godebug',             { 'on_ft': 'go' })
+    endif
+    call dein#add('jelera/vim-javascript-syntax',        { 'on_ft': 'javascript' })
+    call dein#add('rhysd/vim-clang-format',              { 'on_ft': 'cpp' })
+    if has('nvim')
+        call dein#add('tweekmonster/deoplete-clang2',    { 'on_ft': 'cpp' })
     else
-        call dein#add('Rip-Rip/clang_complete',       { 'on_ft': 'cpp', 'build': 'make install' })
+        call dein#add('Rip-Rip/clang_complete',          { 'on_ft': 'cpp', 'build': 'make install' })
     endif
 
     " NAVIGATION
     call dein#add('airblade/vim-rooter')
-    call dein#add('scrooloose/nerdtree',              { 'hook_add': 'source ~/.config/vim/plugins/nerdtree.vim' })
+    call dein#add('scrooloose/nerdtree',                 { 'hook_add': 'source ~/.config/vim/plugins/nerdtree.vim' })
     call dein#add('majutsushi/tagbar')
-    call dein#add('junegunn/fzf',                     { 'rtp': '~/.fzf', 'build': './install --all', 'merged': 0 })
-    call dein#add('junegunn/fzf.vim',                 { 'hook_add': 'source ~/.config/vim/plugins/fzf.vim' })
+    call dein#add('junegunn/fzf',                        { 'rtp': '~/.fzf', 'build': './install --all', 'merged': 0 })
+    call dein#add('junegunn/fzf.vim',                    { 'hook_add': 'source ~/.config/vim/plugins/fzf.vim' })
 
     " LOOKS
     call dein#add('altercation/vim-colors-solarized')
-    call dein#add('vim-airline/vim-airline',          { 'hook_add': 'source ~/.config/vim/plugins/airline.vim' })
+    call dein#add('vim-airline/vim-airline',             { 'hook_add': 'source ~/.config/vim/plugins/airline.vim' })
     call dein#add('vim-airline/vim-airline-themes')
     call dein#add('Yggdroot/indentLine')
     call dein#add('valloric/MatchTagAlways')
 
     " GIT
     call dein#add('airblade/vim-gitgutter')
-    call dein#add('tpope/vim-fugitive',               { 'hook_add': 'source ~/.config/vim/plugins/vim-fugitive.vim' })
+    call dein#add('tpope/vim-fugitive',                  { 'hook_add': 'source ~/.config/vim/plugins/vim-fugitive.vim' })
 
     " UTILS
     call dein#add('tpope/vim-surround')
@@ -100,6 +102,10 @@ au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
 
 " }}}
 " Settings {{{
+
+if has('nvim')
+    set inccommand=split
+endif
 
 set hidden
 

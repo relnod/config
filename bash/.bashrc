@@ -9,6 +9,9 @@ if [ -d "/usr/local/go" ]; then
     export PATH=$GOROOT/bin:$PATH
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export HISTCONTROL=ignoredups
 
-set -o vi
+alias ll="ls -la"
+alias ls="ls -CF"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
