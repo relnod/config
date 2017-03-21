@@ -2,6 +2,7 @@
 
 * bash
 * ctags
+* git
 * tmux
 * vim/nvim
 * xorg
