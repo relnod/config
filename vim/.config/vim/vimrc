@@ -95,6 +95,8 @@ augroup phpSyntaxOverride
 augroup END
 
 let g:gitgutter_map_keys = 0
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPreviousHunk
 let g:rooter_silent_chdir=1
 
 au FileType go nmap <leader>dd <Plug>(godebug-debug)
@@ -107,6 +109,7 @@ if has('nvim')
     set inccommand=split
 endif
 
+set completeopt="menuone,noinsert"
 set hidden
 
 " Use 256 colours

@@ -1,6 +1,5 @@
 # Personal Dotfiles
 
-* ack
 * bash
 * ctags
 * tmux
