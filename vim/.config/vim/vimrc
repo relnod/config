@@ -168,6 +168,8 @@ nnoremap Y y$
 nnoremap <leader>vr :so ~/.vimrc <CR>
 nnoremap <leader>vo :e  ~/.dotfiles/vim/.config/vim/vimrc<CR>
 
+nnoremap <leader>s :source %<CR>
+
 " Toggle Highlight Search
 noremap <leader>ts :set invhlsearch<CR> " TODO: remap
 

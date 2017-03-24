@@ -21,4 +21,9 @@ endfunction
 
 autocmd! VimEnter * command! -nargs=* -complete=file AgDir :call s:fzf_ag_dir(<q-args>)
 
-noremap <silent><leader>fl :call fzf#run({'source': "ag --hidden --ignore .git -g '.' | xargs ls -l --time-style +'%s' | sort -k 6 -n | awk '{print $7}'", {'down': '40%'})<CR>
+function! s:fzf_file_history()
+    let s:cmd = "ag --hidden --ignore .git -g '.' | xargs ls -l --time-style +'%s' | sort -k 6 -n -r | awk '{print $7}'"
+    call fzf#run({'source': s:cmd, 'down': '40%'})
+endfunction
+
+noremap <silent><leader>fl :call <SID>fzf_file_history()<CR>
