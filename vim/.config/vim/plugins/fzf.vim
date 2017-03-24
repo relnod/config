@@ -4,6 +4,8 @@ noremap <silent><leader>fh :Helptags<CR>
 noremap <silent><leader>ft :Tags<CR>
 noremap <silent><leader>fm :Maps<CR>
 noremap <silent><leader>fc :Commits<CR>
+noremap <silent><leader>fw :Ag <C-R><C-W><CR>
+noremap <silent><leader>fa :AgDir 
 
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -f -g ""'
 let g:fzf_action = {
@@ -17,18 +19,6 @@ function! s:fzf_ag_dir(cmd)
   call fzf#vim#grep('ag --hidden --ignore .git -f "." ' . a:cmd, 0, {'down': '40%'})
 endfunction
 
-autocmd! VimEnter * command! -nargs=* -complete=file Ag :call s:fzf_ag_dir(<q-args>)
+autocmd! VimEnter * command! -nargs=* -complete=file AgDir :call s:fzf_ag_dir(<q-args>)
 
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-\ 'header': ['fg', 'Comment'] }
+noremap <silent><leader>fl :call fzf#run({'source': "ag --hidden --ignore .git -g '.' | xargs ls -l --time-style +'%s' | sort -k 6 -n | awk '{print $7}'", {'down': '40%'})<CR>

@@ -95,6 +95,8 @@ augroup phpSyntaxOverride
 augroup END
 
 let g:gitgutter_map_keys = 0
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPreviousHunk
 let g:rooter_silent_chdir=1
 
 au FileType go nmap <leader>dd <Plug>(godebug-debug)
@@ -107,6 +109,7 @@ if has('nvim')
     set inccommand=split
 endif
 
+set completeopt="menuone,noinsert"
 set hidden
 
 " Use 256 colours
@@ -166,9 +169,7 @@ nnoremap <leader>vr :so ~/.vimrc <CR>
 nnoremap <leader>vo :e  ~/.dotfiles/vim/.config/vim/vimrc<CR>
 
 " Toggle Highlight Search
-noremap <leader>st :set invhlsearch<CR> " TODO: remap
-
-nnoremap <leader>w :w<CR>
+noremap <leader>ts :set invhlsearch<CR> " TODO: remap
 
 nnoremap <S-h> ^
 "nnoremap <S-J>5j<CR>
@@ -186,17 +187,32 @@ nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
 
-" tabs
-nnoremap <leader>tl :tabnext<CR>
-nnoremap <leader>th :tabprevious<CR>
-nnoremap <leader>to :tabedit<CR>
-nnoremap <leader>tq :tabclose<CR>
-
 " }}}
 " Functions {{{
 function! ClearPluginCache()
     :! rm -rf ~/.vim/dein/.cache/
     call dein#update()
+endfunction
+
+" http://vim.wikia.com/wiki/Auto_highlight_current_word_when_idle
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+   let @/ = ''
+   if exists('#auto_highlight')
+     au! auto_highlight
+     augroup! auto_highlight
+     setl updatetime=4000
+     echo 'Highlight current word: off'
+     return 0
+  else
+    augroup auto_highlight
+    au!
+    au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+  return 1
+ endif
 endfunction
 " }}}
 

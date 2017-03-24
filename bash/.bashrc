@@ -15,7 +15,4 @@ fi
 
 export HISTCONTROL=ignoredups
 
-alias ll="ls -la"
-alias ls="ls -CF"
-
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

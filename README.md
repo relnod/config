@@ -1,8 +1,8 @@
 # Personal Dotfiles
 
-* ack
 * bash
 * ctags
+* git
 * tmux
 * vim/nvim
 * xorg
