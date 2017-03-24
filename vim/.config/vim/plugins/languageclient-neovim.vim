@@ -3,7 +3,7 @@ let g:LanguageClient_serverCommands = {
     \ 'go': ['go-langserver'],
 \ }
 
-autocmd FileType php LanguageClientStart
+" autocmd FileType php LanguageClientStart
 
 nnoremap <silent>sh :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent>sd :call LanguageClient_textDocument_definition()<CR>
