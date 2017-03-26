@@ -131,7 +131,6 @@ set laststatus=2
 set number
 
 set cursorline
-highlight CursorLine ctermbg=LightBlue
 
 " enable syntax highting
 syntax on

@@ -13,6 +13,7 @@ if [ -d "/usr/lib/go" ]; then
     export PATH=$GOPATH/bin:$PATH
 fi
 
+export VISUAL="vim"
 export HISTCONTROL=ignoredups
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
