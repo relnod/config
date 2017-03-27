@@ -13,7 +13,11 @@ if [ -d "/usr/lib/go" ]; then
     export PATH=$GOPATH/bin:$PATH
 fi
 
-export VISUAL="vim"
-export HISTCONTROL=ignoredups
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export VISUAL=vim
+export HISTCONTROL=ignoredups

@@ -24,6 +24,6 @@ command! -nargs=* -complete=file AgDir
 
 command! -nargs=* -complete=file LEdit 
     \ call fzf#run({
-    \   'source': "ag --hidden --ignore .git -g '.' | xargs ls -l --time-style +'%s' | sort -k 6 -n -r | awk '{print $7}'",
+    \   'source': "ag --hidden --ignore .git -g '.' | xargs -L 100 -d '\n' ls -l --time-style +'%s' | sort -k 6 -n -r --parallel 16 | awk '{print $7}'",
     \   'sink': 'edit', 'down': '40%'
     \ })

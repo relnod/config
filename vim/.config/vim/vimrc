@@ -115,9 +115,6 @@ set hidden
 " Use 256 colours
 set t_Co=256
 
-" only redraw when needed
-set lazyredraw
-
 set background=dark
 colorscheme solarized
 
@@ -130,7 +127,7 @@ set laststatus=2
 " show line number
 set number
 
-set cursorline
+" set cursorline
 
 " enable syntax highting
 syntax on
