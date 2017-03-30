@@ -18,11 +18,11 @@ let g:fzf_tags_command = 'ctags *'
 
 command! -nargs=* -complete=file AgDir
     \ call fzf#vim#grep(
-    \   'ag --hidden --ignore .git -f "." ' . <q-args>, 
+    \   'ag --hidden --ignore .git -f "." ' . <q-args>,
     \   0, {'down': '40%'}
     \ )
 
-command! -nargs=* -complete=file LEdit 
+command! -nargs=* -complete=file LEdit
     \ call fzf#run({
     \   'source': "ag --hidden --ignore .git -g '.' | xargs -L 100 -d '\n' ls -l --time-style +'%s' | sort -k 6 -n -r --parallel 16 | awk '{print $7}'",
     \   'sink': 'edit', 'down': '40%'

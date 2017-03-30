@@ -77,7 +77,6 @@ if dein#load_state(expand('~/.vim/dein'))
 
     call dein#end()
     call dein#save_state()
-
 endif
 
 filetype plugin indent on
@@ -111,6 +110,10 @@ endif
 
 set completeopt="menuone,noinsert"
 set hidden
+
+set wildignore+=*/.git/**/*
+set wildignore+=tags
+set wildignorecase
 
 " Use 256 colours
 set t_Co=256
