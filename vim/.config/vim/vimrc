@@ -47,6 +47,7 @@ if dein#load_state(expand('~/.vim/dein'))
     else
         call dein#add('Rip-Rip/clang_complete',          { 'on_ft': 'cpp', 'build': 'make install' })
     endif
+    call dein#add('groenewege/vim-less',                 { 'on_ft': 'less' })
 
     " NAVIGATION
     call dein#add('airblade/vim-rooter')
