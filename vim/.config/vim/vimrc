@@ -181,7 +181,11 @@ nnoremap <S-l> $
 " buffers
 noremap <silent><leader>l :bnext<CR>
 noremap <silent><leader>h :bprev<CR>
-noremap <silent><leader>q :bdelete<CR>
+
+" tabs
+noremap <silent><leader>to :tabnew<CR>
+noremap <silent><leader>tl :tabnext<CR>
+noremap <silent><leader>th :tabprevious<CR>
 
 " windows
 nnoremap <C-h> :wincmd h<CR>
@@ -197,7 +201,7 @@ function! ClearPluginCache()
 endfunction
 
 " http://vim.wikia.com/wiki/Auto_highlight_current_word_when_idle
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+nnoremap z/ :call AutoHighlightToggle()<CR>
 function! AutoHighlightToggle()
    let @/ = ''
    if exists('#auto_highlight')
@@ -212,7 +216,7 @@ function! AutoHighlightToggle()
     au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
     augroup end
     setl updatetime=500
-    echo 'Highlight current word: ON'
+    echo 'Highlight current word: on'
   return 1
  endif
 endfunction
