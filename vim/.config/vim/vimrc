@@ -166,7 +166,7 @@ nnoremap Y y$
 " nnoremap vv 0v$
 
 nnoremap <leader>vr :so ~/.vimrc <CR>
-nnoremap <leader>vo :e  ~/.dotfiles/vim/.config/vim/vimrc<CR>
+nnoremap <leader>vo :tabnew ~/.dotfiles/vim/.config/vim/vimrc<CR>
 
 nnoremap <leader>s :source %<CR>
 
