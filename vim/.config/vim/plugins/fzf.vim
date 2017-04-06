@@ -6,13 +6,15 @@ noremap <silent><leader>fb :Buffers<CR>
 noremap <silent><leader>fn :BufferAll<CR>
 
 noremap <silent><leader>fa :Ag<CR>
-noremap <silent><leader>fw :Ag <C-R><C-W><CR>
+noremap <silent><leader>fw :Ag<space><C-R><C-W><CR>
 noremap <silent><leader>fd :AgDir<space>
 
 noremap <silent><leader>fh :Helptags<CR>
 noremap <silent><leader>ft :Tags<CR>
 noremap <silent><leader>fm :Maps<CR>
 noremap <silent><leader>fc :Commits<CR>
+
+vnoremap <silent><leader>fa :Ag<space><SID>get_visual_selection()<CR>
 
 
 let g:fzf_action = {
@@ -25,9 +27,9 @@ let g:fzf_layout = { 'down': '40%' }
 
 
 command! -nargs=* -complete=file AgDir
-    \ call fzf#run(fzf#wrap({
-    \   'source': 'ag --hidden --ignore .git -f "." ' . <q-args>,
-    \ }))
+    \ call fzf#vim#grep(
+    \   'ag --hidden --ignore .git -f "." ' . <q-args>, 1
+    \ )
 
 command! -nargs=0 LEdit
     \ call fzf#run(fzf#wrap({
