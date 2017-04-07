@@ -1,9 +1,8 @@
 noremap <silent><leader>ff :Files<CR>
 noremap <silent><leader>fg :GFiles<CR>
-noremap <silent><leader>fl :LEdit<CR>
+noremap <silent><leader>fl :FilesMru<CR>
 
 noremap <silent><leader>fb :Buffers<CR>
-noremap <silent><leader>fn :BufferAll<CR>
 
 noremap <silent><leader>fa :Ag<CR>
 noremap <silent><leader>fw :Ag<space><C-R><C-W><CR>
@@ -31,21 +30,9 @@ command! -nargs=* -complete=file AgDir
     \   'ag --hidden --ignore .git -f "." ' . <q-args>, 1
     \ )
 
-command! -nargs=0 LEdit
+command! -nargs=0 FilesMru
     \ call fzf#run(fzf#wrap({
     \   'source': "ag --hidden --ignore .git -g '.' " .
     \             "| xargs -L 100 -d '\n' ls -l --time-style +'%s' " .
     \             "| sort -k 6 -n -r --parallel 16 | awk '{print $7}'",
     \ }))
-
-function! s:buflist()
-    redir => ls
-    silent ls!
-    redir END
-    return split(ls, '\n')
-endfunction
-
-command! -nargs=0 BufferAll
-    \ call fzf#vim#buffers({
-    \   'source':  reverse(<sid>buflist()),
-    \ })

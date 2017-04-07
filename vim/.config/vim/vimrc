@@ -5,6 +5,8 @@ set nocompatible
 filetype off
 filetype plugin indent off
 
+let s:hook = 'source' . expand('~/.config/vim/plugins/')
+
 set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(expand('~/.vim/dein'))
     call dein#begin(expand('~/.vim/dein'))
@@ -20,22 +22,22 @@ if dein#load_state(expand('~/.vim/dein'))
     " COMPLETION
     call dein#add('ervandew/supertab')
     if has('nvim')
-        call dein#add('Shougo/deoplete.nvim',            { 'hook_add': 'source ~/.config/vim/plugins/deoplete.vim'})
+        call dein#add('Shougo/deoplete.nvim',            { 'hook_post_source': s:hook . 'deoplete.vim'})
     else
-        call dein#add('Shougo/neocomplete.vim',          { 'hook_add': 'source ~/.config/vim/plugins/neocomplete.vim' })
+        call dein#add('Shougo/neocomplete.vim',          { 'hook_post_source': s:hook . 'neocomplete.vim' })
     endif
     call dein#add('Shougo/echodoc.vim')
 
     " LANGUAGE
     if has('nvim')
-        call dein#add('autozimu/LanguageClient-neovim',  { 'hook_add': 'source ~/.config/vim/plugins/languageclient-neovim.vim' })
+        call dein#add('autozimu/LanguageClient-neovim',  { 'hook_post_source': s:hook . 'languageclient-neovim.vim' })
     endif
     call dein#add('Shougo/neco-vim',                     { 'on_ft': 'vim' })
-    call dein#add('StanAngeloff/php.vim',                { 'on_ft': 'php' })
+    call dein#add('StanAngeloff/php.vim',                { 'on_ft': 'php', 'hook_post_source': s:hook . 'php.vim' })
     if has('nvim')
         call dein#add('roxma/LanguageServer-php-neovim', { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
     endif
-    call dein#add('fatih/vim-go',                        { 'on_ft': 'go', 'hook_add': 'source ~/.config/vim/plugins/vim-go.vim' })
+    call dein#add('fatih/vim-go',                        { 'on_ft': 'go', 'hook_post_source': s:hook . 'vim-go.vim' })
     if has('nvim')
         call dein#add('zchee/deoplete-go',               { 'on_ft': 'go', 'build': 'make' })
         call dein#add('jodosha/vim-godebug',             { 'on_ft': 'go' })
@@ -51,21 +53,21 @@ if dein#load_state(expand('~/.vim/dein'))
 
     " NAVIGATION
     call dein#add('airblade/vim-rooter')
-    call dein#add('scrooloose/nerdtree',                 { 'hook_add': 'source ~/.config/vim/plugins/nerdtree.vim' })
+    call dein#add('scrooloose/nerdtree',                 { 'hook_post_source': s:hook . 'nerdtree.vim' })
     call dein#add('majutsushi/tagbar')
-    call dein#add('junegunn/fzf',                        { 'rtp': '~/.fzf', 'build': './install --all', 'merged': 0 })
-    call dein#add('junegunn/fzf.vim',                    { 'hook_add': 'source ~/.config/vim/plugins/fzf.vim' })
+    call dein#add('junegunn/fzf',                        { 'rtp': '~/.fzf', 'build': './install --all --no-update-rc', 'merged': 0 })
+    call dein#add('junegunn/fzf.vim',                    { 'hook_post_source': s:hook . 'fzf.vim' })
 
     " LOOKS
     call dein#add('altercation/vim-colors-solarized')
-    call dein#add('vim-airline/vim-airline',             { 'hook_add': 'source ~/.config/vim/plugins/airline.vim' })
+    call dein#add('vim-airline/vim-airline',             { 'hook_post_source': s:hook . 'airline.vim' })
     call dein#add('vim-airline/vim-airline-themes')
     call dein#add('Yggdroot/indentLine')
     call dein#add('valloric/MatchTagAlways')
 
     " GIT
     call dein#add('airblade/vim-gitgutter')
-    call dein#add('tpope/vim-fugitive',                  { 'hook_add': 'source ~/.config/vim/plugins/vim-fugitive.vim' })
+    call dein#add('tpope/vim-fugitive',                  { 'hook_post_source': s:hook . 'vim-fugitive.vim' })
 
     " UTILS
     call dein#add('tpope/vim-surround')
@@ -80,23 +82,13 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#save_state()
 endif
 
-filetype plugin indent on
-
 xmap <leader>a <Plug>(EasyAlign)
 nmap <leader>a <Plug>(EasyAlign)
 
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-endfunction
-
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
-
 let g:gitgutter_map_keys = 0
 nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPreviousHunk
+nmap [h <Plug>GitGutterPrevHunk
+
 let g:rooter_silent_chdir=1
 
 au FileType go nmap <leader>dd <Plug>(godebug-debug)
@@ -105,12 +97,16 @@ au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
 " }}}
 " Settings {{{
 
+filetype plugin indent on
+syntax enable
+
 if has('nvim')
     set inccommand=split
 endif
 
+
+" wildmenu
 set completeopt="menuone,noinsert"
-set hidden
 
 set wildignore+=*/.git/**/*
 set wildignore+=tags
@@ -133,10 +129,10 @@ set number
 
 " set cursorline
 
-" enable syntax highting
-syntax on
+" buffers
+set hidden
 
-" tabs
+" tab/space
 set expandtab
 set tabstop=4
 set softtabstop=4
@@ -183,15 +179,20 @@ noremap <silent><leader>l :bnext<CR>
 noremap <silent><leader>h :bprev<CR>
 
 " tabs
-noremap <silent><leader>to :tabnew<CR>
-noremap <silent><leader>tl :tabnext<CR>
-noremap <silent><leader>th :tabprevious<CR>
+nnoremap <silent><leader>to :tabnew<CR>
+nnoremap <silent><C-n> :tabnext<CR>
+nnoremap <silent><C-p> :tabprevious<CR>
 
 " windows
 nnoremap <C-h> :wincmd h<CR>
 nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
+
+map <C-s>h :vertical resize -1<CR>
+map <C-s>j :resize +1<CR>
+map <C-s>k :resize -1<CR>
+map <C-s>l :vertical resize +1<CR>
 
 " }}}
 " Functions {{{
@@ -221,5 +222,7 @@ function! AutoHighlightToggle()
  endif
 endfunction
 " }}}
+
+call dein#call_hook('post_source')
 
 " vim:fdm=marker
