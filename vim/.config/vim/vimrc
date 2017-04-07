@@ -11,12 +11,7 @@ set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(expand('~/.vim/dein'))
     call dein#begin(expand('~/.vim/dein'))
 
-    if !has('nvim') || v:version < 800
-        call dein#add('Shougo/unite.vim')
-    else
-        call dein#add('Shougo/denite.nvim')
-    endif
-
+    " GENERAL
     call dein#add('Shougo/vimproc.vim',                  { 'build': 'make' })
 
     " COMPLETION
@@ -57,6 +52,11 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('majutsushi/tagbar')
     call dein#add('junegunn/fzf',                        { 'rtp': '~/.fzf', 'build': './install --all --no-update-rc', 'merged': 0 })
     call dein#add('junegunn/fzf.vim',                    { 'hook_post_source': s:hook . 'fzf.vim' })
+    if has('nvim') || v:version >= 800
+        call dein#add('Shougo/denite.nvim',              { 'hook_post_source': s:hook . 'denite.vim' })
+    else
+        call dein#add('Shougo/unite.vim')
+    endif
 
     " LOOKS
     call dein#add('altercation/vim-colors-solarized')
@@ -167,7 +167,7 @@ nnoremap <leader>vo :tabnew ~/.dotfiles/vim/.config/vim/vimrc<CR>
 nnoremap <leader>s :source %<CR>
 
 " Toggle Highlight Search
-noremap <leader>ts :set invhlsearch<CR> " TODO: remap
+noremap <leader>ts :set invhlsearch<CR>
 
 nnoremap <S-h> ^
 "nnoremap <S-J>5j<CR>
@@ -180,8 +180,8 @@ noremap <silent><leader>h :bprev<CR>
 
 " tabs
 nnoremap <silent><leader>to :tabnew<CR>
-nnoremap <silent><C-n> :tabnext<CR>
-nnoremap <silent><C-p> :tabprevious<CR>
+nnoremap <silent><leader>th :tabnext<CR>
+nnoremap <silent><leader>tl :tabprevious<CR>
 
 " windows
 nnoremap <C-h> :wincmd h<CR>
@@ -196,6 +196,7 @@ map <C-s>l :vertical resize +1<CR>
 
 " }}}
 " Functions {{{
+
 function! ClearPluginCache()
     :! rm -rf ~/.vim/dein/.cache/
     call dein#update()
@@ -204,23 +205,24 @@ endfunction
 " http://vim.wikia.com/wiki/Auto_highlight_current_word_when_idle
 nnoremap z/ :call AutoHighlightToggle()<CR>
 function! AutoHighlightToggle()
-   let @/ = ''
-   if exists('#auto_highlight')
-     au! auto_highlight
-     augroup! auto_highlight
-     setl updatetime=4000
-     echo 'Highlight current word: off'
-     return 0
-  else
-    augroup auto_highlight
-    au!
-    au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: on'
-  return 1
- endif
+    let @/ = ''
+    if exists('#auto_highlight')
+        au! auto_highlight
+        augroup! auto_highlight
+        setl updatetime=4000
+        echo 'Highlight current word: off'
+        return 0
+    else
+        augroup auto_highlight
+            au!
+            au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+        augroup end
+        setl updatetime=500
+        echo 'Highlight current word: on'
+        return 1
+    endif
 endfunction
+
 " }}}
 
 call dein#call_hook('post_source')
