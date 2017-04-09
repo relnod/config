@@ -166,8 +166,9 @@ nnoremap <leader>vo :tabnew ~/.dotfiles/vim/.config/vim/vimrc<CR>
 
 nnoremap <leader>s :source %<CR>
 
-" Toggle Highlight Search
+" toggle 
 noremap <leader>ts :set invhlsearch<CR>
+noremap <leader>to :call AutoHighlightToggle()<CR>
 
 nnoremap <S-h> ^
 "nnoremap <S-J>5j<CR>
@@ -179,7 +180,6 @@ noremap <silent><leader>l :bnext<CR>
 noremap <silent><leader>h :bprev<CR>
 
 " tabs
-nnoremap <silent><leader>to :tabnew<CR>
 nnoremap <silent><leader>th :tabnext<CR>
 nnoremap <silent><leader>tl :tabprevious<CR>
 
@@ -202,25 +202,31 @@ function! ClearPluginCache()
     call dein#update()
 endfunction
 
-" http://vim.wikia.com/wiki/Auto_highlight_current_word_when_idle
-nnoremap z/ :call AutoHighlightToggle()<CR>
+
+let g:auto_highlight_active=0
+highlight! WordOccurence ctermbg=7
+
 function! AutoHighlightToggle()
-    let @/ = ''
-    if exists('#auto_highlight')
+    if g:auto_highlight_active 
+        let g:auto_highlight_active=0
+
+        call clearmatches()
         au! auto_highlight
         augroup! auto_highlight
         setl updatetime=4000
-        echo 'Highlight current word: off'
-        return 0
     else
+        let g:auto_highlight_active=1
         augroup auto_highlight
-            au!
-            au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+            au CursorHold * call HighlightOccurences()
         augroup end
-        setl updatetime=500
-        echo 'Highlight current word: on'
-        return 1
+        setl updatetime=600
     endif
+endfunction
+
+function! HighlightOccurences()
+    call clearmatches()
+    let match_word = escape(expand('<cword>'), '\')
+    call matchadd('WordOccurence', match_word, 0)
 endfunction
 
 " }}}
