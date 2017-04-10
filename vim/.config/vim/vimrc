@@ -166,9 +166,11 @@ nnoremap <leader>vo :tabnew ~/.dotfiles/vim/.config/vim/vimrc<CR>
 
 nnoremap <leader>s :source %<CR>
 
-" toggle 
-noremap <leader>ts :set invhlsearch<CR>
-noremap <leader>to :call AutoHighlightToggle()<CR>
+" toggle
+nnoremap <leader>ts :set hlsearch!<CR>
+nnoremap <leader>to :call AutoHighlightToggle()<CR>
+
+nnoremap <ESC> :noh<CR>
 
 nnoremap <S-h> ^
 "nnoremap <S-J>5j<CR>
@@ -176,12 +178,12 @@ nnoremap <S-h> ^
 nnoremap <S-l> $
 
 " buffers
-noremap <silent><leader>l :bnext<CR>
-noremap <silent><leader>h :bprev<CR>
+nnoremap <silent><leader>l :bnext<CR>
+nnoremap <silent><leader>h :bprev<CR>
 
 " tabs
-nnoremap <silent><leader>th :tabnext<CR>
-nnoremap <silent><leader>tl :tabprevious<CR>
+nnoremap <silent><leader>tl :tabnext<CR>
+nnoremap <silent><leader>th :tabprevious<CR>
 
 " windows
 nnoremap <C-h> :wincmd h<CR>
@@ -197,35 +199,44 @@ map <C-s>l :vertical resize +1<CR>
 " }}}
 " Functions {{{
 
-function! ClearPluginCache()
+function! ClearPluginCache() abort
     :! rm -rf ~/.vim/dein/.cache/
     call dein#update()
 endfunction
 
 
-let g:auto_highlight_active=0
-highlight! WordOccurence ctermbg=7
+let g:auto_highlight_active = 0
+let g:auto_highlight_delay = 600
+let g:auto_highlight_style ='guifg=NONE guibg=NONE gui=underline ctermfg=NONE ctermbg=NONE cterm=underline'
+exe 'highlight WordOccurence ' . g:auto_highlight_style
 
-function! AutoHighlightToggle()
-    if g:auto_highlight_active 
+function! AutoHighlightToggle() abort
+    if g:auto_highlight_active
         let g:auto_highlight_active=0
-
-        call clearmatches()
-        au! auto_highlight
-        augroup! auto_highlight
-        setl updatetime=4000
+        call AutoHighlight_disable()
     else
         let g:auto_highlight_active=1
-        augroup auto_highlight
-            au CursorHold * call HighlightOccurences()
-        augroup end
-        setl updatetime=600
+        call AutoHighlight_enable()
     endif
 endfunction
 
-function! HighlightOccurences()
+function! AutoHighlight_enable() abort
+    augroup auto_highlight
+        au CursorHold * call HighlightOccurences()
+    augroup end
+    exe 'setl updatetime=' . g:auto_highlight_delay
+endfunction
+
+function! AutoHighlight_disable() abort
     call clearmatches()
-    let match_word = escape(expand('<cword>'), '\')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+endfunction
+
+function! HighlightOccurences() abort
+    call clearmatches()
+    let match_word = '\V\<' . escape(expand('<cword>'), '\') . '\>'
     call matchadd('WordOccurence', match_word, 0)
 endfunction
 

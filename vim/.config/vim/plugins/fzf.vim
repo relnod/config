@@ -4,8 +4,8 @@ noremap <silent><leader>fl :FilesMru<CR>
 
 noremap <silent><leader>fb :Buffers<CR>
 
-noremap <silent><leader>fa :Ag<CR>
-noremap <silent><leader>fw :Ag<space><C-R><C-W><CR>
+noremap <silent><leader>fa :AgHidden<CR>
+noremap <silent><leader>fw :AgHidden<space><C-R><C-W><CR>
 noremap <silent><leader>fd :AgDir<space>
 
 noremap <silent><leader>fh :Helptags<CR>
@@ -24,6 +24,15 @@ let g:fzf_buffers_jump = 1
 let g:fzf_tags_command = 'ctags'
 let g:fzf_layout = { 'down': '40%' }
 
+function! s:aghidden(word) abort
+    let searchword = a:word
+    if searchword == ''
+        let searchword = '.'
+    endif
+    call fzf#vim#grep('ag --hidden --ignore .git "' . searchword . '"', 1)
+endfunction
+
+command! -nargs=* AgHidden call s:aghidden(<q-args>)
 
 command! -nargs=* -complete=file AgDir
     \ call fzf#vim#grep(
