@@ -1,17 +1,17 @@
-noremap <silent><leader>ff :Files<CR>
-noremap <silent><leader>fg :GFiles<CR>
-noremap <silent><leader>fl :FilesMru<CR>
+nnoremap <silent><leader>ff :Files<CR>
+nnoremap <silent><leader>fg :GFiles<CR>
+nnoremap <silent><leader>fl :FilesMru<CR>
 
-noremap <silent><leader>fb :Buffers<CR>
+nnoremap <silent><leader>fb :Buffers<CR>
 
-noremap <silent><leader>fa :AgHidden<CR>
-noremap <silent><leader>fw :AgHidden<space><C-R><C-W><CR>
-noremap <silent><leader>fd :AgDir<space>
+nnoremap <silent><leader>fa :AgHidden<CR>
+nnoremap <silent><leader>fw :AgHidden<space><C-R><C-W><CR>
+nnoremap <silent><leader>fd :AgDir<space>
 
-noremap <silent><leader>fh :Helptags<CR>
-noremap <silent><leader>ft :Tags<CR>
-noremap <silent><leader>fm :Maps<CR>
-noremap <silent><leader>fc :Commits<CR>
+nnoremap <silent><leader>fh :Helptags<CR>
+nnoremap <silent><leader>ft :Tags<CR>
+nnoremap <silent><leader>fm :Maps<CR>
+nnoremap <silent><leader>fc :Commits<CR>
 
 vnoremap <silent><leader>fa :Ag<space><SID>get_visual_selection()<CR>
 

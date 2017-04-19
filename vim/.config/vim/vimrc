@@ -162,8 +162,8 @@ set backup
 let mapleader = "\<space>"
 
 nnoremap Y y$
-nnoremap V v$
-nnoremap vv 0v$ " needs fixing
+" nnoremap V v$
+" nnoremap vv 0v$ " needs fixing
 
 " opposite to <S-j>
 nnoremap <S-k> i<CR><ESC>
@@ -182,8 +182,8 @@ nnoremap <ESC> :noh<CR>
 
 " faster movement
 nnoremap <M-h> ^
-nnoremap <M-j> 5j<CR>
-nnoremap <M-k> 5k<CR>
+nnoremap <M-j> 5j
+nnoremap <M-k> 5k
 nnoremap <M-l> $
 
 " buffer navigation
