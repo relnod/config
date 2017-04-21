@@ -131,6 +131,9 @@ set laststatus=2
 " show line number
 set number
 
+set scrolloff=2
+set matchtime=4
+
 " set cursorline
 
 " buffers
@@ -189,10 +192,7 @@ nnoremap <M-l> $
 " buffer navigation
 nnoremap <silent><leader>l :bnext<CR>
 nnoremap <silent><leader>h :bprev<CR>
-
-" tab navigation
-nnoremap <silent><leader>tl :tabnext<CR>
-nnoremap <silent><leader>th :tabprevious<CR>
+nnoremap <silent><leader>c :b #\|bd #<CR>
 
 " window navigation
 nnoremap <C-h> :wincmd h<CR>
