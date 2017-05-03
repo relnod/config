@@ -83,8 +83,7 @@ if dein#load_state(expand('~/.vim/dein'))
 endif
 
 " EasyAlign
-xmap <leader>a <Plug>(EasyAlign)
-nmap <leader>a <Plug>(EasyAlign)
+vmap <leader>a <Plug>(EasyAlign)
 
 " GitGutter
 let g:gitgutter_map_keys = 0
