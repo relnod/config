@@ -29,6 +29,7 @@ if dein#load_state(expand('~/.vim/dein'))
     endif
     call dein#add('Shougo/neco-vim',                     { 'on_ft': 'vim' })
     call dein#add('StanAngeloff/php.vim',                { 'on_ft': 'php', 'hook_post_source': s:hook . 'php.vim' })
+    call dein#add('joonty/vim-phpqa')
     if has('nvim')
         call dein#add('roxma/LanguageServer-php-neovim', { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
     endif
@@ -77,6 +78,9 @@ if dein#load_state(expand('~/.vim/dein'))
 
     " MISC
     call dein#add('benizi/vim-automkdir')
+    if has('nvim')
+        call dein#add('tweekmonster/nvimdev.nvim')
+    endif
 
     call dein#end()
     call dein#save_state()
