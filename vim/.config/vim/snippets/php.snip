@@ -1,0 +1,7 @@
+snippet swdump
+    echo '<pre>'; \Doctrine\Common\Util\Debug::dump( ${1:TARGET} , 5); exit;
+
+snippet dumpe
+    echo "<pre>";
+    var_dump( ${1:TARGET} );
+    exit;

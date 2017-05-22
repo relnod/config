@@ -119,7 +119,6 @@ if has('nvim')
     set inccommand=split
 endif
 
-
 " wildmenu
 set completeopt="menuone,noinsert"
 
