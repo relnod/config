@@ -15,7 +15,7 @@ get_files() {
     echo $files
 }
 
-link() {
+linkfile() {
     local from=$1
     local to=$2
     local file=$3
@@ -36,7 +36,7 @@ link() {
     fi
 }
 
-unlink() {
+unlinkfile() {
     local from=$1
     local to=$2
     local file=$3
@@ -96,12 +96,36 @@ has_parameter() {
     echo 0
 }
 
-if [ "$1" = "link" ]
-then
-    action="link"
+usage() {
+    echo "Dotfile manager"
+    echo
+    echo "Actions:"
+    echo "    help   Show this message"
+    echo "    link   Link dotfiles"
+    echo "    unlink unlink dotfiles"
+}
+
+link() {
+    action="linkfile"
     start_loop
-elif [ "$1" = "unlink" ]
-then
-    action="unlink"
+}
+
+unlink () {
+    action="unlinkfile"
     start_loop
-fi
+}
+
+case $1 in
+    link)
+        link
+        exit 0
+        ;;
+    unlink)
+        unlink
+        exit 0
+        ;;
+    help|*)
+        usage
+        exit 0
+        ;;
+esac

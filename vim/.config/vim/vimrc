@@ -76,6 +76,7 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('tpope/vim-commentary')
     call dein#add('tpope/vim-repeat')
     call dein#add('junegunn/vim-easy-align')
+    call dein#add('justinmk/vim-sneak')
 
     " MISC
     call dein#add('benizi/vim-automkdir')
@@ -106,8 +107,13 @@ nmap [h <Plug>GitGutterPrevHunk
 let g:rooter_silent_chdir=1
 
 " godebug
-au FileType go nmap <leader>dd <Plug>(godebug-debug)
-au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
+if has("nvim")
+    au FileType go nmap <leader>dd <Plug>(godebug-debug)
+        au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
+endif
+
+" indentLine
+let g:indentLine_char = '┆'
 
 " }}}
 " Settings {{{

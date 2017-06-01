@@ -29,19 +29,19 @@ function! s:aghidden(word) abort
     if searchword == ''
         let searchword = '.'
     endif
-    call fzf#vim#grep('ag --hidden --ignore .git "' . searchword . '"', 1)
+    call fzf#vim#grep("rg --hidden -g '!.git' '" . searchword . "'", 1)
 endfunction
 
 command! -nargs=* AgHidden call s:aghidden(<q-args>)
 
-command! -nargs=* -complete=file AgDir
+command! -nargs=1 -complete=file AgDir
     \ call fzf#vim#grep(
-    \   'ag --hidden --ignore .git -f "." ' . <q-args>, 1
+    \   "rg --hidden -g '!.git' --files '.' " . <q-args>, 1
     \ )
 
 command! -nargs=0 FilesMru
     \ call fzf#run(fzf#wrap({
-    \   'source': "ag --hidden --ignore .git -g '.' " .
+    \   'source': "rg --hidden -g '!.git' --files '.' " .
     \             "| xargs -L 100 -d '\n' ls -l --time-style +'%s' " .
     \             "| sort -k 6 -n -r --parallel 16 | awk '{print $7}'",
     \ }))
