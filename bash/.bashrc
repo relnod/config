@@ -1,7 +1,11 @@
-#powerline
-source ~/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
+# powerline
+if [ -f ~/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh ]; then
+    source ~/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
+else
+    echo "no powerline!"
+fi
 
-# Go Path
+# go
 if [ -d "/usr/local/go" ]; then
     export GOROOT=/usr/local/go
     export PATH=$GOROOT/bin:$PATH
@@ -11,6 +15,7 @@ if [ -d "$HOME/dev/go" ]; then
     export PATH=$GOPATH/bin:$PATH
 fi
 
+# bash completion
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -19,8 +24,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+# fzf
+if [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash
+    export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+fi
 
 export VISUAL=vim
 export HISTCONTROL=ignoredups
