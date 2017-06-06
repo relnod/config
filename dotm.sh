@@ -1,12 +1,21 @@
 #!/bin/bash
+
 #set -x
+
+usage() {
+    echo "Dotfile manager"
+    echo
+    echo "Actions:"
+    echo "    help                  Show this message"
+    echo "    link [-d <string>]    Link dotfiles"
+    echo "    unlink [-d <string>]  Unlink dotfiles"
+}
 
 get_files() {
     local dir=$1
     local files=$(ls -A $dir)
 
-    if [ $(has_parameter {"--gitignore"}) = true ] && [ -f $dir.gitignore ]
-    then
+    if [ $(has_parameter {"--gitignore"}) = true ] && [ -f $dir.gitignore ]; then
         files=${files/.gitignore/}
         for f in $(cat $dir.gitignore) ; do
             files=${files/$f/}
@@ -20,17 +29,14 @@ linkfile() {
     local to=$2
     local file=$3
 
-    if [ -d $from$file ]
-    then
+    if [ -d $from$file ]; then
         mkdir $to$file
         loop $from$file/ $to$file/
     else
-        if [ $(has_parameter {"--override"}) = true ] && [ ! -L $to$file ] && [ -f $to$file ]
-        then
+        if [ $(has_parameter {"--override"}) = true ] && [ ! -L $to$file ] && [ -f $to$file ]; then
             mv "$to$file" "$to$file.dotm.tmp"
         fi
-        if [ ! -f $to$file ] && [ ! -L $to$file ]
-        then
+        if [ ! -f $to$file ] && [ ! -L $to$file ]; then
             ln -s $from$file $to
         fi
     fi
@@ -41,18 +47,16 @@ unlinkfile() {
     local to=$2
     local file=$3
 
-    if [ -L $to$file ]
-    then
+    if [ -L $to$file ]; then
         rm $to$file
+
+        if [ -f $to$file.dotm.tmp ]; then
+            mv $to$file.dotm.tmp $to$file
+        fi
     fi
 
-    if [ -f $to$file.dotm.tmp ]
-    then
-        mv $to$file.dotm.tmp $to$file
-    fi
 
-    if [ ! -n "$(ls -A $to)" ] && [ ! "$to" == "$TO" ]
-    then
+    if [ ! -n "$(ls -A $to)" ] && [ ! "$to" == "$TO" ]; then
         rm -rf $to
     fi
 }
@@ -65,8 +69,7 @@ loop() {
     local files=$(get_files ${from})
 
     for file in $files ; do
-        if [ -d $to$file ]
-        then
+        if [ -d $to$file ]; then
             loop $from$file/ $to$file/
         else
             $action $from $to $file
@@ -74,21 +77,10 @@ loop() {
     done
 }
 
-
-start_loop() {
-    FROM="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-    TO="$(realpath ~/)/"
-
-    for from in $FROM/*/ ; do
-        loop $from $TO
-    done
-}
-
 has_parameter() {
     local parameter=$1
 
-    if [[ "$*" =~ "$parameter" ]]
-    then
+    if [[ "$*" =~ "$parameter" ]]; then
         echo true
         return
     fi
@@ -96,13 +88,13 @@ has_parameter() {
     echo 0
 }
 
-usage() {
-    echo "Dotfile manager"
-    echo
-    echo "Actions:"
-    echo "    help   Show this message"
-    echo "    link   Link dotfiles"
-    echo "    unlink unlink dotfiles"
+start_loop() {
+    to="$(realpath ~/)/"
+
+    for dir in $directories; do
+        # echo $dir
+        loop $dir $to
+    done
 }
 
 link() {
@@ -115,6 +107,32 @@ unlink () {
     start_loop
 }
 
+from="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+directories="$(ls -d ${from}/*/)"
+action=""
+
+OPTIND=2
+while getopts "luhd:" opt; do
+    case ${opt} in
+        d)
+            directories=""
+            for dir in ${OPTARG}; do
+                directories="${from}/${dir}/ $directories"
+            done
+            ;;
+        h)
+            usage
+            exit 0
+            ;;
+        *)
+            echo ""
+            usage
+            exit 1
+            ;;
+    esac
+done
+
 case $1 in
     link)
         link
@@ -124,7 +142,7 @@ case $1 in
         unlink
         exit 0
         ;;
-    help|*)
+    *)
         usage
         exit 0
         ;;
