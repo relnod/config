@@ -89,7 +89,7 @@ has_parameter() {
 }
 
 start_loop() {
-    to="$(realpath ~/)/"
+    to="$(readlink -f ~/)/"
 
     for dir in $directories; do
         # echo $dir

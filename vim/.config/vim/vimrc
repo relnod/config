@@ -91,9 +91,9 @@ endif
 " Neosnippet
 let g:neosnippet#snippets_directory='~/.config/vim/snippets/'
 
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " EasyAlign
 vmap <leader>a <Plug>(EasyAlign)
@@ -109,7 +109,7 @@ let g:rooter_silent_chdir=1
 " godebug
 if has("nvim")
     au FileType go nmap <leader>dd <Plug>(godebug-debug)
-        au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
+    au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
 endif
 
 " indentLine
@@ -125,6 +125,9 @@ if has('nvim')
     set inccommand=split
 endif
 
+" search
+set ignorecase
+
 " wildmenu
 set completeopt="menuone,noinsert"
 
@@ -132,16 +135,14 @@ set wildignore+=*/.git/**/*
 set wildignore+=tags
 set wildignorecase
 
-" Use 256 colours
+" colors
 set t_Co=256
-
 set background=dark
 colorscheme solarized
 
-set guifont=Hack:h9
 set mouse=a
 
-" Always show statusline
+" statusline
 set laststatus=2
 
 " show line number
