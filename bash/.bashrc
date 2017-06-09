@@ -1,8 +1,8 @@
-# powerline
+# prompt
 if [ -f ~/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh ]; then
     source ~/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
 else
-    echo "no powerline!"
+    export PS1="\u@\h \[\033[32m\][\W] \[\033[33m\]\$(__git_ps1 '(%s) ')\[\033[00m\]$ "
 fi
 
 # go
@@ -30,8 +30,13 @@ if [ -f ~/.fzf.bash ]; then
     export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 fi
 
-export VISUAL=vim
-export HISTCONTROL=ignoredups
+# editor
+if [ $(which nvim) = '']; then
+    editor=vim
+else
+    editor=nvim
+fi
+export VISUAL=$editor
+export EDITOR=$editor
 
-alias vim=nvim
-alias vi=vim
+export HISTCONTROL=ignoredups
