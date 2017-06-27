@@ -197,8 +197,9 @@ nnoremap <leader>ts :set hlsearch!<CR>
 nnoremap <leader>tc :set cursorline!<CR>
 nnoremap <leader>to :call AutoHighlightToggle()<CR>
 
-" clear search
+" search
 nnoremap <ESC> :noh<CR>
+nnoremap * *``
 
 " faster movement
 nnoremap <M-h> ^
