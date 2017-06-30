@@ -189,7 +189,7 @@ nnoremap Y y$
 nnoremap <S-k> i<CR><ESC>
 
 nnoremap <leader>r :so ~/.vimrc <CR>
-nnoremap <leader>vo :tabnew ~/.dotfiles/vim/.config/vim/vimrc<CR>
+nnoremap <leader>vo :tabnew ~/.config/vim/vimrc<CR>
 nnoremap <leader>so :source %<CR>
 
 " toggle options
@@ -206,6 +206,11 @@ nnoremap <M-h> ^
 nnoremap <M-j> 5j
 nnoremap <M-k> 5k
 nnoremap <M-l> $
+
+vnoremap <M-h> ^
+vnoremap <M-j> 5j
+vnoremap <M-k> 5k
+vnoremap <M-l> $
 
 " buffer navigation
 nnoremap <silent><leader>l :bnext<CR>
