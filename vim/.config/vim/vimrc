@@ -1,7 +1,5 @@
 " Plugins {{{
 
-set nocompatible
-
 filetype off
 filetype plugin indent off
 
@@ -26,7 +24,9 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#add('Shougo/neosnippet-snippets')
 
     " LANGUAGE
+    "
     if has('nvim')
+        call dein#add('https://github.com/w0rp/ale')
         call dein#add('autozimu/LanguageClient-neovim',  { 'hook_post_source': s:hook . 'languageclient-neovim.vim' })
     endif
     call dein#add('Shougo/neco-vim',                     { 'on_ft': 'vim' })
@@ -88,6 +88,11 @@ if dein#load_state(expand('~/.vim/dein'))
     call dein#save_state()
 endif
 
+" Ale
+let g:airline#extensions#ale#enabled = 1
+nmap <silent> <leader>aj <Plug>(ale_previous_wrap)
+nmap <silent> <leader>ak <Plug>(ale_next_wrap)
+
 " Neosnippet
 let g:neosnippet#snippets_directory='~/.config/vim/snippets/'
 
@@ -96,7 +101,7 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " EasyAlign
-vmap <leader>a <Plug>(EasyAlign)
+vmap <leader>al <Plug>(EasyAlign)
 
 " GitGutter
 let g:gitgutter_map_keys = 0
@@ -107,9 +112,11 @@ nmap [h <Plug>GitGutterPrevHunk
 let g:rooter_silent_chdir=1
 
 " godebug
-if has("nvim")
-    au FileType go nmap <leader>dd <Plug>(godebug-debug)
-    au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
+if has('nvim')
+    augroup godebug
+        au FileType go nmap <leader>dd <Plug>(godebug-debug)
+        au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
+    augroup end
 endif
 
 " indentLine
@@ -179,7 +186,7 @@ set backup
 " Mappings {{{
 
 " map Leader key to Space
-let mapleader = "\<space>"
+let g:mapleader = "\<space>"
 
 nnoremap Y y$
 " nnoremap V v$
@@ -199,7 +206,6 @@ nnoremap <leader>to :call AutoHighlightToggle()<CR>
 
 " search
 nnoremap <ESC> :noh<CR>
-nnoremap * *``
 
 " faster movement
 nnoremap <M-h> ^
@@ -269,8 +275,8 @@ endfunction
 
 function! HighlightOccurences() abort
     call clearmatches()
-    let match_word = '\V\<' . escape(expand('<cword>'), '\') . '\>'
-    call matchadd('WordOccurence', match_word, 0)
+    let l:match_word = '\V\<' . escape(expand('<cword>'), '\') . '\>'
+    call matchadd('WordOccurence', l:match_word, 0)
 endfunction
 
 " }}}
