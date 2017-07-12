@@ -31,9 +31,6 @@ if dein#load_state(expand('~/.vim/dein'))
     endif
     call dein#add('Shougo/neco-vim',                     { 'on_ft': 'vim' })
     call dein#add('StanAngeloff/php.vim',                { 'on_ft': 'php', 'hook_post_source': s:hook . 'php.vim' })
-    if has('nvim')
-        call dein#add('roxma/LanguageServer-php-neovim', { 'on_ft': 'php', 'build': 'composer install && composer run-script parse-stubs' })
-    endif
     call dein#add('fatih/vim-go',                        { 'on_ft': 'go', 'hook_post_source': s:hook . 'vim-go.vim' })
     if has('nvim')
         call dein#add('zchee/deoplete-go',               { 'on_ft': 'go', 'build': 'make' })
