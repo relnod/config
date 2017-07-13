@@ -1,5 +1,6 @@
 nnoremap <silent><leader>ff :Files<CR>
 nnoremap <silent><leader>fg :GFiles<CR>
+nnoremap <silent><leader>fx :GFilesModified<CR>
 nnoremap <silent><leader>fl :FilesMru<CR>
 
 nnoremap <silent><leader>fb :Buffers<CR>
@@ -25,11 +26,11 @@ let g:fzf_tags_command = 'ctags'
 let g:fzf_layout = { 'down': '40%' }
 
 function! s:aghidden(word) abort
-    let searchword = a:word
-    if searchword == ''
-        let searchword = '.'
+    let l:searchword = a:word
+    if l:searchword ==# ''
+        let l:searchword = '.'
     endif
-    call fzf#vim#grep("rg --hidden -g '!.git' '" . searchword . "'", 1)
+    call fzf#vim#grep("rg --hidden -g '!.git' '" . l:searchword . "'", 1)
 endfunction
 
 command! -nargs=* AgHidden call s:aghidden(<q-args>)
@@ -38,6 +39,11 @@ command! -nargs=1 -complete=file AgDir
     \ call fzf#vim#grep(
     \   "rg --hidden -g '!.git' --files '.' " . <q-args>, 1
     \ )
+
+command! -nargs=0 GFilesModified
+    \ call fzf#run(fzf#wrap({
+    \   'source': "git ls-files --other --modified --exclude-standard"
+    \ }))
 
 command! -nargs=0 FilesMru
     \ call fzf#run(fzf#wrap({
