@@ -14,17 +14,20 @@ if dein#load_state(expand('~/.vim/dein'))
 
     " COMPLETION
     call dein#add('ervandew/supertab')
-    if has('nvim')
-        call dein#add('Shougo/deoplete.nvim',            { 'hook_post_source': s:hook . 'deoplete.vim'})
-    else
-        call dein#add('Shougo/neocomplete.vim',          { 'hook_post_source': s:hook . 'neocomplete.vim' })
+    call dein#add('roxma/nvim-completion-manager')
+    if !has('nvim')
+        call dein#add('roxma/vim-hug-neovim-rpc')
     endif
+    " if has('nvim')
+    "     call dein#add('Shougo/deoplete.nvim',            { 'hook_post_source': s:hook . 'deoplete.vim'})
+    " else
+    "     call dein#add('Shougo/neocomplete.vim',          { 'hook_post_source': s:hook . 'neocomplete.vim' })
+    " endif
     call dein#add('Shougo/echodoc.vim')
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
 
     " LANGUAGE
-    "
     if has('nvim')
         call dein#add('https://github.com/w0rp/ale')
         call dein#add('autozimu/LanguageClient-neovim',  { 'hook_post_source': s:hook . 'languageclient-neovim.vim' })
@@ -87,8 +90,8 @@ endif
 
 " Ale
 let g:airline#extensions#ale#enabled = 1
-nmap <silent> <leader>aj <Plug>(ale_previous_wrap)
-nmap <silent> <leader>ak <Plug>(ale_next_wrap)
+nmap ]a <Plug>(ale_previous_wrap)
+nmap [a <Plug>(ale_next_wrap)
 
 " Neosnippet
 let g:neosnippet#snippets_directory='~/.config/vim/snippets/'
@@ -98,7 +101,7 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " EasyAlign
-vmap <leader>al <Plug>(EasyAlign)
+vmap <leader>a <Plug>(EasyAlign)
 
 " GitGutter
 let g:gitgutter_map_keys = 0
