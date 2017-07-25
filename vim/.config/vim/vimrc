@@ -243,7 +243,6 @@ function! ClearPluginCache() abort
     call dein#update()
 endfunction
 
-
 let g:auto_highlight_active = 0
 let g:auto_highlight_delay = 600
 let g:auto_highlight_style ='guifg=NONE guibg=NONE gui=underline ctermfg=NONE ctermbg=NONE cterm=underline'

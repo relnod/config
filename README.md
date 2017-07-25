@@ -6,6 +6,7 @@
 * tmux
 * vim/nvim
 * xorg
+* alacritty
 
 ## Install
 ```

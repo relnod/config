@@ -41,3 +41,4 @@ export VISUAL=$editor
 export EDITOR=$editor
 
 export HISTCONTROL=ignoredups
+export HISTSIZE=2000
