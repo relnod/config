@@ -67,8 +67,9 @@ if dein#load_state(expand('~/.vim/dein'))
 
     " LOOKS
     call dein#add('altercation/vim-colors-solarized')
-    call dein#add('vim-airline/vim-airline',             { 'hook_post_source': s:hook . 'airline.vim' })
-    call dein#add('vim-airline/vim-airline-themes')
+    "call dein#add('vim-airline/vim-airline',             { 'hook_post_source': s:hook . 'airline.vim' })
+    "call dein#add('vim-airline/vim-airline-themes')
+    call dein#add('itchyny/lightline.vim')
     call dein#add('Yggdroot/indentLine')
     call dein#add('valloric/MatchTagAlways')
 
@@ -125,7 +126,7 @@ if has('nvim')
 endif
 
 " vim-racer
-let g:racer_cmd = "~/.cargo/bin/racer"
+let g:racer_cmd = '~/.cargo/bin/racer'
 
 au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
@@ -134,6 +135,19 @@ au FileType rust nmap gc <Plug>(rust-doc)
 
 " indentLine
 let g:indentLine_char = '┆'
+
+" lightline
+
+let g:lightline = {
+    \ 'colorscheme': 'solarized',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'fugitive#head'
+    \ },
+    \ }
 
 " }}}
 " Settings {{{
@@ -164,6 +178,7 @@ set mouse=a
 
 " statusline
 set laststatus=2
+set noshowmode
 
 " show line number
 set number
