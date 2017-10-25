@@ -42,3 +42,10 @@ export EDITOR=$editor
 
 export HISTCONTROL=ignoredups
 export HISTSIZE=2000
+
+alias ls='ls --color'
+
+alias g='git'
+alias gc='git commit'
+alias ga='git add'
+alias gst='git status'
