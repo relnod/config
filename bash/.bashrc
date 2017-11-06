@@ -1,3 +1,17 @@
+# bash completion
+if ! [[ $(shopt -oq posix) ]]; then
+  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [[ -f /etc/bash_completion ]]; then
+    . /etc/bash_completion
+  fi
+fi
+
+if [[ -f /usr/share/git/completion/git-prompt.sh ]]; then
+    source /usr/share/git/completion/git-prompt.sh
+fi
+
+
 # prompt
 END_COLOR="\e[m\]"
 COLOR1="\[\e[30;47m\]"
@@ -23,14 +37,6 @@ if [[ -d "$HOME/dev/go" ]]; then
     export PATH=$GOPATH/bin:$PATH
 fi
 
-# bash completion
-if ! [[ $(shopt -oq posix) ]]; then
-  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [[ -f /etc/bash_completion ]]; then
-    . /etc/bash_completion
-  fi
-fi
 
 # fzf
 if [[ -f ~/.fzf.bash ]]; then
@@ -39,10 +45,10 @@ if [[ -f ~/.fzf.bash ]]; then
 fi
 
 # editor
-if [[ $(which nvim) = '' ]]; then
-    editor=vim
-else
+if [[ $(command -v nvim) != '' ]]; then
     editor=nvim
+elif [[ $(command -v nvim) != '' ]]; then
+    editor=vim
 fi
 export VISUAL=$editor
 export EDITOR=$editor
