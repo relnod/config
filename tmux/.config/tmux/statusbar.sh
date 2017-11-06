@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function seg_hostname {
-    hostname
+    whoami
 }
 
 function seg_uptime {
@@ -25,7 +25,7 @@ fi
 if [[ $1 == "window-current" ]]; then
     current="#[fg=black,bg=yellow]$ARROW_R_BOLD "
     current="$current#[fg=black,bg=yellow,bold]#I $ARROW_R_THIN #W "
-    current="$current#[fg=yellow,bg=black]$ARROW_R_BOLD"
+    current="$current#[fg=yellow,bg=black,nobold]$ARROW_R_BOLD"
     echo $current
 fi
 
