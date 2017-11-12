@@ -3,141 +3,185 @@
 filetype off
 filetype plugin indent off
 
-let s:hook = 'source' . expand('~/.config/vim/plugins/')
+call plug#begin('~/.vim/plugged')
 
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
-if dein#load_state(expand('~/.vim/dein'))
-    call dein#begin(expand('~/.vim/dein'))
+" GENERAL
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
-    " GENERAL
-    call dein#add('Shougo/vimproc.vim',                  { 'build': 'make' })
-
-    " COMPLETION
-    call dein#add('ervandew/supertab')
-    call dein#add('roxma/nvim-completion-manager')
-    if !has('nvim')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-    endif
-    call dein#add('Shougo/echodoc.vim')
-    call dein#add('Shougo/neosnippet.vim')
-    call dein#add('Shougo/neosnippet-snippets')
-
-    " LANGUAGE
-    if has('nvim')
-        call dein#add('https://github.com/w0rp/ale')
-        call dein#add('autozimu/LanguageClient-neovim',  { 'hook_post_source': s:hook . 'languageclient-neovim.vim' })
-    endif
-    " Viml
-    call dein#add('Shougo/neco-vim',                     { 'on_ft': 'vim' })
-    " PHP
-    call dein#add('StanAngeloff/php.vim',                { 'on_ft': 'php', 'hook_post_source': s:hook . 'php.vim' })
-    " Go
-    call dein#add('fatih/vim-go',                        { 'on_ft': 'go', 'hook_post_source': s:hook . 'vim-go.vim' })
-    if has('nvim')
-        call dein#add('zchee/deoplete-go',               { 'on_ft': 'go', 'build': 'make' })
-        call dein#add('jodosha/vim-godebug',             { 'on_ft': 'go' })
-    endif
-    " Javascript
-    call dein#add('jelera/vim-javascript-syntax',        { 'on_ft': 'javascript' })
-    " C/C++
-    call dein#add('rhysd/vim-clang-format',              { 'on_ft': 'cpp' })
-    if has('nvim')
-        call dein#add('tweekmonster/deoplete-clang2',    { 'on_ft': 'cpp' })
-    else
-        call dein#add('Rip-Rip/clang_complete',          { 'on_ft': 'cpp', 'build': 'make install' })
-    endif
-    " Less
-    call dein#add('groenewege/vim-less',                 { 'on_ft': 'less' })
-    " Rust
-    call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust' })
-    call dein#add('racer-rust/vim-racer', { 'on_ft': 'rust' })
-    call dein#add('roxma/nvim-cm-racer', { 'on_ft': 'rust'})
-
-    " NAVIGATION
-    call dein#add('airblade/vim-rooter')
-    call dein#add('scrooloose/nerdtree',                 { 'hook_post_source': s:hook . 'nerdtree.vim' })
-    call dein#add('majutsushi/tagbar')
-    call dein#add('junegunn/fzf',                        { 'rtp': '~/.fzf', 'build': './install --all --no-update-rc', 'merged': 0 })
-    call dein#add('junegunn/fzf.vim',                    { 'hook_post_source': s:hook . 'fzf.vim' })
-    if has('nvim') || v:version >= 800
-        call dein#add('Shougo/denite.nvim',              { 'hook_post_source': s:hook . 'denite.vim' })
-    else
-        call dein#add('Shougo/unite.vim')
-    endif
-
-    " LOOKS
-    call dein#add('altercation/vim-colors-solarized')
-    "call dein#add('vim-airline/vim-airline',             { 'hook_post_source': s:hook . 'airline.vim' })
-    "call dein#add('vim-airline/vim-airline-themes')
-    call dein#add('itchyny/lightline.vim')
-    call dein#add('Yggdroot/indentLine')
-    call dein#add('valloric/MatchTagAlways')
-
-    " GIT
-    call dein#add('airblade/vim-gitgutter')
-    call dein#add('tpope/vim-fugitive',                  { 'hook_post_source': s:hook . 'vim-fugitive.vim' })
-
-    " UTILS
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-commentary')
-    call dein#add('tpope/vim-repeat')
-    call dein#add('junegunn/vim-easy-align')
-    call dein#add('justinmk/vim-sneak')
-
-    " MISC
-    call dein#add('benizi/vim-automkdir')
-    if has('nvim')
-        call dein#add('tweekmonster/nvimdev.nvim')
-    endif
-
-    call dein#end()
-    call dein#save_state()
+" COMPLETION
+Plug 'ervandew/supertab'
+Plug 'roxma/nvim-completion-manager'
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
 endif
-
-" Ale
-let g:airline#extensions#ale#enabled = 1
-nmap ]a <Plug>(ale_previous_wrap)
-nmap [a <Plug>(ale_next_wrap)
-
-" Neosnippet
+Plug 'Shougo/echodoc.vim'
+Plug 'Shougo/neosnippet.vim' " {{{
 let g:neosnippet#snippets_directory='~/.config/vim/snippets/'
 
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
+" }}}
+Plug 'Shougo/neosnippet-snippets'
 
-" EasyAlign
-vmap <leader>a <Plug>(EasyAlign)
-
-" GitGutter
-let g:gitgutter_map_keys = 0
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
-
-" vim-rooter
-let g:rooter_silent_chdir=1
-
-" godebug
+" LANGUAGE
 if has('nvim')
-    augroup godebug
-        au FileType go nmap <leader>dd <Plug>(godebug-debug)
-        au FileType go nmap <leader>db <Plug>(godebug-togglebreakpoint)
-    augroup end
-endif
 
-" vim-racer
+Plug 'https://github.com/w0rp/ale' " {{{
+let g:airline#extensions#ale#enabled = 1
+nmap ]a <Plug>(ale_previous_wrap)
+nmap [a <Plug>(ale_next_wrap)
+" }}}
+Plug 'autozimu/LanguageClient-neovim' " {{{
+
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['~/tools/repos/palantir/python-language-server/pyls'],
+    \ 'go': ['go-langserver'],
+    \ 'php': ['php', '~/dev/repos/felixfbecker/php-language-server/bin/php-language-server.php'],
+    \ 'javascript': ['node', '~/dev/repos/sourcegraph/javascript-typescript-langserver/lib/language-server-stdio.js'],
+\ }
+
+" autocmd FileType php LanguageClientStart
+
+nnoremap <silent>sh :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent>sd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent>sr :call LanguageClient_textDocument_references()<CR>
+nnoremap <silent>se :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent>ss :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent>sf :call LanguageClient_textDocument_formatting()<CR>
+nnoremap <silent>sw :call LanguageClient_workspace_symbol()<CR>
+" }}}
+
+endif
+" Viml
+Plug 'Shougo/neco-vim', { 'for': 'vim' }
+" PHP
+Plug 'StanAngeloff/php.vim', { 'for': 'php' } " {{{
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
+" }}}
+" Go
+Plug 'fatih/vim-go', { 'for': 'go' } " {{{
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+
+let g:go_fmt_command = "goimports"
+
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+
+if has('nvim')
+    au Filetype go nmap <leader>rt <PLUG>(go-run-tab)
+    au Filetype go nmap <leader>rs <PLUG>(go-run-split)
+    au Filetype go nmap <leader>rv <PLUG>(go-run-vertical)
+endif
+Plug 'sebdah/vim-delve', { 'for': 'go' } " {{{
+augroup godebug
+    au FileType go nmap <leader>dd :DlvDebug<CR>
+    au FileType go nmap <leader>db :DlvToggleBreakpoint<CR>
+augroup end
+" }}}
+" }}}
+" Javascript
+Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+" C/C++
+Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
+" Less
+Plug 'groenewege/vim-less', { 'for': 'less' }
+" Rust
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'racer-rust/vim-racer', { 'for': 'rust' } " {{{
 let g:racer_cmd = '~/.cargo/bin/racer'
 
 au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap gc <Plug>(rust-doc)
+" }}}
+Plug 'roxma/nvim-cm-racer', { 'for': 'rust' }
 
-" indentLine
-let g:indentLine_char = '┆'
+" NAVIGATION
+Plug 'airblade/vim-rooter' " {{{
+let g:rooter_silent_chdir=1
+" }}}
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " {{{
+let g:NERDTreeShowHidden=1
+let g:NerdTreeWinSize=70
+nnoremap <F3> :NERDTreeToggle<CR>
+nnoremap <F4> :NERDTreeFind<CR>
 
-" lightline
+:autocmd FileType nerdtree nmap <buffer> a o
+" }}}
+Plug 'majutsushi/tagbar'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
+Plug 'junegunn/fzf.vim' " {{{
+nnoremap <silent><leader>ff :Files<CR>
+nnoremap <silent><leader>fg :GFiles<CR>
+nnoremap <silent><leader>fx :GFilesModified<CR>
+nnoremap <silent><leader>fl :FilesMru<CR>
 
+nnoremap <silent><leader>fb :Buffers<CR>
+
+nnoremap <silent><leader>fa :AgHidden<CR>
+nnoremap <silent><leader>fw :AgHidden<space><C-R><C-W><CR>
+nnoremap <silent><leader>fd :AgDir<space>
+
+nnoremap <silent><leader>fh :Helptags<CR>
+nnoremap <silent><leader>ft :Tags<CR>
+nnoremap <silent><leader>fm :Maps<CR>
+nnoremap <silent><leader>fc :Commits<CR>
+
+vnoremap <silent><leader>fa :Ag<space><SID>get_visual_selection()<CR>
+
+
+let g:fzf_action = {
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-s': 'split',
+    \ 'ctrl-v': 'vsplit' }
+let g:fzf_buffers_jump = 1
+let g:fzf_tags_command = 'ctags'
+let g:fzf_layout = { 'down': '40%' }
+
+function! s:aghidden(word) abort
+    let l:searchword = a:word
+    if l:searchword ==# ''
+        let l:searchword = '.'
+    endif
+    call fzf#vim#grep("rg --hidden -g '!.git' '" . l:searchword . "'", 1)
+endfunction
+
+command! -nargs=* AgHidden call s:aghidden(<q-args>)
+
+command! -nargs=1 -complete=file AgDir
+    \ call fzf#vim#grep(
+    \   "rg --hidden -g '!.git' --files '.' " . <q-args>, 1
+    \ )
+
+command! -nargs=0 GFilesModified
+    \ call fzf#run(fzf#wrap({
+    \   'source': "git ls-files --other --modified --exclude-standard"
+    \ }))
+
+command! -nargs=0 FilesMru
+    \ call fzf#run(fzf#wrap({
+    \   'source': "rg --hidden -g '!.git' --files '.' " .
+    \             "| xargs -L 100 -d '\n' ls -l --time-style +'%s' " .
+    \             "| sort -k 6 -n -r --parallel 16 | awk '{print $7}'",
+    \ }))
+" }}}
+
+" LOOKS
+Plug 'altercation/vim-colors-solarized'
+Plug 'itchyny/lightline.vim' " {{{
 let g:lightline = {
     \ 'colorscheme': 'solarized',
     \ 'active': {
@@ -148,6 +192,50 @@ let g:lightline = {
     \   'gitbranch': 'fugitive#head'
     \ },
     \ }
+" }}}
+Plug 'Yggdroot/indentLine' " {{{
+let g:indentLine_char = '┆'
+" }}}
+Plug 'valloric/MatchTagAlways'
+
+" GIT
+Plug 'airblade/vim-gitgutter' " {{{
+let g:gitgutter_map_keys = 0
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
+" }}}
+Plug 'tpope/vim-fugitive' " {{{
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gl :Glog<CR>
+" }}}
+
+" UTILS
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'junegunn/vim-easy-align' " {{{
+vmap <leader>a <Plug>(EasyAlign)
+" }}}
+Plug 'justinmk/vim-sneak'
+
+" MISC
+Plug 'benizi/vim-automkdir'
+if has('nvim')
+    Plug 'tweekmonster/nvimdev.nvim'
+endif
+
+call plug#end()
+
+" vim-delve
+
+" vim-racer
+
+" indentLine
+
+" lightline
+
 
 " }}}
 " Settings {{{
@@ -223,7 +311,7 @@ nnoremap Y y$
 " opposite to <S-j>
 nnoremap <S-k> i<CR><ESC>
 
-nnoremap <leader>r :so ~/.vimrc <CR>
+nnoremap <leader>vr :so ~/.vimrc <CR>
 nnoremap <leader>vo :tabnew ~/.config/vim/vimrc<CR>
 nnoremap <leader>so :source %<CR>
 
@@ -307,7 +395,5 @@ function! HighlightOccurences() abort
 endfunction
 
 " }}}
-
-call dein#call_hook('post_source')
 
 " vim:fdm=marker
