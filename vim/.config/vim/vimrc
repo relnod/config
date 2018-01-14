@@ -1,12 +1,12 @@
+" map Leader key to Space
+let g:mapleader = "\<space>"
+
 " Plugins {{{
 
 filetype off
 filetype plugin indent off
 
 call plug#begin('~/.vim/plugged')
-
-" GENERAL
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 " COMPLETION
 Plug 'ervandew/supertab'
@@ -28,9 +28,8 @@ Plug 'Shougo/neosnippet-snippets'
 if has('nvim')
 
 Plug 'https://github.com/w0rp/ale' " {{{
-let g:airline#extensions#ale#enabled = 1
-nmap ]a <Plug>(ale_previous_wrap)
-nmap [a <Plug>(ale_next_wrap)
+nnoremap ]a <Plug>(ale_previous_wrap)
+nnoremap [a <Plug>(ale_next_wrap)
 " }}}
 Plug 'autozimu/LanguageClient-neovim' " {{{
 
@@ -74,22 +73,23 @@ let g:go_highlight_methods = 1
 
 let g:go_fmt_command = "goimports"
 
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nnoremap <leader>r <Plug>(go-run)
+au FileType go nnoremap <leader>b <Plug>(go-build)
+au FileType go nnoremap <leader>t <Plug>(go-test)
+au FileType go nnoremap <leader>c <Plug>(go-coverage)
 
 if has('nvim')
-    au Filetype go nmap <leader>rt <PLUG>(go-run-tab)
-    au Filetype go nmap <leader>rs <PLUG>(go-run-split)
-    au Filetype go nmap <leader>rv <PLUG>(go-run-vertical)
+    au Filetype go nnoremap <leader>rt <PLUG>(go-run-tab)
+    au Filetype go nnoremap <leader>rs <PLUG>(go-run-split)
+    au Filetype go nnoremap <leader>rv <PLUG>(go-run-vertical)
 endif
+" }}}
 Plug 'sebdah/vim-delve', { 'for': 'go' } " {{{
 augroup godebug
-    au FileType go nmap <leader>dd :DlvDebug<CR>
-    au FileType go nmap <leader>db :DlvToggleBreakpoint<CR>
+    au FileType go nnoremap <leader>dd :DlvDebug<CR>
+    au FileType go nnoremap <leader>db :DlvToggleBreakpoint<CR>
+    au FileType go nnoremap <leader>dt :DlvTest<CR>
 augroup end
-" }}}
 " }}}
 " Javascript
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
@@ -98,14 +98,13 @@ Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 " Less
 Plug 'groenewege/vim-less', { 'for': 'less' }
 " Rust
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' } " {{{
 let g:racer_cmd = '~/.cargo/bin/racer'
 
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap gc <Plug>(rust-doc)
+au FileType rust nnoremap gd <Plug>(rust-def)
+au FileType rust nnoremap gs <Plug>(rust-def-split)
+au FileType rust nnoremap gx <Plug>(rust-def-vertical)
+au FileType rust nnoremap gc <Plug>(rust-doc)
 " }}}
 Plug 'roxma/nvim-cm-racer', { 'for': 'rust' }
 
@@ -119,7 +118,7 @@ let g:NerdTreeWinSize=70
 nnoremap <F3> :NERDTreeToggle<CR>
 nnoremap <F4> :NERDTreeFind<CR>
 
-:autocmd FileType nerdtree nmap <buffer> a o
+au FileType nerdtree nnoremap <buffer> a o
 " }}}
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
@@ -201,8 +200,8 @@ Plug 'valloric/MatchTagAlways'
 " GIT
 Plug 'airblade/vim-gitgutter' " {{{
 let g:gitgutter_map_keys = 0
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
+nnoremap ]h <Plug>GitGutterNextHunk
+nnoremap [h <Plug>GitGutterPrevHunk
 " }}}
 Plug 'tpope/vim-fugitive' " {{{
 nnoremap <leader>gs :Gstatus<CR>
@@ -227,16 +226,6 @@ if has('nvim')
 endif
 
 call plug#end()
-
-" vim-delve
-
-" vim-racer
-
-" indentLine
-
-" lightline
-
-
 " }}}
 " Settings {{{
 
@@ -300,9 +289,6 @@ set backup
 
 " }}}
 " Mappings {{{
-
-" map Leader key to Space
-let g:mapleader = "\<space>"
 
 nnoremap Y y$
 " nnoremap V v$
