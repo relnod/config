@@ -114,7 +114,7 @@ let g:NerdTreeWinSize=70
 nnoremap <F3> :NERDTreeToggle<CR>
 nnoremap <F4> :NERDTreeFind<CR>
 
-au FileType nerdtree nnoremap <buffer> a o
+autocmd FileType nerdtree nmap <buffer> a o
 " }}}
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
