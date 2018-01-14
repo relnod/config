@@ -3,18 +3,13 @@ let g:mapleader = "\<space>"
 
 " Plugins {{{
 
-filetype off
-filetype plugin indent off
-
 call plug#begin('~/.vim/plugged')
 
 " COMPLETION
-Plug 'ervandew/supertab'
 Plug 'roxma/nvim-completion-manager'
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neosnippet.vim' " {{{
 let g:neosnippet#snippets_directory='~/.config/vim/snippets/'
 
@@ -26,7 +21,6 @@ Plug 'Shougo/neosnippet-snippets'
 
 " LANGUAGE
 if has('nvim')
-
 Plug 'https://github.com/w0rp/ale' " {{{
 nnoremap ]a <Plug>(ale_previous_wrap)
 nnoremap [a <Plug>(ale_next_wrap)
@@ -50,7 +44,6 @@ nnoremap <silent>ss :call LanguageClient_textDocument_documentSymbol()<CR>
 nnoremap <silent>sf :call LanguageClient_textDocument_formatting()<CR>
 nnoremap <silent>sw :call LanguageClient_workspace_symbol()<CR>
 " }}}
-
 endif
 " Viml
 Plug 'Shougo/neco-vim', { 'for': 'vim' }
@@ -84,12 +77,15 @@ if has('nvim')
     au Filetype go nnoremap <leader>rv <PLUG>(go-run-vertical)
 endif
 " }}}
+if has('nvim')
 Plug 'sebdah/vim-delve', { 'for': 'go' } " {{{
 augroup godebug
     au FileType go nnoremap <leader>dd :DlvDebug<CR>
     au FileType go nnoremap <leader>db :DlvToggleBreakpoint<CR>
     au FileType go nnoremap <leader>dt :DlvTest<CR>
 augroup end
+" }}}
+endif
 " }}}
 " Javascript
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
@@ -263,8 +259,6 @@ set number
 set scrolloff=2
 set matchtime=4
 
-" set cursorline
-
 " buffers
 set hidden
 
@@ -291,8 +285,6 @@ set backup
 " Mappings {{{
 
 nnoremap Y y$
-" nnoremap V v$
-" nnoremap vv 0v$ " needs fixing
 
 " opposite to <S-j>
 nnoremap <S-k> i<CR><ESC>
@@ -304,7 +296,7 @@ nnoremap <leader>so :source %<CR>
 " toggle options
 nnoremap <leader>ts :set hlsearch!<CR>
 nnoremap <leader>tc :set cursorline!<CR>
-nnoremap <leader>to :call AutoHighlightToggle()<CR>
+nnoremap <leader>to :call autohighlight#Toggle()<CR>
 
 " search
 nnoremap <ESC> :noh<CR>
@@ -332,53 +324,10 @@ nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
 
 " window resizing
-map <C-s>h :vertical resize -1<CR>
-map <C-s>j :resize +1<CR>
-map <C-s>k :resize -1<CR>
-map <C-s>l :vertical resize +1<CR>
-
-" }}}
-" Functions {{{
-
-function! ClearPluginCache() abort
-    :! rm -rf ~/.vim/dein/.cache/
-    call dein#update()
-endfunction
-
-let g:auto_highlight_active = 0
-let g:auto_highlight_delay = 600
-let g:auto_highlight_style ='guifg=NONE guibg=NONE gui=underline ctermfg=NONE ctermbg=NONE cterm=underline'
-exe 'highlight WordOccurence ' . g:auto_highlight_style
-
-function! AutoHighlightToggle() abort
-    if g:auto_highlight_active
-        let g:auto_highlight_active=0
-        call AutoHighlightDisable()
-    else
-        let g:auto_highlight_active=1
-        call AutoHighlightEnable()
-    endif
-endfunction
-
-function! AutoHighlightEnable() abort
-    augroup auto_highlight
-        au CursorHold * call HighlightOccurences()
-    augroup end
-    exe 'setl updatetime=' . g:auto_highlight_delay
-endfunction
-
-function! AutoHighlightDisable() abort
-    call clearmatches()
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=4000
-endfunction
-
-function! HighlightOccurences() abort
-    call clearmatches()
-    let l:match_word = '\V\<' . escape(expand('<cword>'), '\') . '\>'
-    call matchadd('WordOccurence', l:match_word, 0)
-endfunction
+noremap <C-s>h :vertical resize -1<CR>
+noremap <C-s>j :resize +1<CR>
+noremap <C-s>k :resize -1<CR>
+noremap <C-s>l :vertical resize +1<CR>
 
 " }}}
 
