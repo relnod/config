@@ -7,11 +7,11 @@ if ! [[ $(shopt -oq posix) ]]; then
   fi
 fi
 
-if [[ -f /usr/share/git/completion/git-prompt.sh ]]; then
-    source /usr/share/git/completion/git-prompt.sh
-fi
-
 if [ -n "$TMUX" ]; then
+    if [[ -f /usr/share/git/completion/git-prompt.sh ]]; then
+        source /usr/share/git/completion/git-prompt.sh
+    fi
+
     source ~/.config/bash/prompt.sh
 fi
 
