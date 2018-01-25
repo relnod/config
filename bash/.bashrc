@@ -23,18 +23,6 @@ fi
 if [[ -d "$HOME/go" ]]; then
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:$PATH
-elif [[ -d "$HOME/dev/go" ]]; then
-    export GOPATH=$HOME/dev/go
-    export PATH=$GOPATH/bin:$PATH
-fi
-
-# bash completion
-if ! [[ $(shopt -oq posix) ]]; then
-  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [[ -f /etc/bash_completion ]]; then
-    . /etc/bash_completion
-  fi
 fi
 
 # fzf
@@ -51,10 +39,12 @@ if [[ -f ~/.fzf.bash ]]; then
 fi
 
 # editor
-if [[ $(which nvim) = '' ]]; then
-    editor=vim
-else
+if [[ $(command -v nvim) != "" ]]; then
     editor=nvim
+elif [[ $(command -v vim) != "" ]]; then
+    editor=nvim
+else
+    editor=vi
 fi
 export VISUAL=$editor
 export EDITOR=$editor
@@ -67,5 +57,6 @@ alias ls='ls --color'
 alias g='git'
 alias gc='git commit'
 alias ga='git add'
+alias gs='git status'
 
 xmodmap ~/.Xmodmap
