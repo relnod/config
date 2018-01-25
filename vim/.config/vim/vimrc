@@ -36,13 +36,13 @@ let g:LanguageClient_serverCommands = {
 
 " autocmd FileType php LanguageClientStart
 
-nnoremap <silent>sh :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent>sd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent>sr :call LanguageClient_textDocument_references()<CR>
-nnoremap <silent>se :call LanguageClient_textDocument_rename()<CR>
-nnoremap <silent>ss :call LanguageClient_textDocument_documentSymbol()<CR>
-nnoremap <silent>sf :call LanguageClient_textDocument_formatting()<CR>
-nnoremap <silent>sw :call LanguageClient_workspace_symbol()<CR>
+nnoremap <leader>sh :call LanguageClient_textDocument_hover()<CR>
+nnoremap <leader>sd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <leader>sr :call LanguageClient_textDocument_references()<CR>
+nnoremap <leader>se :call LanguageClient_textDocument_rename()<CR>
+nnoremap <leader>ss :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <leader>sf :call LanguageClient_textDocument_formatting()<CR>
+nnoremap <leader>sw :call LanguageClient_workspace_symbol()<CR>
 " }}}
 endif
 " Viml
@@ -86,7 +86,6 @@ augroup godebug
 augroup end
 " }}}
 endif
-" }}}
 " Javascript
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 " C/C++
@@ -175,18 +174,6 @@ command! -nargs=0 FilesMru
 
 " LOOKS
 Plug 'altercation/vim-colors-solarized'
-Plug 'itchyny/lightline.vim' " {{{
-let g:lightline = {
-    \ 'colorscheme': 'solarized',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-    \ },
-    \ 'component_function': {
-    \   'gitbranch': 'fugitive#head'
-    \ },
-    \ }
-" }}}
 Plug 'Yggdroot/indentLine' " {{{
 let g:indentLine_char = '┆'
 " }}}
@@ -212,7 +199,10 @@ Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-easy-align' " {{{
 vmap <leader>a <Plug>(EasyAlign)
 " }}}
-Plug 'justinmk/vim-sneak'
+Plug 'justinmk/vim-sneak' " {{{
+map s <Plug>Sneak_s
+map S <Plug>Sneak_S
+" }}}
 
 " MISC
 Plug 'benizi/vim-automkdir'
