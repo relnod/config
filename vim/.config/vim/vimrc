@@ -31,7 +31,7 @@ let g:LanguageClient_serverCommands = {
     \ 'python': ['~/tools/repos/palantir/python-language-server/pyls'],
     \ 'go': ['go-langserver'],
     \ 'php': ['php', '~/dev/repos/felixfbecker/php-language-server/bin/php-language-server.php'],
-    \ 'javascript': ['node', '~/dev/repos/sourcegraph/javascript-typescript-langserver/lib/language-server-stdio.js'],
+    \ 'javascript': ['javascript-typescript-stdio'],
 \ }
 
 " autocmd FileType php LanguageClientStart
