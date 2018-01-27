@@ -32,6 +32,7 @@ let g:LanguageClient_serverCommands = {
     \ 'go': ['go-langserver'],
     \ 'php': ['php', '~/dev/repos/felixfbecker/php-language-server/bin/php-language-server.php'],
     \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
 \ }
 
 " autocmd FileType php LanguageClientStart
@@ -88,6 +89,7 @@ augroup end
 endif
 " Javascript
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+Plug 'leafgarland/typescript-vim'
 " C/C++
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 " Less
