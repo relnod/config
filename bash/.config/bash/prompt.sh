@@ -1,3 +1,7 @@
+if [[ -f /usr/share/git/completion/git-prompt.sh ]]; then
+    source /usr/share/git/completion/git-prompt.sh
+fi
+
 END_COLOR="\e[m\]"
 COLOR1="\[\e[30;47m\]"
 COLOR2="\[\e[37;40m\]"
