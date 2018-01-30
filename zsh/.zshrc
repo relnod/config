@@ -1,5 +1,6 @@
 autoload -U colors && colors
 
+source ~/.config/shell/utils.sh
 source ~/.config/shell/env.sh
 source ~/.config/shell/aliases.sh
 

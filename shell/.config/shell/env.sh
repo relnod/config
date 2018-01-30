@@ -20,11 +20,6 @@ get_fzf_default_command() {
     fi
 }
 
-# fzf
-if [[ $(command -v fzf) != "" ]]; then
-    export FZF_DEFAULT_COMMAND=$(get_fzf_default_command)
-fi
-
 # go
 if [[ -d "/usr/local/go" ]]; then
     export GOROOT=/usr/local/go
@@ -33,6 +28,15 @@ fi
 if [[ -d "$HOME/go" ]]; then
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:$PATH
+fi
+
+# fzf
+if [[ -d "$HOME/.fzf/bin" && ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+    export PATH="$PATH:$HOME/.fzf/bin"
+fi
+
+if [[ $(command -v fzf) != "" ]]; then
+    export FZF_DEFAULT_COMMAND=$(get_fzf_default_command)
 fi
 
 # editor
