@@ -7,9 +7,6 @@ call plug#begin('~/.vim/plugged')
 
 " COMPLETION
 Plug 'roxma/nvim-completion-manager'
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
 Plug 'Shougo/neosnippet.vim' " {{{
 let g:neosnippet#snippets_directory='~/.config/vim/snippets/'
 
@@ -20,7 +17,6 @@ xmap <C-k> <Plug>(neosnippet_expand_target)
 Plug 'Shougo/neosnippet-snippets'
 
 " LANGUAGE
-if has('nvim')
 Plug 'https://github.com/w0rp/ale' " {{{
 nnoremap ]a <Plug>(ale_previous_wrap)
 nnoremap [a <Plug>(ale_next_wrap)
@@ -45,7 +41,6 @@ nnoremap <leader>ss :call LanguageClient_textDocument_documentSymbol()<CR>
 nnoremap <leader>sf :call LanguageClient_textDocument_formatting()<CR>
 nnoremap <leader>sw :call LanguageClient_workspace_symbol()<CR>
 " }}}
-endif
 " Viml
 Plug 'Shougo/neco-vim', { 'for': 'vim' }
 " PHP
@@ -67,18 +62,17 @@ let g:go_highlight_methods = 1
 
 let g:go_fmt_command = "goimports"
 
-au FileType go nnoremap <leader>r <Plug>(go-run)
-au FileType go nnoremap <leader>b <Plug>(go-build)
-au FileType go nnoremap <leader>t <Plug>(go-test)
-au FileType go nnoremap <leader>c <Plug>(go-coverage)
+augroup vimgo
+    au FileType go nnoremap <leader>r <Plug>(go-run)
+    au FileType go nnoremap <leader>b <Plug>(go-build)
+    au FileType go nnoremap <leader>t <Plug>(go-test)
+    au FileType go nnoremap <leader>c <Plug>(go-coverage)
 
-if has('nvim')
-    au Filetype go nnoremap <leader>rt <PLUG>(go-run-tab)
-    au Filetype go nnoremap <leader>rs <PLUG>(go-run-split)
-    au Filetype go nnoremap <leader>rv <PLUG>(go-run-vertical)
-endif
+    au Filetype go nnoremap <leader>rt <Plug>(go-run-tab)
+    au Filetype go nnoremap <leader>rs <Plug>(go-run-split)
+    au Filetype go nnoremap <leader>rv <Plug>(go-run-vertical)
+augroup end
 " }}}
-if has('nvim')
 Plug 'sebdah/vim-delve', { 'for': 'go' } " {{{
 augroup godebug
     au FileType go nnoremap <leader>dd :DlvDebug<CR>
@@ -86,7 +80,6 @@ augroup godebug
     au FileType go nnoremap <leader>dt :DlvTest<CR>
 augroup end
 " }}}
-endif
 " Javascript
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim'
@@ -98,10 +91,12 @@ Plug 'groenewege/vim-less', { 'for': 'less' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' } " {{{
 let g:racer_cmd = '~/.cargo/bin/racer'
 
-au FileType rust nnoremap gd <Plug>(rust-def)
-au FileType rust nnoremap gs <Plug>(rust-def-split)
-au FileType rust nnoremap gx <Plug>(rust-def-vertical)
-au FileType rust nnoremap gc <Plug>(rust-doc)
+augroup vimrust
+    au FileType rust nnoremap gd <Plug>(rust-def)
+    au FileType rust nnoremap gs <Plug>(rust-def-split)
+    au FileType rust nnoremap gx <Plug>(rust-def-vertical)
+    au FileType rust nnoremap gc <Plug>(rust-doc)
+augroup end
 " }}}
 Plug 'roxma/nvim-cm-racer', { 'for': 'rust' }
 
@@ -112,10 +107,13 @@ let g:rooter_silent_chdir=1
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " {{{
 let g:NERDTreeShowHidden=1
 let g:NerdTreeWinSize=70
+
 nnoremap <F3> :NERDTreeToggle<CR>
 nnoremap <F4> :NERDTreeFind<CR>
 
-autocmd FileType nerdtree nmap <buffer> a o
+augroup nerdtree
+    au FileType nerdtree nmap <buffer> a o
+augroup end
 " }}}
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
@@ -211,9 +209,7 @@ map S <Plug>Sneak_S
 " MISC
 Plug 'editorconfig/editorconfig-vim'
 Plug 'benizi/vim-automkdir'
-if has('nvim')
-    Plug 'tweekmonster/nvimdev.nvim'
-endif
+Plug 'tweekmonster/nvimdev.nvim'
 
 call plug#end()
 " }}}
@@ -222,9 +218,7 @@ call plug#end()
 filetype plugin indent on
 syntax enable
 
-if has('nvim')
-    set inccommand=split
-endif
+set inccommand=split
 
 " search
 set ignorecase
