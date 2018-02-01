@@ -12,6 +12,10 @@ get_git_branch() {
     echo " $branch "
 }
 
+get_curr_dir_name() {
+    echo ${PWD##*/}
+}
+
 is_remote_session() {
     if [[ -n "$SSH_CLIENT" ]]; then
         echo "true"

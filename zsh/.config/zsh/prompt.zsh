@@ -9,7 +9,7 @@ ARROW_R_THIN=''
 setopt prompt_subst
 
 ps1="${COLOR1} %n %{$reset_color%}${COLOR2}${ARROW_R_BOLD}%{$reset_color%}"
-ps1="$ps1 ${PWD##*/} ${COLOR1}${ARROW_R_BOLD}"
+ps1="$ps1 \$(get_curr_dir_name) ${COLOR1}${ARROW_R_BOLD}"
 ps1=${ps1}'$(get_git_branch)'
 ps1=${ps1}"%{$reset_color%}${COLOR2}${ARROW_R_BOLD}%{$reset_color%} "
 export PS1=$ps1
