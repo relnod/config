@@ -11,3 +11,11 @@ get_git_branch() {
     branch=${branch:-HEAD}
     echo " $branch "
 }
+
+is_remote_session() {
+    if [[ -n "$SSH_CLIENT" ]]; then
+        echo "true"
+    else
+	echo "false"
+    fi
+}

@@ -7,7 +7,13 @@ ARROW_L_THIN=''
 ARROW_R_BOLD=''
 ARROW_R_THIN=''
 
-ps1="${COLOR1} \u ${END_COLOR}${COLOR2}${ARROW_R_BOLD}${END_COLOR}"
+seg_remote() {
+    if [[ $(is_remote_session) == "true" ]]; then
+        echo "@$(hostname)"
+    fi
+}
+
+ps1="${COLOR1}\u$(seg_remote)${END_COLOR}${COLOR2}${ARROW_R_BOLD}${END_COLOR}"
 ps1="$ps1 \W ${COLOR1}$ARROW_R_BOLD"
 ps1="$ps1\$(get_git_branch)${END_COLOR}${COLOR2}$ARROW_R_BOLD${END_COLOR} "
 export PS1=$ps1
