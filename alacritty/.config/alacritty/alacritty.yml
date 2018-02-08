@@ -189,6 +189,8 @@ visual_bell:
 # (e.g. "\x1b[5~") is? Open another terminal (like xterm) without tmux,
 # then run `showkey -a` to get the sequence associated to a key combination.
 key_bindings:
+  - { key: Add,      mods: Control,          action: IncreaseFontSize    }
+  - { key: Subtract, mods: Control,          action: DecreaseFontSize    }
   - { key: V,        mods: Control|Shift,    action: Paste               }
   - { key: C,        mods: Control|Shift,    action: Copy                }
   - { key: Q,        mods: Command, action: Quit                         }
