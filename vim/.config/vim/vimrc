@@ -54,6 +54,8 @@ augroup phpSyntaxOverride
   autocmd FileType php call PhpSyntaxOverride()
 augroup END
 " }}}
+" SMARTY
+Plug 'blueyed/smarty.vim'
 " Go
 Plug 'fatih/vim-go', { 'for': 'go' } " {{{
 let g:go_highlight_fields = 1
