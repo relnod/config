@@ -1,18 +1,6 @@
 COLOR1="%{$fg[black]%}%{$bg[white]%}"
 COLOR2="%{$fg[white]%}%{$bg[black]%}"
 
-arrow_l_bold=''
-arrow_l_thin=''
-arrow_r_bold=''
-arrow_r_thin=''
-
-if [[ "$POWERLINE_FONT" != "true" ]]; then
-    arrow_l_bold=''
-    arrow_l_thin=''
-    arrow_r_bold=''
-    arrow_r_thin=''
-fi
-
 setopt prompt_subst
 
 ps1="${COLOR1} %n %{$reset_color%}${COLOR2}${arrow_r_bolD}%{$reset_color%}"
