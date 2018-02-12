@@ -12,17 +12,7 @@ seg_load() {
     uptime | sed -E 's/.*average: *//; s/,/ |/g'
 }
 
-arrow_l_bold=''
-arrow_l_thin=''
-arrow_r_bold=''
-arrow_r_thin=''
-
-if [[ "$POWERLINE_FONT" != "true" ]]; then
-    arrow_l_bold=''
-    arrow_l_thin=''
-    arrow_r_bold=''
-    arrow_r_thin=''
-fi
+source ~/.config/shell/scripts/powerline.sh
 
 color_bg_main="black"
 color_bg_inactive="colour9"
