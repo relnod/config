@@ -153,27 +153,29 @@ function! s:find_hidden(word) abort
     if l:searchword ==# ''
         let l:searchword = '.'
     endif
-    call fzf#vim#grep("rg --hidden -g '!.git' '" . l:searchword . "'", 1)
+    call fzf#vim#grep("rg --hidden -g '!.git' --column --color 'always' '" . l:searchword . "'", 1)
 endfunction
 
-command! -nargs=* FindHidden call s:find_hidden(<q-args>)
+function! s:find_dir(dir) abort
+    call fzf#vim#grep("rg --hidden -g '!.git' --files '.' " . a:dir, 1)
+endfunction
 
-command! -nargs=1 -complete=file FindDir
-    \ call fzf#vim#grep(
-    \   "rg --hidden -g '!.git' --files '.' " . <q-args>, 1
-    \ )
-
-command! -nargs=0 GFilesMru
-    \ call fzf#run(fzf#wrap({
-    \   'source': "git ls-files --other --modified --exclude-standard"
-    \ }))
-
-command! -nargs=0 FilesMru
-    \ call fzf#run(fzf#wrap({
+function! s:find_files_mru() abort
+    call fzf#run(fzf#wrap({
     \   'source': "rg --hidden -g '!.git' --files '.' " .
     \             "| xargs -L 100 -d '\n' ls -l --time-style +'%s' " .
     \             "| sort -k 6 -n -r --parallel 16 | awk '{print $7}'",
     \ }))
+endfunction
+
+function! s:find_git_files_mru() abort
+    call fzf#run(fzf#wrap({'source': 'git ls-files --other --modified --exclude-standard'}))
+endfunction
+
+command! -nargs=* FindHidden call s:find_hidden(<q-args>)
+command! -nargs=1 -complete=file FindDir call s:find_dir(<q-args>)
+command! -nargs=0 GFilesMru call s:find_git_files_mru()
+command! -nargs=0 FilesMru call s:find_files_mru()
 " }}}
 
 " LOOKS
@@ -283,8 +285,8 @@ nnoremap Y y$
 " opposite to <S-j>
 nnoremap <S-k> i<CR><ESC>
 
-nnoremap <leader>vr :so ~/.config/nvim/vimrc<CR>
-nnoremap <leader>vo :tabnew ~/.config/nvim/vimrc<CR>
+nnoremap <leader>vr :so ~/.config/nvim/init.vim<CR>
+nnoremap <leader>vo :tabnew ~/.config/nvim/init.vim<CR>
 nnoremap <leader>so :source %<CR>
 
 " toggle options
