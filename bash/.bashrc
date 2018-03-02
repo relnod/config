@@ -10,8 +10,7 @@ if [[ $POWERLINE_FONT = "true" ]]; then
     source ~/.config/shell/scripts/powerline.sh on
 fi
 
-if [[ -z "SSH_TTY" ]]; then
-    echo "test"
+if [ -n "$SSH_TTY" ] || [ -n "$SSH_CLIENT" ]; then
     source ~/.config/bash/remote.sh
 fi
 
