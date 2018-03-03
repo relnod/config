@@ -67,14 +67,7 @@ let g:go_highlight_methods = 1
 let g:go_fmt_command = "goimports"
 
 augroup vimgo
-    au FileType go nnoremap <leader>r <Plug>(go-run)
-    au FileType go nnoremap <leader>b <Plug>(go-build)
-    au FileType go nnoremap <leader>t <Plug>(go-test)
-    au FileType go nnoremap <leader>c <Plug>(go-coverage)
-
-    au Filetype go nnoremap <leader>rt <Plug>(go-run-tab)
-    au Filetype go nnoremap <leader>rs <Plug>(go-run-split)
-    au Filetype go nnoremap <leader>rv <Plug>(go-run-vertical)
+    au FileType go nnoremap <leader>r :GoRename<CR>
 augroup end
 " }}}
 Plug 'sebdah/vim-delve', { 'for': 'go' } " {{{
