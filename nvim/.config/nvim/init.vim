@@ -68,6 +68,7 @@ let g:go_fmt_command = "goimports"
 
 augroup vimgo
     au FileType go nnoremap <leader>r :GoRename<CR>
+    au FileType go nnoremap <leader>tco :GoCoverageToggle<CR>
 augroup end
 " }}}
 Plug 'sebdah/vim-delve', { 'for': 'go' } " {{{
