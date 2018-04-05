@@ -1,21 +1,30 @@
 #!/bin/sh
 
+export_symbols() {
+    if test "$POWERLINE_FONT" = "true"; then
+        arrow_l_bold=''
+        arrow_l_thin=''
+        arrow_r_bold=''
+        arrow_r_thin=''
+    else
+        arrow_l_bold=''
+        arrow_l_thin=''
+        arrow_r_bold=''
+        arrow_r_thin=''
+    fi
+
+    export ARROW_L_BOLD="$arrow_l_bold"
+    export ARROW_L_THIN="$arrow_l_thin"
+    export ARROW_R_BOLD="$arrow_r_bold"
+    export ARROW_R_THIN="$arrow_r_thin"
+}
+
 powerline_enable() {
     export POWERLINE_FONT='true'
-
-    arrow_l_bold=''
-    arrow_l_thin=''
-    arrow_r_bold=''
-    arrow_r_thin=''
 }
 
 powerline_disable() {
     export POWERLINE_FONT='false'
-
-    arrow_l_bold=''
-    arrow_l_thin=''
-    arrow_r_bold=''
-    arrow_r_thin=''
 }
 
 if test "$1" = "on"; then
@@ -34,7 +43,4 @@ if test "$1" = "toggle"; then
     fi
 fi
 
-export ARROW_L_BOLD="$arrow_l_bold"
-export ARROW_L_THIN="$arrow_l_thin"
-export ARROW_R_BOLD="$arrow_r_bold"
-export ARROW_R_THIN="$arrow_r_thin"
+export_symbols

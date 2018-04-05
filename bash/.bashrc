@@ -1,3 +1,7 @@
+if [[ -f ~/.bashrc.local ]]; then
+    source ~/.bashrc.local
+fi
+
 if [[ -f ~/.fzf.bash ]]; then
     source ~/.fzf.bash
 fi
