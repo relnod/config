@@ -13,7 +13,7 @@ get_git_branch() {
 }
 
 get_curr_dir_name() {
-    echo ${PWD##*/}
+    echo "${PWD##*/}"
 }
 
 is_remote_session() {

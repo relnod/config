@@ -1,3 +1,5 @@
+#/bin/bash
+
 if [ -n "$TMUX" ]; then
     preexec () {
         export $(tmux show-environment | grep "^SSH_AUTH_SOCK") > /dev/null 2>&1
