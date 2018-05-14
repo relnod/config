@@ -64,7 +64,7 @@ let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = 'goimports'
 
 augroup vimgo
     au FileType go nnoremap <leader>r :GoRename<CR>
@@ -231,7 +231,6 @@ set wildignore+=tags
 set wildignorecase
 
 " colors
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set termguicolors
 set t_Co=256
 set background=dark
