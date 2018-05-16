@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -x
+# set -x
 
 usage() {
     echo "Dotfile manager"
@@ -13,15 +13,16 @@ usage() {
 
 get_files() {
     local dir=$1
-    local files=$(ls -A $dir)
+    local files=""
+    files="$(ls -A "$dir")"
 
     if [ $(has_parameter {"--gitignore"}) = true ] && [ -f $dir.gitignore ]; then
         files=${files/.gitignore/}
-        for f in $(cat $dir.gitignore) ; do
+        for f in $(cat "$dir.gitignore") ; do
             files=${files/$f/}
         done
     fi
-    echo $files
+    echo "$files"
 }
 
 linkfile() {
@@ -29,15 +30,15 @@ linkfile() {
     local to=$2
     local file=$3
 
-    if [ -d $from$file ]; then
-        mkdir $to$file
-        loop $from$file/ $to$file/
+    if [ -d "$from$file" ]; then
+        mkdir "$to$file"
+        loop "$from$file/" "$to$file/"
     else
-        if [ $(has_parameter {"--override"}) = true ] && [ ! -L $to$file ] && [ -f $to$file ]; then
+        if [ $(has_parameter {"--override"}) = true ] && [ ! -L "$to$file" ] && [ -f $to$file ]; then
             mv "$to$file" "$to$file.dotm.tmp"
         fi
-        if [ ! -f $to$file ] && [ ! -L $to$file ]; then
-            ln -s $from$file $to
+        if [ ! -f "$to$file" ] && [ ! -L "$to$file" ]; then
+            ln -s "$from$file" "$to"
         fi
     fi
 }
@@ -47,32 +48,32 @@ unlinkfile() {
     local to=$2
     local file=$3
 
-    if [ -L $to$file ]; then
-        rm $to$file
+    if [ -L "$to$file" ]; then
+        rm "$to$file"
 
-        if [ -f $to$file.dotm.tmp ]; then
-            mv $to$file.dotm.tmp $to$file
+        if [ -f "$to$file.dotm.tmp" ]; then
+            mv "$to$file.dotm.tmp" "$to$file"
         fi
     fi
 
 
     if [ ! -n "$(ls -A $to)" ] && [ ! "$to" == "$TO" ]; then
-        rm -rf $to
+        rm -rf "$to"
     fi
 }
 
-depth=0
 loop() {
     local from=$1
     local to=$2
-
-    local files=$(get_files ${from})
+    local files=""
+    
+    files="$(get_files "${from}")"
 
     for file in $files ; do
-        if [ -d $to$file ]; then
-            loop $from$file/ $to$file/
+        if [ -d "$to$file" ]; then
+            loop "$from$file/" "$to$file/"
         else
-            $action $from $to $file
+            $action "$from" "$to" "$file"
         fi
     done
 }
@@ -80,7 +81,7 @@ loop() {
 has_parameter() {
     local parameter=$1
 
-    if [[ "$*" =~ "$parameter" ]]; then
+    if [[ "$*" =~ $parameter ]]; then
         echo true
         return
     fi
@@ -92,8 +93,7 @@ start_loop() {
     to="$(readlink -f ~/)/"
 
     for dir in $directories; do
-        # echo $dir
-        loop $dir $to
+        loop "$dir" "$to"
     done
 }
 
@@ -109,7 +109,7 @@ unlink () {
 
 from="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-directories="$(ls -d ${from}/*/)"
+directories="$(ls -d "${from}"/*/)"
 action=""
 
 OPTIND=2
