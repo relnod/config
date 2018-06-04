@@ -1,14 +1,18 @@
 # Personal Dotfiles
 
+* allacritty
 * bash
 * ctags
 * git
+* nvim
+* shell
 * tmux
-* vim/nvim
+* vim
 * xorg
-* alacritty
+* zsh
 
 ## Install
+Dotfiles are managed with `dotm.sh`. Run `./dotm.sh --help` for more info.
 ```
 ./dotm.sh link [--override]
 ```
