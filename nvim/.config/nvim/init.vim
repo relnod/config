@@ -8,7 +8,10 @@ let g:mapleader = "\<space>"
 call plug#begin('~/.vim/plugged')
 
 " COMPLETION
-Plug 'roxma/nvim-completion-manager'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " {{{
+let g:deoplete#enable_at_startup = 1
+" }}}
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'Shougo/neosnippet.vim' " {{{
 let g:neosnippet#snippets_directory='~/.config/nvim/snippets/'
 
