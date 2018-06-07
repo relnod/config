@@ -16,7 +16,7 @@ get_files() {
     local files=""
     files="$(ls -A "$dir")"
 
-    if [ $(has_parameter {"--gitignore"}) = true ] && [ -f $dir.gitignore ]; then
+    if [ "$gitignore" = true ] && [ -f "$dir.gitignore" ]; then
         files=${files/.gitignore/}
         for f in $(cat "$dir.gitignore") ; do
             files=${files/$f/}
@@ -34,7 +34,7 @@ linkfile() {
         mkdir "$to$file"
         loop "$from$file/" "$to$file/"
     else
-        if [ $(has_parameter {"--override"}) = true ] && [ ! -L "$to$file" ] && [ -f $to$file ]; then
+        if [ "$override" = true ] && [ ! -L "$to$file" ] && [ -f "$to$file" ]; then
             mv "$to$file" "$to$file.dotm.tmp"
         fi
         if [ ! -f "$to$file" ] && [ ! -L "$to$file" ]; then
@@ -57,7 +57,7 @@ unlinkfile() {
     fi
 
 
-    if [ ! -n "$(ls -A $to)" ] && [ ! "$to" == "$TO" ]; then
+    if [ ! -n "$(ls -A "$to")" ] && [ ! "$to" == "$TO" ]; then
         rm -rf "$to"
     fi
 }
@@ -80,6 +80,8 @@ loop() {
 
 has_parameter() {
     local parameter=$1
+
+    echo "$*"
 
     if [[ "$*" =~ $parameter ]]; then
         echo true
@@ -112,8 +114,11 @@ from="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 directories="$(ls -d "${from}"/*/)"
 action=""
 
+override=false
+gitignore=false
+
 OPTIND=2
-while getopts "luhd:" opt; do
+while getopts "luhdog:" opt; do
     case ${opt} in
         d)
             directories=""
@@ -124,6 +129,12 @@ while getopts "luhd:" opt; do
         h)
             usage
             exit 0
+            ;;
+        o)
+            override=true
+            ;;
+        g)
+            gitignore=true
             ;;
         *)
             echo ""
