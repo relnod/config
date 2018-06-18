@@ -1,4 +1,5 @@
 set runtimepath^=~/.vim
+set runtimepath+=~/.vim/after
 
 " map Leader key to Space
 let g:mapleader = "\<space>"
@@ -179,9 +180,6 @@ command! -nargs=0 FilesMru call s:find_files_mru()
 Plug 'altercation/vim-colors-solarized'
 Plug 'daylerees/colour-schemes', { 'rtp': 'vim/' }
 Plug 'joshdick/onedark.vim'
-Plug 'Yggdroot/indentLine' " {{{
-let g:indentLine_char = '┆'
-" }}}
 Plug 'valloric/MatchTagAlways'
 
 " GIT
