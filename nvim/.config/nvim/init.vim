@@ -219,6 +219,8 @@ call plug#end()
 filetype plugin indent on
 syntax enable
 
+set list
+
 set inccommand=split
 
 " search
