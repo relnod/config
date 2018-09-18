@@ -25,10 +25,6 @@ if [[ -d "/usr/local/go" ]]; then
     export GOROOT=/usr/local/go
     export PATH=$GOROOT/bin:$PATH
 fi
-if [[ -d "/usr/lib/go" ]]; then
-    export GOROOT=/usr/lib/go
-    export PATH=$GOROOT/bin:$PATH
-fi
 if [[ -d "$HOME/go" ]]; then
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:$PATH
