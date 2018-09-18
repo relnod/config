@@ -24,6 +24,9 @@ Plug 'Shougo/neosnippet-snippets'
 
 " LANGUAGE
 Plug 'https://github.com/w0rp/ale' " {{{
+let g:ale_linters = {
+\  'javascript': ['eslint', 'flow'],
+\}
 nnoremap ]a <Plug>(ale_previous_wrap)
 nnoremap [a <Plug>(ale_next_wrap)
 " }}}
