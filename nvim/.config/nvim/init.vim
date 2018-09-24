@@ -184,6 +184,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'daylerees/colour-schemes', { 'rtp': 'vim/' }
 Plug 'joshdick/onedark.vim'
 Plug 'valloric/MatchTagAlways'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " GIT
 Plug 'airblade/vim-gitgutter' " {{{
