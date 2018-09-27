@@ -282,6 +282,8 @@ set backup
 
 nnoremap Y y$
 
+nnoremap <leader>w :w<CR>
+
 " opposite to <S-j>
 nnoremap <S-k> i<CR><ESC>
 
