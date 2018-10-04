@@ -8,3 +8,5 @@ alias gd='git diff'
 alias gl='git log'
 alias gch='git checkout'
 alias gco='git commit'
+
+alias dotpush='git add . && git commit -m "update" && git push'

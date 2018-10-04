@@ -130,16 +130,15 @@ nnoremap <silent><leader>fx :GFilesMru<CR>
 
 nnoremap <silent><leader>fb :Buffers<CR>
 
-nnoremap <silent><leader>fa :FindHidden<CR>
-nnoremap <silent><leader>fw :FindHidden<space><C-R><C-W><CR>
+nnoremap <silent><leader>fa :FindWord<CR>
+vnoremap <silent><leader>fa :FindWord<space><SID>get_visual_selection()<CR>
+nnoremap <silent><leader>fw :FindWord<space><C-R><C-W><CR>
 nnoremap <silent><leader>fd :FindDir<space>
 
 nnoremap <silent><leader>fh :Helptags<CR>
 nnoremap <silent><leader>ft :Tags<CR>
 nnoremap <silent><leader>fm :Maps<CR>
 nnoremap <silent><leader>fc :Commits<CR>
-
-vnoremap <silent><leader>fa :Ag<space><SID>get_visual_selection()<CR>
 
 let g:fzf_action = {
     \ 'ctrl-t': 'tab split',
@@ -149,12 +148,12 @@ let g:fzf_buffers_jump = 1
 let g:fzf_tags_command = 'ctags'
 let g:fzf_layout = { 'down': '40%' }
 
-function! s:find_hidden(word) abort
+function! s:find_word(word) abort
     let l:searchword = a:word
     if l:searchword ==# ''
         let l:searchword = '.'
     endif
-    call fzf#vim#grep("rg --hidden -g '!.git' --column --color 'always' '" . l:searchword . "'", 1)
+    call fzf#vim#grep("rg --hidden -g '!.git' -g '!vendor' --column --color 'always' '" . l:searchword . "'", 1)
 endfunction
 
 function! s:find_dir(dir) abort
@@ -173,7 +172,7 @@ function! s:find_git_files_mru() abort
     call fzf#run(fzf#wrap({'source': 'git ls-files --other --modified --exclude-standard'}))
 endfunction
 
-command! -nargs=* FindHidden call s:find_hidden(<q-args>)
+command! -nargs=* FindWord call s:find_word(<q-args>)
 command! -nargs=1 -complete=file FindDir call s:find_dir(<q-args>)
 command! -nargs=0 GFilesMru call s:find_git_files_mru()
 command! -nargs=0 FilesMru call s:find_files_mru()
@@ -283,6 +282,7 @@ set backup
 nnoremap Y y$
 
 nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
 
 " opposite to <S-j>
 nnoremap <S-k> i<CR><ESC>
