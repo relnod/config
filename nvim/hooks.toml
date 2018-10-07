@@ -1,0 +1,3 @@
+post_update = [
+    "nvim +PlugUpdate +qall",
+]
