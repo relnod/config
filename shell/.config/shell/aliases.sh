@@ -10,3 +10,8 @@ alias gch='git checkout'
 alias gco='git commit'
 
 alias dotpush='git add . && git commit -m "update" && git push'
+
+alias bashrc='$EDITOR ~/.bashrc'
+alias vimrc='$EDITOR ~/.vimrc'
+alias init.vim='$EDITOR ~/.config/nvim/init.vim'
+alias todo='$EDITOR ~/TODO'
