@@ -114,13 +114,11 @@ let g:NERDTreeShowHidden=1
 let g:NerdTreeWinSize=70
 
 nnoremap <F3> :NERDTreeToggle<CR>
-nnoremap <F4> :NERDTreeFind<CR>
 
 augroup nerdtree
     au FileType nerdtree nmap <buffer> a o
 augroup end
 " }}}
-Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'junegunn/fzf.vim' " {{{
 nnoremap <silent><leader>ff :Files<CR>
@@ -283,7 +281,6 @@ nnoremap Y y$
 
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
-
 " opposite to <S-j>
 nnoremap <S-k> i<CR><ESC>
 
@@ -310,22 +307,11 @@ vnoremap <M-j> 5j
 vnoremap <M-k> 5k
 vnoremap <M-l> $
 
-" buffer navigation
-nnoremap <silent><leader>l :bnext<CR>
-nnoremap <silent><leader>h :bprev<CR>
-nnoremap <silent><leader>c :b #\|bd #<CR>
-
 " window navigation
 nnoremap <C-h> :wincmd h<CR>
 nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
-
-" window resizing
-noremap <C-s>h :vertical resize -1<CR>
-noremap <C-s>j :resize +1<CR>
-noremap <C-s>k :resize -1<CR>
-noremap <C-s>l :vertical resize +1<CR>
 
 " }}}
 
