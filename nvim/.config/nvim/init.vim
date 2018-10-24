@@ -70,12 +70,17 @@ Plug 'fatih/vim-go', { 'for': 'go' } " {{{
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
+let g:go_fold_enable = ['block']
 
 let g:go_fmt_command = 'goimports'
 
 augroup vimgo
     au FileType go nnoremap <leader>r :GoRename<CR>
     au FileType go nnoremap <leader>tco :GoCoverageToggle<CR>
+
+    au FileType go set foldmethod=syntax
+    au FileType go set nofoldenable
+    au FileType go set foldnestmax=1
 augroup end
 " }}}
 Plug 'sebdah/vim-delve', { 'for': 'go' } " {{{
@@ -306,6 +311,10 @@ vnoremap <M-h> ^
 vnoremap <M-j> 5j
 vnoremap <M-k> 5k
 vnoremap <M-l> $
+
+" tab navigation
+nnoremap <leader>h :tabprevious<CR>
+nnoremap <leader>l :tabnext<CR>
 
 " window navigation
 nnoremap <C-h> :wincmd h<CR>
