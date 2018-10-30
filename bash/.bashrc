@@ -22,6 +22,7 @@ fi
 
 source ~/.config/bash/prompt.sh
 source ~/.config/bash/completion.sh
+source ~/.config/bash/functions.sh
 source ~/.config/bash/history.sh
 
 if xset q &>/dev/null; then
