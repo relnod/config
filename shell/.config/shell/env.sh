@@ -43,3 +43,5 @@ fi
 export VISUAL=$(get_default_editor)
 export EDITOR=$(get_default_editor)
 
+
+export PATH="$PATH:$HOME/.local/bin"
