@@ -14,15 +14,15 @@ Dotfiles are managed with [dotm](https://github.com/relnod/dotm). Run `dotm help
 
 ### Install
 ```
-dotm install github.com/relnod/dotfiles
+dotm install github.com/relnod/dotfiles --profile="relnod"
 ```
 
 ### Update
 ```
-dotm update --fromRemote
+dotm update relnod --fromRemote
 ```
 
 ### Uninstall
 ```
-./dotm.sh unlink
+dotm uninstall relnod
 ```

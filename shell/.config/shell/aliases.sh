@@ -16,4 +16,6 @@ alias vimrc='$EDITOR ~/.vimrc'
 alias init.vim='$EDITOR ~/.config/nvim/init.vim'
 alias todo='$EDITOR ~/TODO'
 
-eval $(thefuck --alias)
+if [ -x "$(command -v thefuck)" ]; then
+    eval "$(thefuck --alias)"
+fi
