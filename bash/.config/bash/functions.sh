@@ -23,7 +23,7 @@ function t {
     for i in $(tmuxinator ls | sed '1d'); do
         all="$all $i"
     done
-    selected=$(echo $all | sed 's/ /\n/g' | sort | uniq | fzf)
+    selected="$(echo "$all" | sed 's/ /\n/g' | sort | uniq | fzf)"
     if [[ $sessions == *"$selected"* ]]; then
         if [[ "$TMUX" != "" ]]; then
             tmux switch -t "$selected"
@@ -38,5 +38,5 @@ function t {
 # p selects a project from ~/dev/repos and cd's into it.
 function p {
     project=$(find ~/dev/repos -mindepth 3 -maxdepth 3 -type d | fzf)
-    cd "$project"
+    cd "$project" || exit
 }
