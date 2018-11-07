@@ -20,10 +20,14 @@ complete -F _dcd_completions dcd
 function t {
     sessions=$(tmux ls | cut -d ':' -f1)
     all=$sessions
+    # Append tmuxinator projects to list.
     for i in $(tmuxinator ls | sed '1d'); do
         all="$all $i"
     done
-    selected="$(echo "$all" | sed 's/ /\n/g' | sort | uniq | fzf)"
+    # Remove current session from list.
+    curr_session=$(tmux display-message -p '#S')
+    all=$(echo "$all" | sed -e "s/$curr_session//")
+    selected="$(echo "$all" | sed 's/ /\n/g' | awk 'NF' | sort | uniq | fzf)"
     if [[ $sessions == *"$selected"* ]]; then
         if [[ "$TMUX" != "" ]]; then
             tmux switch -t "$selected"
