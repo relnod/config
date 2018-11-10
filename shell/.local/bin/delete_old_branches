@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for branch in $(git for-each-ref --format='%(refname)' refs/heads/ | grep -v "master"); do
+    branch="${branch/"refs/heads/"/}"
+    if [ "$(git log master.."$branch")" != "" ]; then
+      continue
+    fi
+    git branch -D "$branch"
+done
