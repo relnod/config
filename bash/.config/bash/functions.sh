@@ -18,16 +18,24 @@ complete -F _dcd_completions dcd
 # selection via fzf. Depending on the type that was selected, it attaches,
 # switches to a tmux session or start a new tmuxinator project.
 function t {
-    sessions=$(tmux ls | cut -d ':' -f1)
-    all=$sessions
+    local list
+    local sessions
+
+    # If tmux server is running, collect tmux sessions.
+    if [[ "$TMUX" != "" ]]; then
+        sessions=$(tmux ls | cut -d ':' -f1)
+        # Remove current session from list.
+        curr_session=$(tmux display-message -p '#S')
+        list=$(echo "$sessions" | sed -e "s/$curr_session//")
+    fi
+
     # Append tmuxinator projects to list.
     for i in $(tmuxinator ls | sed '1d'); do
-        all="$all $i"
+        list="$list $i"
     done
-    # Remove current session from list.
-    curr_session=$(tmux display-message -p '#S')
-    all=$(echo "$all" | sed -e "s/$curr_session//")
-    selected="$(echo "$all" | sed 's/ /\n/g' | awk 'NF' | sort | uniq | fzf)"
+
+    selected="$(echo "$list" | sed 's/ /\n/g' | awk 'NF' | sort | uniq | fzf)"
+
     if [[ $sessions == *"$selected"* ]]; then
         if [[ "$TMUX" != "" ]]; then
             tmux switch -t "$selected"
