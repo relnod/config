@@ -202,6 +202,7 @@ nnoremap <leader>gl :Glog<CR>
 " }}}
 
 " UTILS
+Plug 'irrationalistic/vim-tasks'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
@@ -302,6 +303,9 @@ nnoremap <leader>to :call autohighlight#Toggle()<CR>
 nnoremap <ESC> :noh<CR>
 
 " faster movement
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
+
 nnoremap <M-h> ^
 nnoremap <M-j> 5j
 nnoremap <M-k> 5k
@@ -315,12 +319,6 @@ vnoremap <M-l> $
 " tab navigation
 nnoremap <leader>h :tabprevious<CR>
 nnoremap <leader>l :tabnext<CR>
-
-" window navigation
-nnoremap <C-h> :wincmd h<CR>
-nnoremap <C-j> :wincmd j<CR>
-nnoremap <C-k> :wincmd k<CR>
-nnoremap <C-l> :wincmd l<CR>
 
 " }}}
 
