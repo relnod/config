@@ -202,7 +202,11 @@ nnoremap <leader>gl :Glog<CR>
 " }}}
 
 " UTILS
-Plug 'irrationalistic/vim-tasks'
+Plug 'irrationalistic/vim-tasks' " {{{
+augroup tasks
+    autocmd FileType tasks setlocal tw=100000
+augroup END
+" }}}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
