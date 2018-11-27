@@ -13,7 +13,9 @@ alias dotpush='git add . && git commit -m "update" && git push'
 
 alias bashrc='$EDITOR ~/.bashrc'
 alias vimrc='$EDITOR ~/.vimrc'
-alias init.vim='$EDITOR ~/.config/nvim/init.vim'
+alias tmuxrc='$EDITOR ~/.tmux.conf'
+alias nvimrc='$EDITOR ~/.config/nvim/init.vim'
+alias i3rc='$EDITOR ~/.config/i3/config'
 alias todo='$EDITOR ~/TODO'
 
 if [ -x "$(command -v thefuck)" ]; then
