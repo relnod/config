@@ -1,7 +1,7 @@
 #!/bin/bash
 
 seg_hostname() {
-    whoami
+    echo "$(whoami)@$(hostname)"
 }
 
 seg_uptime() {

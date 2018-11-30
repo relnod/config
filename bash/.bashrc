@@ -25,7 +25,7 @@ if [ -n "$SSH_TTY" ] || [ -n "$SSH_CLIENT" ]; then
     source ~/.config/bash/remote.sh
 fi
 
-source ~/.config/bash/prompt.sh
+export PS1="\W $ "
 source ~/.config/bash/completion.sh
 source ~/.config/bash/functions.sh
 source ~/.config/bash/history.sh
