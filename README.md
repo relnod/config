@@ -2,10 +2,11 @@
 
 ## Configurations
 
-* Terminal: [allacritty](https://github.com/jwilm/alacritty) + tmux
+* Window Manager:  [i3](https://github.com/i3/i3)
+* Terminal: [allacritty](https://github.com/jwilm/alacritty) + [tmux](https://github.com/tmux/tmux)
 * Editor: [nvim](https://github.com/neovim/neovim), vim
-* Shell: bash, zsh
-* Misc: git, ctags, xorg, i3wm
+* Shell: bash
+* Misc: git, ctags, xorg
 
 Additional programs: rg, fzf
 

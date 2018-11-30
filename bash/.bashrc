@@ -25,7 +25,7 @@ if [ -n "$SSH_TTY" ] || [ -n "$SSH_CLIENT" ]; then
     source ~/.config/bash/remote.sh
 fi
 
-export PS1="\W $ "
+export PS1="\W \e[31m$\e[0m "
 source ~/.config/bash/completion.sh
 source ~/.config/bash/functions.sh
 source ~/.config/bash/history.sh

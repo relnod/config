@@ -27,8 +27,8 @@ Plug 'https://github.com/w0rp/ale' " {{{
 let g:ale_linters = {
 \  'javascript': ['eslint', 'flow'],
 \}
-nnoremap ]a <Plug>(ale_previous_wrap)
-nnoremap [a <Plug>(ale_next_wrap)
+nnoremap ]a :ALEPrevious<CR>
+nnoremap [a :ALENext<CR>
 " }}}
 Plug 'autozimu/LanguageClient-neovim' " {{{
 
@@ -128,11 +128,10 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'junegunn/fzf.vim' " {{{
 nnoremap <silent><leader>ff :Files<CR>
 nnoremap <silent><leader>fg :GFiles<CR>
-nnoremap <silent><leader>fl :FilesMru<CR>
-nnoremap <silent><leader>fx :GFilesMru<CR>
 
 nnoremap <silent><leader>fb :Buffers<CR>
 
+nnoremap <silent><leader>fl :Lines<CR>
 nnoremap <silent><leader>fa :FindWord<CR>
 vnoremap <silent><leader>fa :FindWord<space><SID>get_visual_selection()<CR>
 nnoremap <silent><leader>fw :FindWord<space><C-R><C-W><CR>
