@@ -1,0 +1,19 @@
+# /home/paul/.config/tmuxinator/home.yml
+
+name: home
+root: ~/
+
+windows:
+  - TODO: todo
+  - NOTES:
+      root: ~/.notes
+      layout: main-vertical
+      panes:
+        - nvim
+        -
+  - DOTFILES:
+      root: ~/.dotfiles/personal
+      layout: main-vertical
+      panes:
+        - nvim
+        -

@@ -3,7 +3,7 @@
 ## Configurations
 
 * Window Manager:  [i3](https://github.com/i3/i3)
-* Terminal: [allacritty](https://github.com/jwilm/alacritty) + [tmux](https://github.com/tmux/tmux)
+* Terminal: [allacritty](https://github.com/jwilm/alacritty) + [tmux](https://github.com/tmux/tmux) + tmuxinator
 * Editor: [nvim](https://github.com/neovim/neovim), vim
 * Shell: bash
 * Misc: git, ctags, xorg
