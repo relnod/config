@@ -22,26 +22,24 @@ function t {
     local sessions
 
     # If tmux server is running, collect tmux sessions.
-    if [ ! -z $(pgrep tmux) ]; then
+    if [ ! -z "$(pgrep tmux)" ]; then
         sessions=$(tmux ls | cut -d ':' -f1)
 
-        # Remove current session from list.
-        if [ ! -z "$(tmux ls | grep "attached")" ]; then
+        # If we are in a session, remove the current session from list.
+        if [ ! -z "$TMUX" ]; then
             echo "here"
             curr_session=$(tmux display-message -p '#S')
-            list=$(echo "$sessions" | sed -e "s/$curr_session//")
+            sessions=$(echo "$sessions" | sed "s/$curr_session//g")
         fi
         list="$sessions"
-        echo "$list"
     fi
 
     # Append tmuxinator projects to list.
     for i in $(tmuxinator ls | sed '1d'); do
         list="$list $i"
     done
-    echo "$list"
 
-    selected="$(echo "$list" | sed 's/ /\n/g' | sort | uniq | fzf)"
+    selected=$(echo "$list" | sed 's/ /\n/g' | awk 'NF' | sort | uniq | fzf)
 
     if [[ $sessions == *"$selected"* ]]; then
         if [[ "$TMUX" != "" ]]; then
