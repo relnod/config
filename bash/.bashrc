@@ -1,7 +1,6 @@
 #!/bin/bash
 
-eval `ssh-agent -s` > /dev/null 2>&1
-ssh-add > /dev/null 2>&1
+keychain > /dev/null 2>&1
 
 if [[ -f ~/.bashrc.local ]]; then
     source ~/.bashrc.local
