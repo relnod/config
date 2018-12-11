@@ -90,9 +90,11 @@ augroup godebug
     au FileType go nnoremap <leader>dt :DlvTest<CR>
 augroup end
 " }}}
-" Javascript
+" Javascript/Typescript
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim'
+" Elm
+Plug 'ElmCast/elm-vim'
 " C/C++
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 " Less

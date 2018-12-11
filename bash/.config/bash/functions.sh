@@ -57,3 +57,29 @@ function p {
     project=$(find ~/dev/repos -mindepth 3 -maxdepth 3 -type d | fzf)
     cd "$project" || exit
 }
+
+function serve-start {
+    name=$1
+    path=$(readlink -f "$2")
+
+    local free_port
+    for port in $(seq 4444 65000); do
+        echo -ne "\035" | telnet 127.0.0.1 "$port" > /dev/null 2>&1; [ $? -eq 1 ] && free_port="$port" && break
+    done
+
+    if [ "$(docker ps -a | grep "$name")" ]; then
+        echo "Already serving $name. Run 'serve-stop $name' to stop serving."
+        return
+    fi
+
+    docker run --name "$name" -v "$path:/usr/share/nginx/html:ro" -p "$free_port":80 -d nginx > /dev/null 2>&1
+    echo "Serving files from '$path' at :$free_port"
+
+    xdg-open "http://localhost:$free_port" > /dev/null 2>&1
+}
+
+function serve-stop {
+    name=$1
+    docker stop "$name" > /dev/null 2>&1
+    docker rm "$name" > /dev/null 2>&1
+}

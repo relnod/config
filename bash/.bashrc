@@ -1,6 +1,6 @@
 #!/bin/bash
 
-keychain > /dev/null 2>&1
+eval `keychain --agents ssh --eval id_rsa`
 
 if [[ -f ~/.bashrc.local ]]; then
     source ~/.bashrc.local
