@@ -23,6 +23,8 @@ xmap <C-k> <Plug>(neosnippet_expand_target)
 Plug 'Shougo/neosnippet-snippets'
 
 " LANGUAGE
+" A collection of language plugins
+Plug 'sheerun/vim-polyglot'
 Plug 'https://github.com/w0rp/ale' " {{{
 let g:ale_linters = {
 \  'javascript': ['eslint', 'flow'],
