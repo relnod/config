@@ -22,7 +22,7 @@ export PS1="\W \[\e[31m\]$\[\e[0m\] "
 # History size
 export HISTFILE=~/.bhistfile
 export HISTSIZE=2000
-export HISTCONTROL=ignoredups,ignorespace
+export HISTCONTROL=ignoredups
 
 # Write the history after every command. This makes sure, that when entering a
 # new bash sessions all commands the the currently open sessions are in the
@@ -32,7 +32,6 @@ export PROMPT_COMMAND="history -a"
 # TODO: move content from files into this one.
 source ~/.config/shell/env.sh
 source ~/.config/shell/aliases.sh
-source ~/.config/shell/utils.sh
 source ~/.config/bash/completion.sh
 source ~/.config/bash/functions.sh
 
