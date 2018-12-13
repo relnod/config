@@ -10,10 +10,10 @@ windows:
       layout: main-vertical
       panes:
         - nvim
-        - clear
+        -
   - DOTFILES:
       root: ~/.dotfiles/personal
       layout: main-vertical
       panes:
         - nvim
-        - clear
+        -
