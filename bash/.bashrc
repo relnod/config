@@ -1,7 +1,11 @@
 #!/bin/bash
 
 # Run keychain to start ssh-agent or load existing one.
-eval `keychain --quiet --agents ssh --eval id_rsa`
+if [ -f ~/.ssh/id_rsa ]; then
+    eval `keychain --quiet --agents ssh --eval id_rsa`
+else
+    eval `keychain --quiet --agents --eval`
+fi
 
 # Source local ~/.bashrc.local
 # This file can be used for local configurations,
@@ -12,7 +16,7 @@ eval `keychain --quiet --agents ssh --eval id_rsa`
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # When an X server is running source ~/.Xmodmap for key mappings.
-[ -z $(xset q &>/dev/null) ] && xmodmap ~/.Xmodmap
+[ -x "$(command -v xset)" ] && xset q &>/dev/null && xmodmap ~/.Xmodmap
 
 # Simple prompt styling.
 # Prints the current directory and a $.
