@@ -27,7 +27,6 @@ function t {
 
         # If we are in a session, remove the current session from list.
         if [ ! -z "$TMUX" ]; then
-            echo "here"
             curr_session=$(tmux display-message -p '#S')
             sessions=$(echo "$sessions" | sed "s/$curr_session//g")
         fi
