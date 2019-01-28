@@ -204,7 +204,7 @@ nnoremap <leader>gl :Glog<CR>
 " }}}
 
 " UTILS
-Plug 'irrationalistic/vim-tasks' " {{{
+Plug 'relnod/vim-tasks' " {{{
 augroup tasks
     autocmd FileType tasks setlocal tw=100000
 augroup END
