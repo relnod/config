@@ -12,16 +12,11 @@ fi
 # that should not be tracked.
 [ -f ~/.bashrc.local ] && source ~/.bashrc.local
 
-# When in a remote session source an additional bashrc.
-# Since it is sourced at the end, it is possible to override everthing there.
-[ -n "$SSH_TTY" ] || [ -n "$SSH_CLIENT" ] && source ~/.config/bash/remote.sh
-
 # Source fzf.bash for setup, autocompletion and keybindings.
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # When an X server is running source ~/.Xmodmap for key mappings.
 [ -x "$(command -v xset)" ] && xset q &>/dev/null && xmodmap ~/.Xmodmap
-
 
 source ~/.config/shell/env.sh
 source ~/.config/shell/aliases.sh
@@ -140,3 +135,7 @@ function serve-stop {
     docker stop "$name" > /dev/null 2>&1
     docker rm "$name" > /dev/null 2>&1
 }
+
+# When in a remote session source an additional bashrc.
+# Since it is sourced at the end, it is possible to override everthing there.
+[ -n "$SSH_TTY" ] || [ -n "$SSH_CLIENT" ] && source ~/.config/bash/remote.sh
