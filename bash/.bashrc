@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Enable vi mode for bash.
+# Unfortunately I didn't manage to show the current vi mode in the bash prompt.
+# See: https://unix.stackexchange.com/questions/22527/change-cursor-shape-or-color-to-indicate-vi-mode-in-bash
+set -o vi
+
 # Run keychain to start ssh-agent or load existing one.
 if [ -f ~/.ssh/id_rsa ]; then
     eval `keychain --quiet --agents ssh --eval id_rsa`
@@ -18,14 +23,6 @@ fi
 # When an X server is running source ~/.Xmodmap for key mappings.
 [ -x "$(command -v xset)" ] && xset q &>/dev/null && xmodmap ~/.Xmodmap
 
-source ~/.config/shell/env.sh
-source ~/.config/shell/aliases.sh
-
-# Enable vi mode for bash.
-# Unfortunately I didn't manage to show the current vi mode in the bash prompt.
-# See: https://unix.stackexchange.com/questions/22527/change-cursor-shape-or-color-to-indicate-vi-mode-in-bash
-set -o vi
-
 # Simple prompt styling.
 # Prints the current directory and a $.
 # Example: "~ $"
@@ -41,6 +38,8 @@ export HISTCONTROL=ignoredups
 # history.
 export PROMPT_COMMAND="history -a"
 
+source ~/.config/shell/env.sh
+source ~/.config/shell/aliases.sh
 
 # Source bash completion files
 if [[ -f /usr/share/bash-completion/bash_completion ]]; then
