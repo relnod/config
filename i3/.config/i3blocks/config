@@ -1,0 +1,37 @@
+[volume]
+label=🔊
+command=/usr/share/i3blocks/volume
+interval=1
+
+[mediaplayer]
+label=♫
+command=~/.config/i3blocks/mediaplayer
+interval=10
+
+[battery]
+label=🔋
+command=/usr/share/i3blocks/battery
+interval=60
+
+[wifi]
+label=📶
+command=/usr/share/i3blocks/wifi
+interval=1
+
+[ethernet]
+label=E:
+command=ip addr show eno1 | grep inet | tr -s ' ' | cut -d ' ' -f 3 | head -1
+
+interval=1
+
+[bandwidth]
+command=/usr/share/i3blocks/bandwidth
+interval=1
+
+[cpu_usage]
+command=/usr/share/i3blocks/cpu_usage
+interval=10
+
+[time]
+command=date "+%A %d.%m.%g %T"
+interval=1

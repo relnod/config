@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo "$(playerctl metadata title) by $(playerctl metadata artist)"
