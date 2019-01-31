@@ -6,7 +6,7 @@ interval=repeat
 [mediaplayer]
 label=♫
 command=~/.config/i3blocks/mediaplayer
-interval=10
+interval=5
 
 [battery]
 label=B:
