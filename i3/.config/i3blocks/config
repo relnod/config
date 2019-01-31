@@ -1,7 +1,7 @@
 [volume]
 label=🔊
-command=/usr/share/i3blocks/volume
-interval=1
+command=~/.config/i3blocks/volume
+interval=repeat
 
 [mediaplayer]
 label=♫
@@ -9,28 +9,36 @@ command=~/.config/i3blocks/mediaplayer
 interval=10
 
 [battery]
-label=🔋
-command=/usr/share/i3blocks/battery
-interval=60
-
-[wifi]
-label=📶
-command=/usr/share/i3blocks/wifi
+label=B:
+command=/usr/lib/i3blocks/battery
 interval=1
+
+[wireless]
+label=W:
+instance=wlan0
+command=~/.config/i3blocks/iface
+interval=60
 
 [ethernet]
 label=E:
-command=ip addr show eno1 | grep inet | tr -s ' ' | cut -d ' ' -f 3 | head -1
-
-interval=1
+instance=eth0
+command=~/.config/i3blocks/iface
+interval=60
 
 [bandwidth]
-command=/usr/share/i3blocks/bandwidth
+command=~/.config/i3blocks/bandwidth
 interval=1
+min_width=100
+align=center
 
 [cpu_usage]
-command=/usr/share/i3blocks/cpu_usage
-interval=10
+label=C:
+command=/usr/lib/i3blocks/cpu_usage
+interval=1
+
+[uptime]
+command=uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* user.*//'
+interval=1
 
 [time]
 command=date "+%A %d.%m.%g %T"

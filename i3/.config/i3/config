@@ -126,22 +126,40 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Gruvbox colors
-set $black   #282828
-set $red     #cc241d
-set $green   #98971a
-set $yellow  #d79921
-set $blue    #458588
-set $magenta #b16286
-set $cyan    #689d6a
-set $white   #a89984
+set $base03    #002b36
+set $base02    #073642
+set $base01    #586e75
+set $base00    #657b83
+set $base0     #839496
+set $base1     #93a1a1
+set $base2     #eee8d5
+set $base3     #fdf6e3
+set $yellow    #b58900
+set $orange    #cb4b16
+set $red       #dc322f
+set $magenta   #d33682
+set $violet    #6c71c4
+set $blue      #268bd2
+set $cyan      #2aa198
+set $green     #859900
 
-#                           border   background text   indicator
-client.focused              $blue    $blue      $black $black
-client.unfocused            $white   $white     $black $black
-client.focused_inactive     $white   $white     $black $black
+#                       border  background text   indicator
+client.focused          $base03 $base03    $base3 $blue
+client.focused_inactive $base03 $base01    $base0 $base02
+client.unfocused        $base03 $base01    $base0 $base02
+client.urgent           $base03 $red       $base3 $base03
 
 # Status bar
 bar {
-        status_command i3blocks
+    status_command i3blocks
+    separator_symbol |
+    colors {
+      background $base03
+      statusline $base0
+      separator  $base01
+      focused_workspace  $yellow $yellow $base03
+      active_workspace   $base01 $base01 $base03
+      inactive_workspace $base02 $base03 $base0
+      urgent_workspace   $red    $red    $base3
+      }
 }
