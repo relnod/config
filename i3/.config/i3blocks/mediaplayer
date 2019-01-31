@@ -1,3 +1,5 @@
 #!/bin/bash
 
+[[ "$(playerctl metadata 2>&1)" == "No players found" ]] && exit
+
 echo "$(playerctl metadata title) by $(playerctl metadata artist)"

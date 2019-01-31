@@ -10,7 +10,7 @@ interval=10
 
 [battery]
 label=B:
-command=/usr/lib/i3blocks/battery
+command=~/.config/i3blocks/battery
 interval=1
 
 [wireless]
@@ -33,7 +33,7 @@ align=center
 
 [cpu_usage]
 label=C:
-command=/usr/lib/i3blocks/cpu_usage
+command=~/.config/i3blocks/cpu_usage
 interval=1
 
 [uptime]
