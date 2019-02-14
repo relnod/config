@@ -1,5 +1,5 @@
 [volume]
-label=🔊
+label=V:
 command=~/.config/i3blocks/volume
 interval=repeat
 
@@ -19,9 +19,15 @@ instance=wlan0
 command=~/.config/i3blocks/iface
 interval=60
 
-[ethernet]
+[ethernet-eth0]
 label=E:
 instance=eth0
+command=~/.config/i3blocks/iface
+interval=60
+
+[ethernet-eno1]
+label=E:
+instance=eno1
 command=~/.config/i3blocks/iface
 interval=60
 
@@ -37,8 +43,9 @@ command=~/.config/i3blocks/cpu_usage
 interval=1
 
 [uptime]
+label=U:
 command=uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* user.*//'
-interval=1
+interval=60
 
 [time]
 command=date "+%A %d.%m.%g %T"
