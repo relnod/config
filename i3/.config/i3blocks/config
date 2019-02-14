@@ -1,5 +1,5 @@
 [volume]
-label=V:
+label=VOL
 command=~/.config/i3blocks/volume
 interval=repeat
 
