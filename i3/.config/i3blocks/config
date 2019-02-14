@@ -38,12 +38,17 @@ min_width=100
 align=center
 
 [cpu_usage]
-label=C:
+label=CPU
 command=~/.config/i3blocks/cpu_usage
 interval=1
 
+[load]
+label=LOAD
+command=uptime | cut -d' ' -f 11 | cut -d',' -f 1
+interval=1
+
 [uptime]
-label=U:
+label=UP
 command=uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* user.*//'
 interval=60
 
