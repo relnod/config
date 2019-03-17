@@ -174,5 +174,5 @@ bar {
       active_workspace   $base01 $base01 $base03
       inactive_workspace $base02 $base03 $base0
       urgent_workspace   $red    $red    $base3
-      }
+    }
 }

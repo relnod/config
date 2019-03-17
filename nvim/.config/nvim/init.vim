@@ -10,18 +10,18 @@ let g:mapleader = "\<space>"
 call plug#begin('~/.vim/plugged')
 
 " COMPLETION
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " {{{
-let g:deoplete#enable_at_startup = 1
-" }}}
-Plug 'zchee/deoplete-go', { 'do': 'make'}
-Plug 'Shougo/neosnippet.vim' " {{{
-let g:neosnippet#snippets_directory='~/.config/nvim/snippets/'
+Plug 'neoclide/coc.nvim', { 'do': 'yarn install' }
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
-" }}}
-Plug 'Shougo/neosnippet-snippets'
+augroup mygroup
+  autocmd!
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
 " LANGUAGE
 Plug 'https://github.com/w0rp/ale' " {{{
@@ -31,41 +31,6 @@ let g:ale_linters = {
 nnoremap ]a :ALEPrevious<CR>
 nnoremap [a :ALENext<CR>
 " }}}
-Plug 'autozimu/LanguageClient-neovim' " {{{
-
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['~/tools/repos/palantir/python-language-server/pyls'],
-    \ 'go': ['go-langserver'],
-    \ 'php': ['php', '~/dev/repos/felixfbecker/php-language-server/bin/php-language-server.php'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-\ }
-
-" autocmd FileType php LanguageClientStart
-
-nnoremap <leader>sh :call LanguageClient_textDocument_hover()<CR>
-nnoremap <leader>sd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <leader>sr :call LanguageClient_textDocument_references()<CR>
-nnoremap <leader>se :call LanguageClient_textDocument_rename()<CR>
-nnoremap <leader>ss :call LanguageClient_textDocument_documentSymbol()<CR>
-nnoremap <leader>sf :call LanguageClient_textDocument_formatting()<CR>
-nnoremap <leader>sw :call LanguageClient_workspace_symbol()<CR>
-" }}}
-" Viml
-Plug 'Shougo/neco-vim', { 'for': 'vim' }
-" PHP
-Plug 'StanAngeloff/php.vim', { 'for': 'php' } " {{{
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-endfunction
-
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
-" }}}
-" SMARTY
-Plug 'blueyed/smarty.vim'
 " Go
 Plug 'fatih/vim-go', { 'for': 'go' } " {{{
 let g:go_highlight_fields = 1
@@ -94,24 +59,7 @@ augroup end
 " Javascript/Typescript
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim'
-" Elm
-Plug 'ElmCast/elm-vim'
-" C/C++
-Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
-" Less
-Plug 'groenewege/vim-less', { 'for': 'less' }
-" Rust
-Plug 'racer-rust/vim-racer', { 'for': 'rust' } " {{{
-let g:racer_cmd = '~/.cargo/bin/racer'
-
-augroup vimrust
-    au FileType rust nnoremap gd <Plug>(rust-def)
-    au FileType rust nnoremap gs <Plug>(rust-def-split)
-    au FileType rust nnoremap gx <Plug>(rust-def-vertical)
-    au FileType rust nnoremap gc <Plug>(rust-doc)
-augroup end
-" }}}
-Plug 'roxma/nvim-cm-racer', { 'for': 'rust' }
+autocmd BufNewFile,BufRead *.tsx setfiletype typescript.tsx
 
 " NAVIGATION
 Plug 'airblade/vim-rooter' " {{{
@@ -184,9 +132,7 @@ command! -nargs=0 FilesMru call s:find_files_mru()
 " }}}
 
 " LOOKS
-Plug 'altercation/vim-colors-solarized'
-Plug 'daylerees/colour-schemes', { 'rtp': 'vim/' }
-Plug 'joshdick/onedark.vim'
+Plug 'rakr/vim-one'
 Plug 'valloric/MatchTagAlways'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
@@ -250,7 +196,7 @@ set wildignorecase
 set termguicolors
 set t_Co=256
 set background=dark
-colorscheme onedark
+colorscheme one
 
 set mouse=a
 
