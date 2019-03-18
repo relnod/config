@@ -10,18 +10,37 @@ let g:mapleader = "\<space>"
 call plug#begin('~/.vim/plugged')
 
 " COMPLETION
-Plug 'neoclide/coc.nvim', { 'do': 'yarn install' }
+Plug 'neoclide/coc.nvim', { 'do': 'yarn install' } " {{{
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-augroup mygroup
+" Remap for rename current word
+nmap <leader>r <Plug>(coc-rename)
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+augroup coc.nvim
   autocmd!
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+" }}}
 
 " LANGUAGE
 Plug 'https://github.com/w0rp/ale' " {{{
@@ -41,7 +60,6 @@ let g:go_fold_enable = ['block']
 let g:go_fmt_command = 'goimports'
 
 augroup vimgo
-    au FileType go nnoremap <leader>r :GoRename<CR>
     au FileType go nnoremap <leader>tco :GoCoverageToggle<CR>
 
     au FileType go set foldmethod=syntax
@@ -175,6 +193,9 @@ call plug#end()
 " }}}
 " Settings {{{
 
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
 filetype plugin indent on
 syntax enable
 
@@ -239,8 +260,8 @@ nnoremap Y y$
 
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
-" opposite to <S-j>
-nnoremap <S-k> i<CR><ESC>
+" " opposite to <S-j>
+" nnoremap <S-k> i<CR><ESC>
 
 nnoremap <leader>vr :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>vo :tabnew ~/.config/nvim/init.vim<CR>

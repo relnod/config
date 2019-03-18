@@ -20,6 +20,9 @@ fi
 # Source fzf.bash for setup, autocompletion and keybindings.
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+# Source fzf-extras
+[[ -e "$HOME/.fzf-extras/fzf-extras.sh" ]] && source "$HOME/.fzf-extras/fzf-extras.sh"
+
 # When an X server is running source ~/.Xmodmap for key mappings.
 [ -x "$(command -v xset)" ] && xset q &>/dev/null && xmodmap ~/.Xmodmap
 

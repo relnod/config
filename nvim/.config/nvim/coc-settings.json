@@ -1,10 +1,21 @@
 {
+  "coc.preferences.extensionUpdateCheck": "never",
   "languageserver": {
     "golang": {
       "command": "bingo",
       "args": ["--diagnostics-style=instant"],
       "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
       "filetypes": ["go"]
+    },
+    "dockerfile": {
+      "command": "docker-langserver",
+      "filetypes": ["dockerfile"],
+      "args": ["--stdio"]
+    },
+    "efm": {
+      "command": "efm-langserver",
+      "args": [],
+      "filetypes": ["vim", "markdown"]
     }
   }
 }

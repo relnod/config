@@ -18,6 +18,7 @@ alias nvimrc='$EDITOR ~/.config/nvim/init.vim'
 alias i3rc='$EDITOR ~/.config/i3/config'
 alias todo='$EDITOR ~/personal.todo'
 
-if [ -x "$(command -v thefuck)" ]; then
-    eval "$(thefuck --alias)"
-fi
+# When vim is not installed. alias it to nvim
+[ ! -x $(command -v vim) ] && alias vim='nvim'
+
+[ -x "$(command -v thefuck)" ] && eval "$(thefuck --alias)"
