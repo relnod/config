@@ -79,6 +79,8 @@ Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim'
 autocmd BufNewFile,BufRead *.tsx setfiletype typescript.tsx
 
+Plug 'hashivim/vim-terraform'
+
 " NAVIGATION
 Plug 'airblade/vim-rooter' " {{{
 let g:rooter_silent_chdir=1
