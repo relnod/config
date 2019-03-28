@@ -45,3 +45,4 @@ export EDITOR=$(get_default_editor)
 
 
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.npm/bin"
