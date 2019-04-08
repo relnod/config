@@ -51,7 +51,7 @@ nnoremap ]a :ALEPrevious<CR>
 nnoremap [a :ALENext<CR>
 " }}}
 " Go
-Plug 'fatih/vim-go', { 'for': 'go' } " {{{
+Plug 'zchee/nvim-go', { 'do': 'make'} " {{{
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -60,18 +60,9 @@ let g:go_fold_enable = ['block']
 let g:go_fmt_command = 'goimports'
 
 augroup vimgo
-    au FileType go nnoremap <leader>tco :GoCoverageToggle<CR>
-
     au FileType go set foldmethod=syntax
     au FileType go set nofoldenable
     au FileType go set foldnestmax=1
-augroup end
-" }}}
-Plug 'sebdah/vim-delve', { 'for': 'go' } " {{{
-augroup godebug
-    au FileType go nnoremap <leader>dd :DlvDebug<CR>
-    au FileType go nnoremap <leader>db :DlvToggleBreakpoint<CR>
-    au FileType go nnoremap <leader>dt :DlvTest<CR>
 augroup end
 " }}}
 " Javascript/Typescript
