@@ -60,6 +60,7 @@ let g:go_fold_enable = ['block']
 let g:go_fmt_command = 'goimports'
 
 augroup vimgo
+    au BufWritePre *.go :GoFmt
     au FileType go set foldmethod=syntax
     au FileType go set nofoldenable
     au FileType go set foldnestmax=1
