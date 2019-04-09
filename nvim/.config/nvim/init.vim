@@ -10,7 +10,7 @@ let g:mapleader = "\<space>"
 call plug#begin('~/.vim/plugged')
 
 " COMPLETION
-Plug 'neoclide/coc.nvim', { 'do': 'yarn install' } " {{{
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " {{{
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
