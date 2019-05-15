@@ -2,7 +2,7 @@
   "dependencies": {
     "coc-css": "^1.0.7",
     "coc-html": "^1.0.7",
-    "coc-json": "^1.0.14",
+    "coc-json": "^1.0.17",
     "coc-tsserver": "^1.2.1",
     "coc-yaml": "^1.0.1"
   }

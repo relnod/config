@@ -35,6 +35,11 @@ function! s:show_documentation()
   endif
 endfunction
 
+let g:coc_filetype_map = {
+  \ 'tex': 'latext',
+  \ 'plaintex': 'tex',
+  \ }
+
 augroup coc.nvim
   autocmd!
   " Update signature help on jump placeholder

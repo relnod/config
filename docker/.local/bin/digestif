@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run --network none relnod/digestif "$@"

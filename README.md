@@ -11,19 +11,24 @@
 Additional programs: rg, fzf
 
 ## Management
-Dotfiles are managed with [dotm](https://github.com/relnod/dotm). Run `dotm help` for a complete list of commands.
+
+Dotfiles are managed with [dotm](https://github.com/relnod/dotm).
+Run `dotm help` for a complete list of commands.
 
 ### Install
-```
+
+```shell
 dotm install github.com/relnod/dotfiles --profile="relnod"
 ```
 
 ### Update
-```
+
+```shell
 dotm update relnod --fromRemote
 ```
 
 ### Uninstall
-```
+
+```shell
 dotm uninstall relnod
 ```
