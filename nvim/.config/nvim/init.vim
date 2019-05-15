@@ -192,6 +192,10 @@ call plug#end()
 " }}}
 " Settings {{{
 
+augroup TexAutoMk
+    autocmd BufwritePost *.latex :silent !latexmk -pdf %
+augroup END
+
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 
