@@ -185,8 +185,15 @@ augroup TexAutoMk
     autocmd BufwritePost *.latex :silent !latexmk -pdf %
 augroup END
 
+function! <SID>GoFmt()
+    let l = line(".")
+    let c = col(".")
+    :silent %! goimports
+    call cursor(l, c)
+endfun
+
 augroup vimgo
-    au BufWritePre *.go :silent %! goimports
+    au BufWritePre *.go :call <SID>GoFmt()
     au FileType go set foldmethod=syntax
     au FileType go set nofoldenable
     au FileType go set foldnestmax=1
