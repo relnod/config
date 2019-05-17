@@ -35,6 +35,10 @@ function! s:show_documentation()
   endif
 endfunction
 
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
 let g:coc_filetype_map = {
   \ 'tex': 'latext',
   \ 'plaintex': 'tex',
@@ -48,28 +52,13 @@ augroup end
 " }}}
 
 " LANGUAGE
+" TODO: remove ale in favor of coc.nvim
 Plug 'https://github.com/w0rp/ale' " {{{
 let g:ale_linters = {
 \  'javascript': ['eslint', 'flow'],
 \}
 nnoremap ]a :ALEPrevious<CR>
 nnoremap [a :ALENext<CR>
-" }}}
-" Go
-Plug 'zchee/nvim-go', { 'do': 'make'} " {{{
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_fold_enable = ['block']
-
-let g:go_fmt_command = 'goimports'
-
-augroup vimgo
-    au BufWritePre *.go :GoFmt
-    au FileType go set foldmethod=syntax
-    au FileType go set nofoldenable
-    au FileType go set foldnestmax=1
-augroup end
 " }}}
 " Javascript/Typescript
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
@@ -195,6 +184,13 @@ call plug#end()
 augroup TexAutoMk
     autocmd BufwritePost *.latex :silent !latexmk -pdf %
 augroup END
+
+augroup vimgo
+    au BufWritePre *.go :silent %! goimports
+    au FileType go set foldmethod=syntax
+    au FileType go set nofoldenable
+    au FileType go set foldnestmax=1
+augroup end
 
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
