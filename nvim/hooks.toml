@@ -1,3 +1,3 @@
 post_update = [
-    "nvim +PlugClean! +PlugUpgrade +PlugUpdate +UpdateRemotePlugins +CocUpdateSync +qall"
+    "nvim +PlugClean! +PlugUpgrade! +PlugUpdate! +UpdateRemotePlugins +CocUpdateSync +qall"
 ]

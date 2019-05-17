@@ -10,7 +10,7 @@ let g:mapleader = "\<space>"
 call plug#begin('~/.vim/plugged')
 
 " COMPLETION
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " {{{
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'} " {{{
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
