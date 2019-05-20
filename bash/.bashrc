@@ -45,10 +45,12 @@ source ~/.config/shell/env.sh
 source ~/.config/shell/aliases.sh
 
 # Source bash completion files
-if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-. /usr/share/bash-completion/bash_completion
-elif [[ -f /etc/bash_completion ]]; then
-. /etc/bash_completion
+[ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
+[ -f /etc/bash_completion ] && . /etc/bash_completion
+if [[ -d ~/.bash_completion.d ]]; then
+    for file in ~/.bash_completion.d/* ; do
+        source "$file"
+    done
 fi
 
 # dcd cd's into the local path of a dotfile profile.

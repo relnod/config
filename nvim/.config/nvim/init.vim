@@ -186,10 +186,16 @@ augroup TexAutoMk
 augroup END
 
 function! <SID>GoFmt()
-    let l = line(".")
-    let c = col(".")
-    :silent %! goimports
-    call cursor(l, c)
+    let l:curw=winsaveview()
+    let l:tmpname=tempname()
+    call writefile(getline(1, '$'), l:tmpname)
+    call system("goimports " . l:tmpname . " > /dev/null 2>&1")
+    if v:shell_error == 0
+        try | silent undojoin | catch | endtry
+        silent %!goimports
+    endif
+    call delete(l:tmpname)
+    call winrestview(l:curw)
 endfun
 
 augroup vimgo
