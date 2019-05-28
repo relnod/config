@@ -39,10 +39,7 @@ endfunction
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
-let g:coc_filetype_map = {
-  \ 'tex': 'latext',
-  \ 'plaintex': 'tex',
-  \ }
+let g:coc_filetype_map = {'plaintex': 'tex'}
 
 augroup coc.nvim
   autocmd!

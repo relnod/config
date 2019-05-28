@@ -110,6 +110,12 @@ function p {
     cd "$project" || exit
 }
 
+# gp selects a project from ~/go/src and cd's into it.
+function gp {
+    project=$(find ~/go/src -mindepth 3 -maxdepth 3 -type d | fzf)
+    cd "$project" || exit
+}
+
 # serve-start serves static files from a via an nginx docker container from a
 # given path.
 function serve-start {
