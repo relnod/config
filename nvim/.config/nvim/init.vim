@@ -179,7 +179,7 @@ call plug#end()
 " Settings {{{
 
 augroup TexAutoMk
-    autocmd BufwritePost *.latex :silent !latexmk -pdf %
+    autocmd BufwritePost *.tex :silent !latexmk -pdf %
 augroup END
 
 function! <SID>GoFmt()
