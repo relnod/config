@@ -54,10 +54,9 @@ if [[ -d ~/.bash_completion.d ]]; then
 fi
 
 # dcd cd's into the local path of a dotfile profile.
-dcd() {
-    cd "$(dotm config "$1" --path)" || exit
+function dcd {
+    cd "$(dotm config profile."$1".path)" || exit
 }
-
 _dcd_completions()
 {
     if [ "${#COMP_WORDS[@]}" != "2" ]; then
