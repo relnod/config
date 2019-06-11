@@ -19,6 +19,8 @@ Run `dotm help` for a complete list of commands.
 
 ```shell
 dotm install github.com/relnod/dotfiles --profile="relnod"
+
+dotm config profile.relnod.hooks_enabled true
 ```
 
 ### Update
