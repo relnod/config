@@ -22,9 +22,9 @@
       "filetypes": ["sh"],
       "ignoredRootPaths": ["~"]
     },
-    "digestif": {
-      "command": "digestif",
-      "filetypes": ["tex", "plaintex", "context"]
+    "latex": {
+      "command": "texlab",
+      "filetypes": ["tex", "bib", "plaintex", "context"]
     }
   }
 }
