@@ -102,7 +102,7 @@ alias vimrc='$EDITOR ~/.vimrc'
 alias tmuxrc='$EDITOR ~/.tmux.conf'
 alias nvimrc='$EDITOR ~/.config/nvim/init.vim'
 alias i3rc='$EDITOR ~/.config/i3/config'
-alias todo='$EDITOR ~/personal.todo'
+alias todo='$EDITOR ~/todo.txt'
 
 # When vim is not installed, alias it to nvim
 [ ! -x $(command -v vim) ] && alias vim='nvim'

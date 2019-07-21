@@ -12,7 +12,7 @@ windows:
         - nvim
         -
   - DOTFILES:
-      root: ~/.dotfiles/personal
+      root: ~/.config/dotm/profiles/relnod
       layout: main-vertical
       panes:
         - nvim

@@ -147,7 +147,7 @@ bindsym $mod+Delete exec --no-startup-id blurlock
 exec --no-startup-id xautolock -time 10 -locker blurlock
 
 # Default workspace configuration
-exec --no-startup-id i3-msg 'workspace 1; exec alacritty'
+exec --no-startup-id i3-msg 'workspace 1; exec alacritty -e nvim ~/todo.txt'
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
