@@ -11,7 +11,6 @@ env:
   # a few issues with programs relying on terminfo and the
   # `tput` command
   TERM: xterm-256color
-  POWERLINE_FONT: "true"
 
 # Window dimensions in character columns and lines
 # (changes require restart)
@@ -35,19 +34,19 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Roboto Mono for Powerline
+    family: Roboto Mono
     # Style can be specified to pick a specific face.
     # style: Regular
 
   # The bold font face
   bold:
-    family: Roboto Mono for Powerline
+    family: Roboto Mono
     # Style can be specified to pick a specific face.
     style: Bold
 
   # The italic font face
   italic:
-    family: Roboto Mono for Powerline
+    family: Roboto Mono
     # Style can be specified to pick a specific face.
     style: Italic
 
@@ -65,7 +64,7 @@ font:
   use_thin_strokes: true
 
 # Should display the render timer
-render_timer: false
+debug.render_timer: false
 
 color_schemes:
   # Theme: Gruvbox light

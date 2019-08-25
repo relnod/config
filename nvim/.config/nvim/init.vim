@@ -10,7 +10,7 @@ let g:mapleader = "\<space>"
 call plug#begin('~/.vim/plugged')
 
 " COMPLETION
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'} " {{{
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " {{{
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -255,11 +255,11 @@ set smartindent
 set cindent
 set textwidth=80
 
-" undo/backup
+" swap/undo/backup
 set noswapfile
-set undodir=~/.vim/tmp/undo//
+set undodir=~/.local/share/nvim/undo//
 set undofile
-set backupdir=~/.vim/tmp/backup//
+set backupdir=~/.local/share/nvim/backup//
 set backup
 
 " }}}

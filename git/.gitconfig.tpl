@@ -6,8 +6,8 @@
     ui = true
     pager = true
 [user]
-    email = {{ .GitUser }}
-    name = {{ .GitEmail }}
+    email = {{ .GitEmail }}
+    name = {{ .GitUser }}
 
 [include]
     path = ~/.config/git/.gitconfig

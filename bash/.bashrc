@@ -23,9 +23,6 @@ fi
 # Source fzf-extras
 [[ -e "$HOME/.fzf-extras/fzf-extras.sh" ]] && source "$HOME/.fzf-extras/fzf-extras.sh"
 
-# When an X server is running source ~/.Xmodmap for key mappings.
-[ -x "$(command -v xset)" ] && xset q &>/dev/null && xmodmap ~/.Xmodmap
-
 # Simple prompt styling.
 # Prints the current directory and a $.
 # Example: "~ $"
@@ -41,8 +38,76 @@ export HISTCONTROL=ignoredups
 # history.
 export PROMPT_COMMAND="history -a"
 
-source ~/.config/shell/env.sh
-source ~/.config/shell/aliases.sh
+get_default_editor() {
+    if [[ $(command -v nvim) != "" ]]; then
+        echo "nvim"
+    elif [[ $(command -v vim) != "" ]]; then
+        echo "vim"
+    else
+        echo "vi"
+    fi
+}
+
+get_fzf_default_command() {
+    if [[ $(command -v rg) != "" ]]; then
+        echo "rg --hidden -g '!.git' --files '.'"
+    elif [[ $(command -v ag) != "" ]]; then
+        echo 'ag --hidden --ignore .git -g ""'
+    else 
+        echo 'find | grep -v ".git"'
+    fi
+}
+
+# go
+if [[ -d "/usr/local/go" ]]; then
+    export GOROOT=/usr/local/go
+    export PATH=$GOROOT/bin:$PATH
+fi
+if [[ -d "$HOME/go" ]]; then
+    export GOPATH=$HOME/go
+    export PATH=$GOPATH/bin:$PATH
+fi
+
+# fzf
+if [[ -d "$HOME/.fzf/bin" && ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+    export PATH="$PATH:$HOME/.fzf/bin"
+fi
+
+if [[ $(command -v fzf) != "" ]]; then
+    export FZF_DEFAULT_COMMAND=$(get_fzf_default_command)
+fi
+
+# editor
+export VISUAL=$(get_default_editor)
+export EDITOR=$(get_default_editor)
+
+
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.npm/bin"
+
+# Set some aliases for convenience.
+alias ls='ls --color'
+
+alias ga='git add'
+alias gs='git status'
+alias gd='git diff'
+alias gl='git log'
+alias gch='git checkout'
+alias gco='git commit'
+
+alias dotpush='git add . && git commit -m "update" && git push'
+
+alias bashrc='$EDITOR ~/.bashrc'
+alias vimrc='$EDITOR ~/.vimrc'
+alias tmuxrc='$EDITOR ~/.tmux.conf'
+alias nvimrc='$EDITOR ~/.config/nvim/init.vim'
+alias i3rc='$EDITOR ~/.config/i3/config'
+alias todo='$EDITOR ~/personal.todo'
+
+# When vim is not installed, alias it to nvim
+[ ! -x $(command -v vim) ] && alias vim='nvim'
+
+[ -x "$(command -v thefuck)" ] && eval "$(thefuck --alias)"
 
 # Source bash completion files
 [ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
@@ -55,7 +120,7 @@ fi
 
 # dcd cd's into the local path of a dotfile profile.
 function dcd {
-    cd "$(dotm config profile."$1".path)" || exit
+    cd "$(dotm config profile."$1".path | envsubst)" || exit
 }
 _dcd_completions()
 {

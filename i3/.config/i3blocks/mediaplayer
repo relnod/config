@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# Check if a media player is running.
-[[ "$(playerctl metadata 2>&1)" == *"No players found"* ]] && exit
-
-# Check if music is beeing played.
-[[ "$(playerctl status)" == "Paused" ]] && echo "Paused" && exit
-
-echo "$(playerctl metadata title) by $(playerctl metadata artist)"
