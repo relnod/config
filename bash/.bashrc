@@ -77,11 +77,14 @@ if [[ $(command -v fzf) != "" ]]; then
     export FZF_DEFAULT_COMMAND=$(get_fzf_default_command)
 fi
 
-# editor
+# Set default editor
 export VISUAL=$(get_default_editor)
 export EDITOR=$(get_default_editor)
 
+# Set default browser for terminal applications
+export BROWSER='firefox'
 
+# Update $PATH
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.npm/bin"
 

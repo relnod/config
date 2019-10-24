@@ -1,0 +1,13 @@
+# /home/paul/.config/tmuxinator/fwapp.yml
+
+name: fwapp
+root: ~/dev/repos/bitbucket.org/hrnetz/fruitwebapp2
+
+windows:
+  - EINTOPF:
+      layout: main-vertical
+      panes:
+        - nvim
+        - yarn run start
+        - yarn run test
+        - 
