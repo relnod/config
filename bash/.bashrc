@@ -90,6 +90,7 @@ export PATH="$PATH:$HOME/.npm/bin"
 
 # Set some aliases for convenience.
 alias ls='ls --color'
+alias ll='ls -alF'
 
 alias ga='git add'
 alias gs='git status'

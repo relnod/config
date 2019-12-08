@@ -4,7 +4,7 @@
     "coc-github": ">=1.0.1",
     "coc-html": ">=1.2.1",
     "coc-json": ">=1.2.4",
-    "coc-tsserver": ">=1.4.5",
+    "coc-tsserver": ">=1.4.8",
     "coc-vimlsp": ">=0.4.3",
     "coc-yaml": ">=1.0.2"
   }
