@@ -148,8 +148,11 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Delete exec --no-startup-id blurlock
 exec --no-startup-id xautolock -time 10 -locker blurlock
 
-# Default workspace configuration
-exec --no-startup-id i3-msg 'workspace 1; exec alacritty -e nvim ~/todo.txt'
+# Todo window
+for_window [title="todo"] move scratchpad
+assign [title="todo"] workspace $ws1
+bindsym $mod+minus [title="todo"] scratchpad show
+exec alacritty -t todo -e nvim ~/todo.txt
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
