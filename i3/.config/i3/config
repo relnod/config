@@ -22,8 +22,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # programm launcher (rofi)
-bindsym $mod+d exec rofi -show run
-bindsym $mod+b exec rofi -show combi
+bindsym $mod+d exec rofi -show combi
 bindsym Mod1Tab exec rofi -show window
 
 # change focus
@@ -148,11 +147,11 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Delete exec --no-startup-id blurlock
 exec --no-startup-id xautolock -time 10 -locker blurlock
 
-# Todo window
-for_window [title="todo"] move scratchpad
-assign [title="todo"] workspace $ws1
-bindsym $mod+minus [title="todo"] scratchpad show
-exec alacritty -t todo -e nvim ~/todo.txt
+# Home window
+for_window [title="home"] move scratchpad
+assign [title="home"] workspace $ws1
+bindsym $mod+minus [title="home"] scratchpad show
+exec_always alacritty -t home -e tmuxinator start home
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:

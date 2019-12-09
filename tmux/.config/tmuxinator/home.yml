@@ -4,16 +4,11 @@ name: home
 root: ~/
 
 windows:
-  - TODO: todo
-  - NOTES:
-      root: ~/.notes
-      layout: main-vertical
-      panes:
-        - nvim
-        -
+  - TODO: nvim ~/todo.txt
+  - NOTES: nvim ~/notes.txt
   - DOTFILES:
       root: ~/.config/dotm/profiles/relnod
-      layout: main-vertical
+      layout: main-horizontal
       panes:
         - nvim
         -
