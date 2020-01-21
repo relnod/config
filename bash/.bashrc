@@ -217,3 +217,5 @@ function serve-stop {
 # When in a remote session source an additional bashrc.
 # Since it is sourced at the end, it is possible to override everthing there.
 [ -n "$SSH_TTY" ] || [ -n "$SSH_CLIENT" ] && source ~/.config/bash/remote.sh
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
