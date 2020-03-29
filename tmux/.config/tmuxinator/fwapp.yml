@@ -1,7 +1,7 @@
 # /home/paul/.config/tmuxinator/fwapp.yml
 
 name: fwapp
-root: ~/dev/repos/bitbucket.org/hrnetz/fruitwebapp2
+root: ~/dev/bitbucket.org/hrnetz/fruitwebapp2
 
 windows:
   - EINTOPF:

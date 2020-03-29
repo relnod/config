@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # Enable vi mode for bash.
-# Unfortunately I didn't manage to show the current vi mode in the bash prompt.
-# See: https://unix.stackexchange.com/questions/22527/change-cursor-shape-or-color-to-indicate-vi-mode-in-bash
 set -o vi
 
 # Run keychain to start ssh-agent or load existing one.

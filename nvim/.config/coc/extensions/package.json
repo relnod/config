@@ -2,10 +2,10 @@
   "dependencies": {
     "coc-css": ">=1.2.2",
     "coc-github": ">=1.0.1",
-    "coc-html": ">=1.2.1",
-    "coc-json": ">=1.2.4",
-    "coc-tsserver": ">=1.4.9",
-    "coc-vimlsp": ">=0.4.4",
-    "coc-yaml": ">=1.0.2"
+    "coc-html": ">=1.2.3",
+    "coc-json": ">=1.2.5",
+    "coc-tsserver": ">=1.4.12",
+    "coc-vimlsp": ">=0.5.1",
+    "coc-yaml": ">=1.0.4"
   }
 }
