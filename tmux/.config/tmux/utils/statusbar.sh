@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 color_bg_main="black"
 color_bg_inactive="colour9"
