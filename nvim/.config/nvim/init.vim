@@ -62,6 +62,8 @@ Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim'
 autocmd BufNewFile,BufRead *.tsx setfiletype typescript.tsx
 
+Plug 'LnL7/vim-nix'
+
 " NAVIGATION
 Plug 'airblade/vim-rooter' " {{{
 let g:rooter_silent_chdir=1
@@ -269,6 +271,7 @@ set backup
 nnoremap Y y$
 
 nnoremap <leader>w :w<CR>
+nnoremap <leader>sw :w !sudo -S tee %
 nnoremap <leader>q :q<CR>
 " " opposite to <S-j>
 " nnoremap <S-k> i<CR><ESC>
