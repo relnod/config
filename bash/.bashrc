@@ -170,9 +170,9 @@ function t {
     fi
 }
 
-# p selects a project from ~/dev/repos and cd's into it.
+# p selects a project from ~/Dev and cd's into it.
 function p {
-    project=$(find ~/dev/repos -mindepth 3 -maxdepth 3 -type d | fzf)
+    project=$(find ~/Dev/ -mindepth 3 -maxdepth 3 -type d | fzf)
     cd "$project" || exit
 }
 

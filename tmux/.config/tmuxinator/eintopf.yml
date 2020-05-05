@@ -1,7 +1,7 @@
 # /home/paul/.config/tmuxinator/eintopf.yml
 
 name: eintopf
-root: ~/dev/github.com/relnod/eintopf
+root: ~/Dev/github.com/relnod/eintopf
 
 windows:
   - EINTOPF:

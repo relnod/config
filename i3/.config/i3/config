@@ -101,7 +101,7 @@ bindsym XF86AudioMute exec --no-startup-id amixer sset 'Master' toggle # mute so
 bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
 
-bindsym Print exec i3-scrot
+bindsym Print exec scrot
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
