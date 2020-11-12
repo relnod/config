@@ -141,7 +141,7 @@ bindsym $mod+r mode "resize"
 
 # Lock screen
 bindsym $mod+Delete exec --no-startup-id blurlock
-exec --no-startup-id xautolock -time 10 -locker blurlock
+exec --no-startup-id xautolock -time 10 -corner -locker blurlock
 
 # exec --no-startup-id nm-applet
 

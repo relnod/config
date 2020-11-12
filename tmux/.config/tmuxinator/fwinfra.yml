@@ -1,0 +1,11 @@
+# /home/paul/.config/tmuxinator/fwinfra.yml
+
+name: fwapp
+root: ~/Dev/bitbucket.org/hrnetz/fruitweb-infrastructure
+
+windows:
+  - FRUITWEB-APP:
+      layout: main-vertical
+      panes:
+        - nvim
+        - 
