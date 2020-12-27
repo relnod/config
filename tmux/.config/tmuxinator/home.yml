@@ -6,8 +6,14 @@ root: ~/
 windows:
   - TODO: nvim ~/Todo/main.todo
   - NOTES: nvim ~/Notes/notes.txt
-  - DOTFILES:
+  - DOTFILES:Relnod:
       root: ~/.config/dotm/profiles/relnod
+      layout: main-horizontal
+      panes:
+        - nvim
+        -
+  - DOTFILES:Private:
+      root: ~/.config/dotm/profiles/private
       layout: main-horizontal
       panes:
         - nvim

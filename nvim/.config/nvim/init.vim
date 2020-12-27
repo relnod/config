@@ -223,6 +223,9 @@ filetype plugin indent on
 syntax enable
 
 set list
+set listchars=tab:▸\ ,extends:❯,precedes:❮,trail:\
+set fillchars=eob:█
+set showbreak=↪
 
 set inccommand=split
 
