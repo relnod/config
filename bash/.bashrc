@@ -61,10 +61,6 @@ if [[ -d "/usr/local/go" ]]; then
     export GOROOT=/usr/local/go
     export PATH=$GOROOT/bin:$PATH
 fi
-if [[ -d "$HOME/go" ]]; then
-    export GOPATH=$HOME/go
-    export PATH=$GOPATH/bin:$PATH
-fi
 
 # fzf
 if [[ -d "$HOME/.fzf/bin" && ! "$PATH" == *$HOME/.fzf/bin* ]]; then
@@ -85,6 +81,8 @@ export BROWSER='firefox'
 # Update $PATH
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.npm/bin"
+export PATH="$PATH:$HOME/.yarn/bin"
+export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
 
 # Set some aliases for convenience.
 alias ls='ls --color'
@@ -215,5 +213,3 @@ function serve-stop {
 # When in a remote session source an additional bashrc.
 # Since it is sourced at the end, it is possible to override everthing there.
 [ -n "$SSH_TTY" ] || [ -n "$SSH_CLIENT" ] && source ~/.config/bash/remote.sh
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
