@@ -37,24 +37,3 @@ else
     cd ../..
     ./3rd/luamake/luamake rebuild
 fi
-
-echo "-- Updating gopls"
-GO111MODULE=on go get golang.org/x/tools/gopls@latest
-
-echo "-- Updating tsserver"
-npm install -g typescript-language-server
-
-echo "-- Updating dockerls"
-npm install -g dockerfile-language-server-nodejs
-
-echo "-- Updating yamlls"
-npm install -g yaml-language-server
-
-echo "-- Updating jsonls"
-npm install -g vscode-json-languageserver
-
-echo "-- Updating cssls"
-npm install -g vscode-css-languageserver-bin
-
-echo "-- Updating bashls"
-npm i -g bash-language-server

@@ -12,6 +12,8 @@ local map = function(mode, lhs, rhs, opts)
   if opts then options = vim.tbl_extend('force', options, opts) end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
+
+local home = os.getenv("HOME")
 -- }}}
 -- PLUGINS {{{
 cmd 'packadd paq-nvim'
@@ -19,6 +21,7 @@ local paq = require('paq-nvim').paq
 paq {'joshdick/onedark.vim'}
 paq {'valloric/MatchTagAlways'}
 paq {'jeffkreeftmeijer/vim-numbertoggle'}
+paq {'airblade/vim-rooter'}
 
 paq {'tpope/vim-surround'}
 paq {'tpope/vim-commentary'}
@@ -48,7 +51,7 @@ ts.setup {
 
 paq {'neovim/nvim-lspconfig'} -- {{{
 local lspconfig = require 'lspconfig'
-local cache_dir = os.getenv("HOME") .. '/.cache/nvim'
+local cache_dir = home .. '/.cache/nvim'
 lspconfig.sumneko_lua.setup({
   cmd = {
     cache_dir .. '/lua-language-server/bin/Linux/lua-language-server',
@@ -64,9 +67,49 @@ lspconfig.sumneko_lua.setup({
     },
   },
 })
-lspconfig.tsserver.setup{}
+local prettier = { formatCommand = "prettier" }
+local eslint = {
+  lintCommand = "eslint -f unix --stdin",
+  lintIgnoreExitCode = true,
+  lintStdin = true
+}
+local languages = {
+  javascript = {prettier, eslint},
+  typescript = {prettier, eslint},
+  javascriptreact = {prettier, eslint},
+  typescriptreact = {prettier, eslint},
+  yaml = {prettier},
+  json = {prettier},
+  html = {prettier},
+  scss = {prettier},
+  css = {prettier},
+  markdown = {prettier},
+  -- npm i -g lua-fmt
+  lua = {{formatCommand = "luafmt -i 2 -l 82 --stdin", formatStdin = true}}
+}
+
+lspconfig.efm.setup {
+  -- Fallback to .bashrc as a project root to enable LSP on loose files
+  root_dir = lspconfig.util.root_pattern(".git/", ".bashrc"),
+  -- Enable document formatting (other capabilities are off by default).
+  init_options = {documentFormatting = true},
+  filetypes = vim.tbl_keys(languages),
+  settings = {
+    rootMarkers = {
+      ".git/", ".bashrc"
+    },
+    languages = languages
+  }
+}
+lspconfig.tsserver.setup{
+  on_attach = function(client)
+    -- Disable formatting. Using prettier via the efm server for this.
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+  end
+}
 lspconfig.gopls.setup{}
-cmd 'au BufWritePre *.go lua vim.lsp.buf.formatting()'
+-- cmd 'au BufWritePre *.go lua vim.lsp.buf.formatting()'
 lspconfig.dockerls.setup{}
 lspconfig.yamlls.setup{}
 lspconfig.jsonls.setup{}
@@ -111,7 +154,7 @@ telescope.setup({
 map('n', '<space>ff', '<cmd>lua require("telescope.builtin").find_files()<CR>')
 map('n', '<space>fg', '<cmd>lua require("telescope.builtin").git_files()<CR>')
 map('n', '<space>fa', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
-map('n', '<space>fb', '<cmd>lua require("telescope.builtin").buffers()<CR>') -- TODO: buffers should be sorted by recently used
+map('n', '<space>fb', '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true })<CR>')
 map('n', '<space>fh', '<cmd>lua require("telescope.builtin").help_tags()<CR>')
 -- }}}
 
@@ -146,6 +189,7 @@ opt('o', 'shiftwidth', 4)
 -- folding
 opt('o', 'foldmethod', 'expr')
 opt('o', 'foldexpr', 'nvim_treesitter#foldexpr()')
+opt('o', 'foldenable', false)
 
 -- search
 opt('o', 'ignorecase', true)
@@ -155,20 +199,25 @@ opt('o', 'fillchars', 'eob:█')
 opt('o', 'showbreak', '↪')
 
 -- swap, undo, backup
-opt('o', 'noswapfile', true)
-opt('o', 'undodir', '~/.local/share/nvim/undo//')
+opt('o', 'swapfile', false)
+opt('o', 'undodir', home .. '/.local/share/nvim/undo/')
 opt('o', 'undofile', true)
-opt('o', 'backupdir', '~/.local/share/nvim/backup//')
-opt('o', 'backupfile', true)
+opt('o', 'backupdir', home .. '/.local/share/nvim/backup/')
 
 opt('w', 'number', true)
+opt('w', 'relativenumber', true)
+opt('w', 'list', true)
+cmd 'au BufRead,BufNewFile *.nix set filetype=nix'
 -- }}}
 -- MAPPINGS {{{
 map('n', '<space>w', ':w<CR>')
 map('n', '<space>sw', ':w !sudo -S tee %<CR>')
 map('n', '<space>ir', ':luafile ~/.config/nvim/init.lua<CR>')
 map('n', '<space>io', ':e ~/.config/nvim/init.lua<CR>')
-map('n', '<ESC>', ':noh<CR>')
+map('n', '<ESC>', ':noh<CR>:ccl<CR>')
+
+-- sort selected lines
+map('v', '<space>s', ':sort<CR>')
 
 -- faster movement
 map('n', '<M-h>', '^')

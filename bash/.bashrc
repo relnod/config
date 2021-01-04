@@ -56,12 +56,6 @@ get_fzf_default_command() {
     fi
 }
 
-# go
-if [[ -d "/usr/local/go" ]]; then
-    export GOROOT=/usr/local/go
-    export PATH=$GOROOT/bin:$PATH
-fi
-
 # fzf
 if [[ -d "$HOME/.fzf/bin" && ! "$PATH" == *$HOME/.fzf/bin* ]]; then
     export PATH="$PATH:$HOME/.fzf/bin"
@@ -83,6 +77,15 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.npm/bin"
 export PATH="$PATH:$HOME/.yarn/bin"
 export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
+
+# go
+if [[ -d "/usr/local/go" ]]; then
+    export GOROOT=/usr/local/go
+    export PATH="$PATH:$GOROOT/bin"
+fi
+if [[ -d "$HOME/go" ]]; then
+    export PATH="$PATH:$HOME/go/bin"
+fi
 
 # Set some aliases for convenience.
 alias ls='ls --color'
