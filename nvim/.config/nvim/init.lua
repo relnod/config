@@ -15,6 +15,7 @@ end
 
 local home = os.getenv("HOME")
 -- }}}
+vim.g.mapleader = ' '
 -- PLUGINS {{{
 cmd 'packadd paq-nvim'
 local paq = require('paq-nvim').paq
@@ -116,17 +117,17 @@ lspconfig.jsonls.setup{}
 lspconfig.bashls.setup{}
 lspconfig.cssls.setup{}
 lspconfig.rnix.setup{}
-map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-map('n', '<space>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-map('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+map('n', '<leader>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+map('n', '<leader>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+map('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 map('n', 'gd','<cmd>lua vim.lsp.buf.definition()<CR>')
 map('n', 'gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
-map('n', '<space>d', '<cmd>lua vim.lsp.buf.definition()<CR>')
+map('n', '<leader>d', '<cmd>lua vim.lsp.buf.definition()<CR>')
 map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-map('n', '<space>m', '<cmd>lua vim.lsp.buf.rename()<CR>')
-map('n', '<space>r', '<cmd>lua vim.lsp.buf.references()<CR>')
-map('n', '<space>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
+map('n', '<leader>m', '<cmd>lua vim.lsp.buf.rename()<CR>')
+map('n', '<leader>r', '<cmd>lua vim.lsp.buf.references()<CR>')
+map('n', '<leader>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
 -- }}}
 
 paq {'nvim-lua/completion-nvim'} -- {{{
@@ -151,11 +152,12 @@ telescope.setup({
     '-g "!vendor"',
   }
 })
-map('n', '<space>ff', '<cmd>lua require("telescope.builtin").find_files()<CR>')
-map('n', '<space>fg', '<cmd>lua require("telescope.builtin").git_files()<CR>')
-map('n', '<space>fa', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
-map('n', '<space>fb', '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true })<CR>')
-map('n', '<space>fh', '<cmd>lua require("telescope.builtin").help_tags()<CR>')
+map('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<CR>')
+map('n', '<leader>fg', '<cmd>lua require("telescope.builtin").git_files()<CR>')
+map('n', '<leader>fa', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
+map('n', '<leader>fw', '<cmd>lua require("telescope.builtin").grep_string()<CR>')
+map('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true })<CR>')
+map('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<CR>')
 -- }}}
 
 -- }}}
@@ -210,14 +212,14 @@ opt('w', 'list', true)
 cmd 'au BufRead,BufNewFile *.nix set filetype=nix'
 -- }}}
 -- MAPPINGS {{{
-map('n', '<space>w', ':w<CR>')
-map('n', '<space>sw', ':w !sudo -S tee %<CR>')
-map('n', '<space>ir', ':luafile ~/.config/nvim/init.lua<CR>')
-map('n', '<space>io', ':e ~/.config/nvim/init.lua<CR>')
+map('n', '<leader>w', ':w<CR>')
+map('n', '<leader>sw', ':w !sudo -S tee %<CR>')
+map('n', '<leader>ir', ':luafile ~/.config/nvim/init.lua<CR>')
+map('n', '<leader>io', ':e ~/.config/nvim/init.lua<CR>')
 map('n', '<ESC>', ':noh<CR>:ccl<CR>')
 
 -- sort selected lines
-map('v', '<space>s', ':sort<CR>')
+map('v', '<leader>s', ':sort<CR>')
 
 -- faster movement
 map('n', '<M-h>', '^')
