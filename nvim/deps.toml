@@ -37,3 +37,7 @@ manager = "npm"
 [[deps]]
 name = "lua-fmt"
 manager = "npm"
+
+[[deps]]
+name = "jedi-language-server"
+manager = "pip"
