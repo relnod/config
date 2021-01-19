@@ -197,6 +197,22 @@ function Edit_dotfiles()
   }
 end
 
+function Edit_notes()
+  require("telescope.builtin").find_files {
+    prompt_title = "~ notes ~",
+    shorten_path = false,
+    cwd = "~/Notes",
+    find_command = {
+      "fd",
+      "--type",
+      "f",
+      "--hidden",
+      "-E",
+      ".git"
+    }
+  }
+end
+
 map("n", "<leader>ff", '<cmd>lua require("telescope.builtin").find_files()<CR>')
 map("n", "<leader>fg", '<cmd>lua require("telescope.builtin").git_files()<CR>')
 map("n", "<leader>fa", '<cmd>lua require("telescope.builtin").live_grep()<CR>')
@@ -204,10 +220,11 @@ map("n", "<leader>fw", '<cmd>lua require("telescope.builtin").grep_string()<CR>'
 map(
   "n",
   "<leader>fb",
-  '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true })<CR>'
+  '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true })<CR>'
 )
 map("n", "<leader>fh", '<cmd>lua require("telescope.builtin").help_tags()<CR>')
 map("n", "<leader>fd", "<cmd>lua Edit_dotfiles()<CR>")
+map("n", "<leader>fn", "<cmd>lua Edit_notes()<CR>")
 -- }}}
 
 -- }}}
