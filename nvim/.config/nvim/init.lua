@@ -220,7 +220,7 @@ map("n", "<leader>fw", '<cmd>lua require("telescope.builtin").grep_string()<CR>'
 map(
   "n",
   "<leader>fb",
-  '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true })<CR>'
+  '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require\'telescope.sorters\'.get_substr_matcher() })<CR>'
 )
 map("n", "<leader>fh", '<cmd>lua require("telescope.builtin").help_tags()<CR>')
 map("n", "<leader>fd", "<cmd>lua Edit_dotfiles()<CR>")
@@ -241,6 +241,7 @@ opt("o", "hidden", true)
 
 -- wildmenu, completion
 opt("o", "completeopt", "menuone,noinsert,noselect")
+-- set shortmess+=c
 opt("o", "wildignorecase", true)
 -- set wildignore+=*/.git/**/*
 -- set wildignore+=tags
