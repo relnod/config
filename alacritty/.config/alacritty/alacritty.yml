@@ -11,6 +11,7 @@ env:
   # a few issues with programs relying on terminfo and the
   # `tput` command
   TERM: xterm-256color
+  LANG: "en_US.UTF-8"
 
 # Window dimensions in character columns and lines
 # (changes require restart)
@@ -31,19 +32,19 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Roboto Mono
+    family: Roboto Mono Nerd Font
     # Style can be specified to pick a specific face.
     # style: Regular
 
   # The bold font face
   bold:
-    family: Roboto Mono
+    family: Roboto Mono Nerd Font
     # Style can be specified to pick a specific face.
     style: Bold
 
   # The italic font face
   italic:
-    family: Roboto Mono
+    family: Roboto Mono Nerd Font
     # Style can be specified to pick a specific face.
     style: Italic
 

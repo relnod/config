@@ -32,6 +32,16 @@ local paq = require("paq-nvim").paq
 paq {"savq/paq-nvim", opt = true}
 -- }}}
 
+-- GLOABLS {{{
+paq {"nvim-lua/plenary.nvim"}
+RELOAD = require("plenary.reload").reload_module
+
+P = function(v)
+  print(vim.inspect(v))
+  return v
+end
+-- }}}
+
 -- WORKSPACE {{{
 paq {"airblade/vim-rooter"}
 -- }}}
@@ -88,13 +98,13 @@ map("i", "<c-space>", '<C-r>=luaeval(\'require"compe"._complete()\')<CR>')
 -- TELESCOPE {{{
 paq {"nvim-telescope/telescope.nvim"}
 paq {"nvim-lua/popup.nvim"}
-paq {"nvim-lua/plenary.nvim"}
 paq {
   "nvim-telescope/telescope-fzy-native.nvim",
   hook = "git submodule init && git submodule update"
 }
 local telescope = require("telescope")
 local actions = require("telescope.actions")
+local previewers = require("telescope.previewers")
 telescope.setup {
   defaults = {
     vimgrep_arguments = {
@@ -119,7 +129,10 @@ telescope.setup {
         ["<C-w>"] = actions.send_selected_to_qflist,
         ["<C-q>"] = actions.send_to_qflist
       }
-    }
+    },
+    file_previewer = previewers.vim_buffer_cat.new,
+    grep_previewer = previewers.vim_buffer_vimgrep.new,
+    qflist_previewer = previewers.vim_buffer_qflist.new
   }
 }
 telescope.load_extension("fzy_native")
@@ -170,6 +183,7 @@ map(
   '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require\'telescope.sorters\'.get_substr_matcher() })<CR>'
 )
 map("n", "<leader>fh", '<cmd>lua require("telescope.builtin").help_tags()<CR>')
+map("n", "<leader>fk", '<cmd>lua require("telescope.builtin").keymaps()<CR>')
 map("n", "<leader>fd", "<cmd>lua G_edit_dotfiles()<CR>")
 map("n", "<leader>fn", "<cmd>lua G_edit_notes()<CR>")
 -- }}}
@@ -183,7 +197,7 @@ lspconfig.sumneko_lua.setup {
     Lua = {
       diagnostics = {
         enable = true,
-        globals = {"vim"}
+        globals = {"vim", "RELOAD", "R"}
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
@@ -333,6 +347,27 @@ paq {"airblade/vim-gitgutter"}
 g.gitgutter_map_keys = 0
 -- }}}
 
+-- TERMINAL {{{
+
+map("t", "<A-Esc>", "<C-\\><C-n>")
+
+opt("o", "rtp", vim.o.rtp .. ",~/Dev/github.com/relnod/nvim-terminal")
+RELOAD("terminal")
+local terminal = require("terminal")
+terminal.setup {
+  terminals = {
+    bottom = {
+      location = "bottom",
+      size = 20
+    }
+  }
+}
+map("n", "<A-t>", "<cmd>lua require('terminal').toggle('bottom')<CR>")
+map("t", "<A-t>", "<cmd>lua require('terminal').toggle('bottom')<CR>")
+map("n", "<A-r>", "<cmd>lua require('terminal').run_current_line('bottom')<CR>")
+map("v", "<A-r>", "<cmd>lua require('terminal').run_selection('bottom')<CR>")
+-- }}}
+
 -- TEXT SURROUND {{{
 paq {"tpope/vim-surround"}
 paq {"tpope/vim-repeat"}
@@ -345,14 +380,20 @@ paq {"godlygeek/tabular"}
 map("v", "ga", ":Tabularize /")
 -- }}}
 
+-- UI STATUSLINE {{{
+paq {"hoob3rt/lualine.nvim"}
+paq {"kyazdani42/nvim-web-devicons"}
+local lualine = require('lualine')
+lualine.status()
+-- }}}
 -- UI COLORSCHEME {{{
 paq {"rjoshdick/onedark.vim"}
-cmd "colorscheme onedark"       -- colorscheme
+cmd "colorscheme onedark" -- colorscheme
 opt("o", "termguicolors", true) -- enable termguicolors
 -- }}}
 -- UI LINE NUMBERS {{{
-opt("w", "number", true)                  -- enable line numbers
-opt("w", "relativenumber", true)          -- enable relative line numbers
+opt("w", "number", true) -- enable line numbers
+opt("w", "relativenumber", true) -- enable relative line numbers
 paq {"jeffkreeftmeijer/vim-numbertoggle"} -- disabled relative line numbers for non current buffer
 -- }}}
 -- UI TAGS {{{
@@ -360,9 +401,9 @@ paq {"valloric/MatchTagAlways"}
 -- }}}
 
 -- SETTINGS {{{
-opt("o", "mouse", "a")                               -- enable mouse
+opt("o", "mouse", "a") -- enable mouse
 
-opt("o", "hidden", true)                             -- allow switching unsafed buffers
+opt("o", "hidden", true) -- allow switching unsafed buffers
 
 -- set shortmess+=c
 opt("o", "wildignorecase", true)
@@ -406,6 +447,7 @@ map("n", "<leader>sw", ":w !sudo -S tee %<CR>")
 map("n", "<leader>ir", ":luafile ~/.config/nvim/init.lua<CR>")
 map("n", "<leader>io", ":e ~/.config/nvim/init.lua<CR>")
 map("n", "<ESC>", ":noh<CR>:ccl<CR>")
+map("n", "<C-h>", ":help <C-r><C-w><CR>")
 
 -- sort selected lines
 map("v", "<leader>s", ":sort<CR>")
@@ -420,6 +462,11 @@ map("v", "<M-h>", "^")
 map("v", "<M-j>", "5j")
 map("v", "<M-k>", "5k")
 map("v", "<M-l>", "$")
+
+map("t", "<M-h>", "^")
+map("t", "<M-j>", "5j")
+map("t", "<M-k>", "5k")
+map("t", "<M-l>", "$")
 -- }}}
 -- TODO {{{
 cmd "au BufRead,BufNewFile *.todo set filetype=todo"
@@ -427,6 +474,13 @@ cmd "au BufRead,BufNewFile *.todo set filetype=todo"
 -- end
 -- cmd string.format("au BufRead,BufNewFile *.todo :lua require('/.config/nvim/ftplugin/todo')")
 -- cmd { "au BufRead,BufNewFile *.todo lua require('" .. home .. "/.config/nvim/ftplugin/todo')" }
+-- }}}
+
+-- LOCAL .init.lua {{{
+if fn.empty(fn.glob(".init.lua")) == 0 then
+  P(fn.empty(fn.glob(".init.lua")))
+  vim.cmd("luafile " .. ".init.lua")
+end
 -- }}}
 
 -- vim:fdm=marker
