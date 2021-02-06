@@ -16,9 +16,3 @@ if [[ $1 == "window-current" ]]; then
     current="#[fg=black,bg=yellow] #I:#W "
     echo $current
 fi
-
-if [[ $1 == "left" ]]; then
-    left="#[fg=black,bg=white] $(whoami)@$(hostname) "
-    left="$left#[fg=white,bg=$color_bg_main] "
-    echo $left
-fi

@@ -51,7 +51,7 @@ paq {"scrooloose/nerdtree"}
 g.NERDTreeShowHidden = 1
 g.NerdTreeWinSize = 70
 
-map("n", "<F3>", ":NERDTreeToggle<CR>")
+map("n", "<A-e>", ":NERDTreeToggle<CR>")
 
 cmd "au FileType nerdtree nmap <buffer> a o"
 -- }}}
@@ -84,7 +84,6 @@ require "compe".setup {
   source = {
     path = true,
     buffer = true,
-    vsnip = true,
     nvim_lsp = true,
     nvim_lua = true
   }
@@ -210,54 +209,61 @@ lspconfig.sumneko_lua.setup {
   }
 }
 
-local on_attach = function(_)
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
   -- Goto
-  map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-  map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
-  map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+  buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 
   -- Find
-  map(
+  buf_set_keymap(
     "n",
     "<leader>r",
     "<cmd>lua require('telescope.builtin').lsp_references()<CR>"
-  )
-  map(
+  , opts)
+  buf_set_keymap(
     "n",
     "<leader>s",
     "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>"
-  )
+  , opts)
 
   -- Hover
-  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+  buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 
   -- Code Action
-  map(
+  buf_set_keymap(
     "n",
     "<leader>a",
     "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>"
-  )
-  map(
+  , opts)
+  buf_set_keymap(
     "v",
     "<leader>a",
     "<cmd>lua require('telescope.builtin').lsp_range_code_actions()<CR>"
-  )
+  , opts)
 
   -- Rename
-  map("n", "<leader>m", "<cmd>lua vim.lsp.buf.rename()<CR>")
+  buf_set_keymap("n", "<leader>m", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 
   -- Diagnostics
-  map(
+  buf_set_keymap(
     "n",
     "<leader>d",
     "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>"
-  )
-  map("n", "<leader>;", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>")
-  map("n", "<leader>,", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>")
+  , opts)
+  buf_set_keymap("n", "<leader>;", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
+  buf_set_keymap("n", "<leader>,", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
 
   -- Formating
-  map("n", "F", "<cmd>lua vim.lsp.buf.formatting()<CR>")
-  map("v", "F", "<cmd>lua vim.lsp.buf.range_formatting()<CR>")
+  buf_set_keymap("n", "F", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap("v", "F", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
 end
 local prettier = {
   formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}",
@@ -315,7 +321,6 @@ lspconfig.jedi_language_server.setup {
 lspconfig.gopls.setup {
   on_attach = on_attach
 }
--- cmd 'au BufWritePre *.go lua vim.lsp.buf.formatting()'
 lspconfig.dockerls.setup {
   on_attach = on_attach
 }
@@ -332,6 +337,9 @@ lspconfig.cssls.setup {
   on_attach = on_attach
 }
 lspconfig.rnix.setup {
+  on_attach = on_attach
+}
+lspconfig.clangd.setup {
   on_attach = on_attach
 }
 
@@ -384,6 +392,7 @@ map("v", "ga", ":Tabularize /")
 paq {"hoob3rt/lualine.nvim"}
 paq {"kyazdani42/nvim-web-devicons"}
 local lualine = require('lualine')
+lualine.theme = 'onedark'
 lualine.status()
 -- }}}
 -- UI COLORSCHEME {{{
@@ -400,7 +409,7 @@ paq {"jeffkreeftmeijer/vim-numbertoggle"} -- disabled relative line numbers for 
 paq {"valloric/MatchTagAlways"}
 -- }}}
 
--- SETTINGS {{{
+-- GENERAL SETTINGS {{{
 opt("o", "mouse", "a") -- enable mouse
 
 opt("o", "hidden", true) -- allow switching unsafed buffers
@@ -441,16 +450,21 @@ opt("o", "backupdir", home .. "/.local/share/nvim/backup/")
 opt("w", "list", true)
 cmd "au BufRead,BufNewFile *.nix set filetype=nix"
 -- }}}
--- MAPPINGS {{{
-map("n", "<leader>w", ":w<CR>")
-map("n", "<leader>sw", ":w !sudo -S tee %<CR>")
-map("n", "<leader>ir", ":luafile ~/.config/nvim/init.lua<CR>")
-map("n", "<leader>io", ":e ~/.config/nvim/init.lua<CR>")
-map("n", "<ESC>", ":noh<CR>:ccl<CR>")
-map("n", "<C-h>", ":help <C-r><C-w><CR>")
+-- GENERAL MAPPINGS {{{
+map("n", "<leader>w", ":w<CR>")                                -- save file
+map("n", "<leader>sw", ":w !sudo -S tee %<CR>")                -- save file using sudo
+map("n", "<leader>ir", ":luafile ~/.config/nvim/init.lua<CR>") -- reload init.lua
+map("n", "<ESC>", ":noh<CR>:ccl<CR>")                          -- stop search highlighting and close quickfix
+map("n", "gh", ":help <C-r><C-w><CR>")                         -- goto help file for word under curor
 
 -- sort selected lines
 map("v", "<leader>s", ":sort<CR>")
+
+-- window movement
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-l>", "<C-w>l")
 
 -- faster movement
 map("n", "<M-h>", "^")
@@ -476,10 +490,10 @@ cmd "au BufRead,BufNewFile *.todo set filetype=todo"
 -- cmd { "au BufRead,BufNewFile *.todo lua require('" .. home .. "/.config/nvim/ftplugin/todo')" }
 -- }}}
 
--- LOCAL .init.lua {{{
-if fn.empty(fn.glob(".init.lua")) == 0 then
-  P(fn.empty(fn.glob(".init.lua")))
-  vim.cmd("luafile " .. ".init.lua")
+-- LOCAL .nvimrc.lua {{{
+-- Check if a ".nvimrc.lua" file exists in the current directory, if so run it.
+if fn.empty(fn.glob(".nvimrc.lua")) == 0 then
+  vim.cmd("luafile " .. ".nvimrc.lua")
 end
 -- }}}
 

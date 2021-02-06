@@ -11,16 +11,13 @@ windows:
       layout: main-horizontal
       panes:
         - nvim
-        -
   - DOTFILES:Private:
       root: ~/.config/dotm/profiles/private
       layout: main-horizontal
       panes:
         - nvim
-        -
   - NIXOS:
       root: /etc/nixos
       layout: main-horizontal
       panes:
         - nvim configuration.nix
-        -
