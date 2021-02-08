@@ -92,6 +92,8 @@ require "compe".setup {
 -- use <c-space> to force completion
 map("i", "<c-space>", '<C-r>=luaeval(\'require"compe"._complete()\')<CR>')
 
+paq {"onsails/lspkind-nvim"}
+require('lspkind').init {}
 -- }}}
 
 -- TELESCOPE {{{
