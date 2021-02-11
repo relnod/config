@@ -10,17 +10,20 @@ local opt = function(scope, key, value)
   end
 end
 
+local keymap = require("relnod/keymap")
 local map = function(mode, lhs, rhs, opts)
   local options = {noremap = true}
   if opts then
     options = vim.tbl_extend("force", options, opts)
   end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+  keymap.nvim_set_keymap(mode, lhs, rhs, options)
 end
-
-local home = os.getenv("HOME")
 -- }}}
+
+-- LEADER KEY {{{
 vim.g.mapleader = " "
+-- }}}
+
 -- PLUGIN MANAGER {{{
 local install_path = fn.stdpath("data") .. "/site/pack/paqs/opt/paq-nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -42,8 +45,72 @@ P = function(v)
 end
 -- }}}
 
+-- START SCREEN {{{
+paq {"mhinz/vim-startify"}
+
+g.startify_lists = {
+  { type="dir",    header={"   MRU"} },
+  { type="commands", header={ '   Commands' } },
+}
+
+g.startify_commands = {
+  {g={"Find Git Files", "lua require('telescope.builtin').git_files()"}},
+  {u={"Update Plugins", ":PaqUpdate"}}
+}
+
+map("n", "<leader>h", "<cmd>Startify<CR>")
+-- }}}
+
 -- WORKSPACE {{{
 paq {"airblade/vim-rooter"}
+-- }}}
+
+-- WINDOW {{{
+RELOAD("relnod.window")
+local window = require("relnod.window")
+window.setup {
+  top = {
+    location = "top",
+    size = 20
+  },
+  bottom = {
+    location = "bottom",
+    size = 20
+  },
+  left = {
+    location = "left",
+    size = 40
+  },
+  right = {
+    location = "right",
+    size = 40
+  }
+}
+map("n", "<A-v>", function() window.toggle("left") end)
+map("n", "<A-b>", function() window.toggle("bottom") end)
+map("n", "<A-n>", function() window.toggle("top") end)
+map("n", "<A-m>", function() window.toggle("right") end)
+-- }}}
+
+-- TERMINAL {{{
+
+map("t", "<A-Esc>", "<C-\\><C-n>")
+-- map("t", "q", "<C-\\><C-n>") -- TODO: buffer local mapping
+
+RELOAD("relnod/terminal")
+local terminal = require("relnod/terminal")
+terminal.setup {
+  terminals = {
+    bottom = {
+      location = "bottom",
+      size = 20
+    }
+  }
+}
+map("n", "<A-t>", function() terminal.toggle("bottom") end)
+map("t", "<A-t>", function() terminal.toggle("bottom") end)
+map("n", "<A-r>", function() terminal.run_current_line("bottom") end)
+map("v", "<A-r>", function() terminal.run_selection("bottom") end)
 -- }}}
 
 -- EXPLORER {{{
@@ -93,7 +160,7 @@ require "compe".setup {
 map("i", "<c-space>", '<C-r>=luaeval(\'require"compe"._complete()\')<CR>')
 
 paq {"onsails/lspkind-nvim"}
-require('lspkind').init {}
+require("lspkind").init {}
 -- }}}
 
 -- TELESCOPE {{{
@@ -104,8 +171,18 @@ paq {
   hook = "git submodule init && git submodule update"
 }
 local telescope = require("telescope")
-local actions = require("telescope.actions")
-local previewers = require("telescope.previewers")
+local tel_builtin = require("telescope.builtin")
+local tel_actions = require("telescope.actions")
+local tel_previewers = require("telescope.previewers")
+local tel_sorters = require("telescope.sorters")
+local function tel_actions_send_selected_to_qflist(...)
+  tel_actions.send_selected_to_qflist(...)
+  tel_actions.open_qflist(...)
+end
+local function tel_actions_send_to_qflist(...)
+  tel_actions.send_to_qflist(...)
+  tel_actions.open_qflist(...)
+end
 telescope.setup {
   defaults = {
     vimgrep_arguments = {
@@ -122,18 +199,18 @@ telescope.setup {
     },
     mappings = {
       i = {
-        ["<esc>"] = actions.close,
-        ["<C-w>"] = actions.send_selected_to_qflist,
-        ["<C-q>"] = actions.send_to_qflist
+        ["<esc>"] = tel_actions.close,
+        ["<C-w>"] = tel_actions_send_selected_to_qflist,
+        ["<C-q>"] = tel_actions_send_to_qflist
       },
       n = {
-        ["<C-w>"] = actions.send_selected_to_qflist,
-        ["<C-q>"] = actions.send_to_qflist
+        ["<C-w>"] = tel_actions_send_selected_to_qflist,
+        ["<C-q>"] = tel_actions_send_to_qflist
       }
     },
-    file_previewer = previewers.vim_buffer_cat.new,
-    grep_previewer = previewers.vim_buffer_vimgrep.new,
-    qflist_previewer = previewers.vim_buffer_qflist.new
+    file_previewer = tel_previewers.vim_buffer_cat.new,
+    grep_previewer = tel_previewers.vim_buffer_vimgrep.new,
+    qflist_previewer = tel_previewers.vim_buffer_qflist.new
   }
 }
 telescope.load_extension("fzy_native")
@@ -146,10 +223,9 @@ local find_command = {
   "-E",
   ".git"
 }
-G_find_command = find_command
 
-function G_edit_dotfiles()
-  require("telescope.builtin").find_files {
+local function edit_dotfiles()
+  tel_builtin.find_files {
     prompt_title = "~ dotfiles ~",
     shorten_path = false,
     cwd = "~/.config/dotm/profiles/relnod",
@@ -157,8 +233,8 @@ function G_edit_dotfiles()
   }
 end
 
-function G_edit_notes()
-  require("telescope.builtin").find_files {
+local function edit_notes()
+  tel_builtin.find_files {
     prompt_title = "~ notes ~",
     shorten_path = false,
     cwd = "~/Notes",
@@ -166,27 +242,23 @@ function G_edit_notes()
   }
 end
 
-map(
-  "n",
-  "<leader>ff",
-  '<cmd>lua require("telescope.builtin").find_files({ find_command = G_find_command })<CR>'
-)
-map("n", "<leader>fg", '<cmd>lua require("telescope.builtin").git_files()<CR>')
-map("n", "<leader>fa", '<cmd>lua require("telescope.builtin").live_grep()<CR>')
-map(
-  "n",
-  "<leader>fw",
-  '<cmd>lua require("telescope.builtin").grep_string()<CR>'
-)
-map(
-  "n",
-  "<leader>fb",
-  '<cmd>lua require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require\'telescope.sorters\'.get_substr_matcher() })<CR>'
-)
-map("n", "<leader>fh", '<cmd>lua require("telescope.builtin").help_tags()<CR>')
-map("n", "<leader>fk", '<cmd>lua require("telescope.builtin").keymaps()<CR>')
-map("n", "<leader>fd", "<cmd>lua G_edit_dotfiles()<CR>")
-map("n", "<leader>fn", "<cmd>lua G_edit_notes()<CR>")
+map("n", "<leader>ff", function()
+  tel_builtin.find_files({find_command = find_command})
+end)
+map("n", "<leader>fg", tel_builtin.git_files)
+map("n", "<leader>fa", tel_builtin.live_grep)
+map("n", "<leader>fw", tel_builtin.grep_string)
+map("n", "<leader>fb", function()
+  tel_builtin.buffers {
+    sort_lastused = true,
+    ignore_current_buffer = true,
+    sorter = tel_sorters.get_substr_matcher()
+  }
+end)
+map("n", "<leader>fh", tel_builtin.help_tags)
+map("n", "<leader>fk", tel_builtin.keymaps)
+map("n", "<leader>fd", edit_dotfiles)
+map("n", "<leader>fn", edit_notes)
 -- }}}
 
 -- LSP {{{
@@ -212,13 +284,17 @@ lspconfig.sumneko_lua.setup {
 }
 
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local function buf_set_keymap(...)
+    vim.api.nvim_buf_set_keymap(bufnr, ...)
+  end
+  local function buf_set_option(...)
+    vim.api.nvim_buf_set_option(bufnr, ...)
+  end
 
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
   -- Mappings.
-  local opts = { noremap=true, silent=true }
+  local opts = {noremap = true, silent = true}
   -- Goto
   buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
   buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
@@ -228,13 +304,15 @@ local on_attach = function(client, bufnr)
   buf_set_keymap(
     "n",
     "<leader>r",
-    "<cmd>lua require('telescope.builtin').lsp_references()<CR>"
-  , opts)
+    "<cmd>lua require('telescope.builtin').lsp_references()<CR>",
+    opts
+  )
   buf_set_keymap(
     "n",
     "<leader>s",
-    "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>"
-  , opts)
+    "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>",
+    opts
+  )
 
   -- Hover
   buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
@@ -243,13 +321,15 @@ local on_attach = function(client, bufnr)
   buf_set_keymap(
     "n",
     "<leader>a",
-    "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>"
-  , opts)
+    "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>",
+    opts
+  )
   buf_set_keymap(
     "v",
     "<leader>a",
-    "<cmd>lua require('telescope.builtin').lsp_range_code_actions()<CR>"
-  , opts)
+    "<cmd>lua require('telescope.builtin').lsp_range_code_actions()<CR>",
+    opts
+  )
 
   -- Rename
   buf_set_keymap("n", "<leader>m", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
@@ -258,10 +338,21 @@ local on_attach = function(client, bufnr)
   buf_set_keymap(
     "n",
     "<leader>d",
-    "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>"
-  , opts)
-  buf_set_keymap("n", "<leader>;", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-  buf_set_keymap("n", "<leader>,", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
+    "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>",
+    opts
+  )
+  buf_set_keymap(
+    "n",
+    "<leader>;",
+    "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>",
+    opts
+  )
+  buf_set_keymap(
+    "n",
+    "<leader>,",
+    "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",
+    opts
+  )
 
   -- Formating
   buf_set_keymap("n", "F", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
@@ -357,27 +448,6 @@ paq {"airblade/vim-gitgutter"}
 g.gitgutter_map_keys = 0
 -- }}}
 
--- TERMINAL {{{
-
-map("t", "<A-Esc>", "<C-\\><C-n>")
-
-opt("o", "rtp", vim.o.rtp .. ",~/Dev/github.com/relnod/nvim-terminal")
-RELOAD("terminal")
-local terminal = require("terminal")
-terminal.setup {
-  terminals = {
-    bottom = {
-      location = "bottom",
-      size = 20
-    }
-  }
-}
-map("n", "<A-t>", "<cmd>lua require('terminal').toggle('bottom')<CR>")
-map("t", "<A-t>", "<cmd>lua require('terminal').toggle('bottom')<CR>")
-map("n", "<A-r>", "<cmd>lua require('terminal').run_current_line('bottom')<CR>")
-map("v", "<A-r>", "<cmd>lua require('terminal').run_selection('bottom')<CR>")
--- }}}
-
 -- TEXT SURROUND {{{
 paq {"tpope/vim-surround"}
 paq {"tpope/vim-repeat"}
@@ -393,14 +463,21 @@ map("v", "ga", ":Tabularize /")
 -- UI STATUSLINE {{{
 paq {"hoob3rt/lualine.nvim"}
 paq {"kyazdani42/nvim-web-devicons"}
-local lualine = require('lualine')
-lualine.theme = 'onedark'
+local lualine = require("lualine")
+lualine.theme = "onedark"
 lualine.status()
 -- }}}
 -- UI COLORSCHEME {{{
 paq {"rjoshdick/onedark.vim"}
+
+-- Needed to esnure float background doesn't get odd highlighting
+-- https://github.com/joshdick/onedark.vim#onedarkset_highlight
+cmd [[augroup colorset]]
+cmd [[autocmd!]]
+cmd [[autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" } })]]
+cmd [[augroup END]]
 cmd "colorscheme onedark" -- colorscheme
-opt("o", "termguicolors", true) -- enable termguicolors
+opt("o", "termguicolors", true) -- disable termguicolors
 -- }}}
 -- UI LINE NUMBERS {{{
 opt("w", "number", true) -- enable line numbers
@@ -445,19 +522,17 @@ opt("o", "showbreak", "↪")
 
 -- swap, undo, backup
 opt("o", "swapfile", false)
-opt("o", "undodir", home .. "/.local/share/nvim/undo/")
-opt("o", "undofile", true)
-opt("o", "backupdir", home .. "/.local/share/nvim/backup/")
 
 opt("w", "list", true)
 cmd "au BufRead,BufNewFile *.nix set filetype=nix"
 -- }}}
 -- GENERAL MAPPINGS {{{
-map("n", "<leader>w", ":w<CR>")                                -- save file
-map("n", "<leader>sw", ":w !sudo -S tee %<CR>")                -- save file using sudo
+map("n", "<leader>w", ":w<CR>") -- save file
+map("n", "<leader>sw", ":w !sudo -S tee %<CR>") -- save file using sudo
 map("n", "<leader>ir", ":luafile ~/.config/nvim/init.lua<CR>") -- reload init.lua
-map("n", "<ESC>", ":noh<CR>:ccl<CR>")                          -- stop search highlighting and close quickfix
-map("n", "gh", ":help <C-r><C-w><CR>")                         -- goto help file for word under curor
+map("n", "<ESC>", ":noh<CR>:ccl<CR>") -- stop search highlighting and close quickfix
+map("n", "gh", ":help <C-r><C-w><CR>") -- goto help file for word under curor
+map("n", "<A-q>", ":copen<CR>") -- open quickfix
 
 -- sort selected lines
 map("v", "<leader>s", ":sort<CR>")
