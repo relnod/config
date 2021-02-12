@@ -2,27 +2,50 @@ _Windows = _Windows or {}
 
 local window = {}
 
+--- This will initialize all given windows.
+---
+--- It is possible to call this function multiple times. If the window already
+--- exists, the configuration gets updated.
+---
+--- @param opts table Initialization options
 function window.setup(opts)
   for name, config in pairs(opts) do
-    _Windows[name] = {
-      win = false,
-      open = false,
-      config = {
-        location = config.location ~= nil and config.location or "bottom",
-        size = config.size ~= nil and config.size or 25,
-        before_open = config.before_open,
-        after_open = config.after_open
+    if _Windows[name] == nil then
+      _Windows[name] = {
+        handle = nil
       }
+    end
+
+    _Windows[name].config = {
+      location = config.location ~= nil and config.location or "bottom",
+      size = config.size ~= nil and config.size or 25,
+      before_open = config.before_open,
+      after_open = config.after_open
     }
   end
 end
 
-
---- Checks if the window with the fiven name exists.
+--- Checks if the window with the given name exists.
 ---
 --- @param name string The name of the window
 function window.exists(name)
   return _Windows[name] ~= nil
+end
+
+--- Checks if the window with the given name is open.
+---
+--- @param name string The name of the window
+function window.isopen(name)
+  local win = _Windows[name]
+  if win == nil then
+    return false
+  end
+
+  if win.handle == nil then
+    return false
+  end
+
+  return true
 end
 
 --- Opens the window with the given name.
@@ -30,7 +53,10 @@ end
 --- @param name string The name of the window
 function window.open(name)
   local win = _Windows[name]
-  if win == nil or win.open then
+  if win == nil then
+    return
+  end
+  if window.isopen(name) then
     return
   end
 
@@ -54,8 +80,7 @@ function window.open(name)
     win.config.after_open()
   end
 
-  win.win = vim.api.nvim_get_current_win()
-  win.open = true
+  win.handle = vim.api.nvim_get_current_win()
 end
 
 --- Closes the window with the given name.
@@ -63,14 +88,16 @@ end
 --- @param name string The name of the window
 function window.close(name)
   local win = _Windows[name]
-
-  if win == nil or not win.open then
+  if win == nil then
+    return
+  end
+  if not window.isopen(name) then
     return
   end
 
-  vim.api.nvim_win_close(win.win, true)
+  vim.api.nvim_win_close(win.handle, true)
 
-  win.win = nil
+  win.handle = nil
   win.open = false
 end
 
@@ -79,15 +106,44 @@ end
 --- @param name string The name of the window
 function window.toggle(name)
   local win = _Windows[name]
-
   if win == nil then
     return
   end
 
-  if win.open then
+  if window.isopen(name) then
     window.close(name)
   else
     window.open(name)
+  end
+end
+
+--- Sets the window with the given name as the current window.
+---
+--- @param name string The name of the window
+function window.focus(name)
+  local win = _Windows[name]
+  if win == nil then
+    return
+  end
+  if not window.isopen(name) then
+    return
+  end
+
+  vim.api.nvim_set_current_win(win.handle)
+end
+
+vim.cmd[[augroup window_close]]
+  vim.cmd[[autocmd!]]
+  vim.cmd[[autocmd WinClosed * lua require'relnod/window'.handle_win_closed()]]
+vim.cmd[[augroup END]]
+
+function window.handle_win_closed()
+  local handle = tonumber(vim.fn.expand("<afile>"))
+  for _, win in pairs(_Windows) do
+    if win.handle == handle then
+      win.handle = nil
+      return
+    end
   end
 end
 

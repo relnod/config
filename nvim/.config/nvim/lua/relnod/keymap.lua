@@ -4,7 +4,7 @@ _Mappings = _Mappings or {}
 _MappingsBuffer = _MappingsBuffer or {}
 
 --- @param mode string
---- @param mode lhs
+--- @param lhs string
 local function create_map_key(mode, lhs)
   local map_key = mode .. lhs
   map_key = string.gsub(map_key,"<", "-")

@@ -83,7 +83,7 @@ window.setup {
   },
   right = {
     location = "right",
-    size = 40
+    size = 80
   }
 }
 map("n", "<A-v>", function() window.toggle("left") end)
@@ -99,18 +99,26 @@ map("t", "<A-Esc>", "<C-\\><C-n>")
 
 RELOAD("relnod/terminal")
 local terminal = require("relnod/terminal")
-terminal.setup {
-  terminals = {
-    bottom = {
-      location = "bottom",
-      size = 20
-    }
+for i = 1,10,1
+do
+  local termname = string.format("term%d", i)
+  terminal.setup {
+    [termname] = {
+      window = "bottom",
+      mappings = {
+        n = {
+          ["gf"] = terminal.actions.open_file
+        }
+      }
+    },
   }
-}
-map("n", "<A-t>", function() terminal.toggle("bottom") end)
-map("t", "<A-t>", function() terminal.toggle("bottom") end)
-map("n", "<A-r>", function() terminal.run_current_line("bottom") end)
-map("v", "<A-r>", function() terminal.run_selection("bottom") end)
+  map("n", string.format("<A-%s>", i), function() terminal.toggle(termname) end)
+  map("t", string.format("<A-%s>", i), function() terminal.toggle(termname) end)
+end
+map("n", "<A-t>", function() terminal.toggle("term1") end)
+map("t", "<A-t>", function() terminal.toggle("term1") end)
+map("n", "<A-r>", function() terminal.run_current_line("term1") end)
+map("v", "<A-r>", function() terminal.run_selection("term1") end)
 -- }}}
 
 -- EXPLORER {{{
