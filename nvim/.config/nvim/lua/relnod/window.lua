@@ -64,6 +64,8 @@ function window.open(name)
     win.config.before_open()
   end
 
+  local previous_win = vim.api.nvim_get_current_win()
+
   if win.config.location == "bottom" then
     vim.cmd(string.format("botright %dnew", win.config.size))
   elseif win.config.location == "top" then
@@ -81,6 +83,8 @@ function window.open(name)
   end
 
   win.handle = vim.api.nvim_get_current_win()
+
+  vim.api.nvim_win_set_var(win.handle, "previous_win", previous_win)
 end
 
 --- Closes the window with the given name.
@@ -95,7 +99,12 @@ function window.close(name)
     return
   end
 
+  local previous_win = window.get_previous_win(win.handle)
+
   vim.api.nvim_win_close(win.handle, true)
+  if previous_win ~= -1 then
+    vim.api.nvim_set_current_win(previous_win)
+  end
 
   win.handle = nil
   win.open = false
@@ -132,21 +141,37 @@ function window.focus(name)
   vim.api.nvim_set_current_win(win.handle)
 end
 
-function window.get_editing_window()
+--- Returns the previous window, for the window with the given window number.
+---
+--- @param winnr string The window handle.
+--- @returns number The window handle or -1
+function window.get_previous_win(winnr)
+  local ok, previous_win = pcall(vim.api.nvim_win_get_var, winnr, "previous_win")
+  if not ok then
+    return -1
+  end
+
+  return previous_win
+end
+
+--- Returns an editing window.
+---
+--- @returns number The window handle or -1
+function window.get_editing_win()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if window.is_editing_window(win) then
+    if window.is_editing_win(win) then
       return win
     end
   end
   return -1
 end
 
-function window.is_editing_window(winnr)
+--- Checks if the window with the given window number is an editing window.
+---
+--- @param winnr number The window handle.
+--- @returns boolean
+function window.is_editing_win(winnr)
   local bufnr = vim.api.nvim_win_get_buf(winnr)
-  if not vim.api.nvim_buf_is_loaded(bufnr) then
-    return false
-  end
-
   local buftype = vim.api.nvim_buf_get_option(bufnr, "buftype")
   return buftype == ""
 end

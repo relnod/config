@@ -44,11 +44,7 @@ function terminal.isopen(termname)
   return term.open
 end
 
--- Stores the window, from where the last terminal was opened. This enables
--- jumping back to that window.
-local previous_win = nil
-
-local function create_term(command)
+local function create_term(name, command)
   -- Create a new non listed, non scratch buffer
   local bufnr = vim.api.nvim_create_buf(false, false)
   vim.api.nvim_set_current_buf(bufnr)
@@ -57,7 +53,7 @@ local function create_term(command)
   local jobid = vim.api.nvim_buf_get_var(bufnr, "terminal_job_id")
 
   if command ~= nil then
-    vim.call("jobsend", jobid, command .. "\n")
+    terminal.run_command(name, command)
   end
   return bufnr, jobid
 end
@@ -87,8 +83,6 @@ function terminal.open(name)
     -- Make sure the window is focused.
     window.focus(term.config.window)
   else
-    previous_win = vim.api.nvim_get_current_win()
-
     -- Open the window.
     window.open(term.config.window)
 
@@ -96,7 +90,7 @@ function terminal.open(name)
   end
 
   if term.buf == nil then
-    local bufnr, jobid = create_term(term.config.command)
+    local bufnr, jobid = create_term(name, term.config.command)
     term.buf = bufnr
     term.jobid = jobid
   else
@@ -139,18 +133,27 @@ end
 
 --- Toggles the terminal window with the given name.
 ---
---- @param termname string The name of the terminal
-function terminal.toggle(termname)
-  local term = _Terminals[termname]
+--- @param name string The name of the terminal
+function terminal.toggle(name)
+  local term = _Terminals[name]
   if term == nil then
     return
   end
 
-  if terminal.isopen(termname) then
-    terminal.close(termname)
+  if terminal.isopen(name) then
+    terminal.close(name)
   else
-    terminal.open(termname)
+    terminal.open(name)
   end
+end
+
+function terminal.run_command(name, command)
+  local term = _Terminals[name]
+  if term == nil then
+    return
+  end
+
+    vim.call("jobsend", term.jobid, command .. "\n")
 end
 
 --- Runs the current line in the given terminal.
@@ -158,12 +161,16 @@ end
 --- @param name string The name of the terminal
 function terminal.run_current_line(name)
   local term = _Terminals[name]
+  if term == nil then
+    return
+  end
 
   local current_line = vim.api.nvim_get_current_line()
   if not terminal.isopen(name) then
     terminal.open(name)
   end
-  vim.call("jobsend", term.jobid, current_line)
+
+  terminal.run_command(name, current_line)
 end
 
 --- Runs the visual selection in the given terminal.
@@ -173,12 +180,16 @@ end
 --- @param name string The name of the terminal
 function terminal.run_selection(name)
   local term = _Terminals[name]
+  if term == nil then
+    return
+  end
 
   local selection = utils.get_selection()
   if not terminal.isopen(name) then
     terminal.open(name)
   end
-  vim.call("jobsend", term.jobid, selection)
+
+  terminal.run_command(name, selection)
 end
 
 terminal.actions = {}
@@ -188,10 +199,12 @@ terminal.actions = {}
 function terminal.actions.open_file()
   local file = vim.call("expand", "<cWORD>")
 
-  if previous_win ~= nil and window.is_editing_window(previous_win) then
+  local previous_win = window.get_previous_win(vim.api.nvim_get_current_win())
+
+  if previous_win ~= -1 and window.is_editing_win(previous_win) then
     vim.api.nvim_set_current_win(previous_win)
   else
-    local win = window.get_editing_window()
+    local win = window.get_editing_win()
     if win ~= -1 then
       vim.api.nvim_set_current_win(win)
     end
