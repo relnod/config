@@ -132,9 +132,28 @@ function window.focus(name)
   vim.api.nvim_set_current_win(win.handle)
 end
 
+function window.get_editing_window()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if window.is_editing_window(win) then
+      return win
+    end
+  end
+  return -1
+end
+
+function window.is_editing_window(winnr)
+  local bufnr = vim.api.nvim_win_get_buf(winnr)
+  if not vim.api.nvim_buf_is_loaded(bufnr) then
+    return false
+  end
+
+  local buftype = vim.api.nvim_buf_get_option(bufnr, "buftype")
+  return buftype == ""
+end
+
 vim.cmd[[augroup window_close]]
   vim.cmd[[autocmd!]]
-  vim.cmd[[autocmd WinClosed * lua require'relnod/window'.handle_win_closed()]]
+  vim.cmd[[autocmd WinClosed * lua require'relnod.window'.handle_win_closed()]]
 vim.cmd[[augroup END]]
 
 function window.handle_win_closed()

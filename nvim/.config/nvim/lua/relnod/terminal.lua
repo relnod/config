@@ -49,12 +49,12 @@ end
 local previous_win = nil
 
 local function create_term(command)
-  vim.call("termopen", "bash", { detach = 0 })
-  local bufnr = vim.fn.bufnr("")
-  local jobid = vim.api.nvim_buf_get_var("", "terminal_job_id")
+  -- Create a new non listed, non scratch buffer
+  local bufnr = vim.api.nvim_create_buf(false, false)
+  vim.api.nvim_set_current_buf(bufnr)
 
-  -- set buflisted = false
-  vim.api.nvim_buf_set_option("", "buflisted", false)
+  vim.call("termopen", "bash", { detach = 0 })
+  local jobid = vim.api.nvim_buf_get_var(bufnr, "terminal_job_id")
 
   if command ~= nil then
     vim.call("jobsend", jobid, command .. "\n")
@@ -63,7 +63,7 @@ local function create_term(command)
 end
 
 local function load_term(bufnr)
-  vim.cmd(string.format("%dbuffer", bufnr))
+  vim.api.nvim_set_current_buf(bufnr)
 end
 
 --- Opens the terminal window with the given name.
@@ -82,36 +82,31 @@ function terminal.open(name)
     term.config.before_open()
   end
 
+  local tempbuf = nil
   if window.isopen(term.config.window) then
     -- Make sure the window is focused.
     window.focus(term.config.window)
-
-    if term.buf == nil then
-      -- Create a new buffer
-      vim.cmd[[enew]]
-      local bufnr, jobid = create_term(term.config.command)
-      term.buf = bufnr
-      term.jobid = jobid
-    else
-      load_term(term.buf)
-    end
   else
+    previous_win = vim.api.nvim_get_current_win()
+
     -- Open the window.
     window.open(term.config.window)
 
-    if term.buf == nil then
-      local bufnr, jobid = create_term(term.config.command)
-      term.buf = bufnr
-      term.jobid = jobid
-    else
-      local buf = vim.api.nvim_get_current_buf()
+    tempbuf = vim.api.nvim_get_current_buf()
+  end
 
-      load_term(term.buf)
+  if term.buf == nil then
+    local bufnr, jobid = create_term(term.config.command)
+    term.buf = bufnr
+    term.jobid = jobid
+  else
+    load_term(term.buf)
+  end
 
-      -- This is a hacky workaround, to delete the temporary buffer, that was
-      -- created, when creating the split.
-      vim.api.nvim_buf_delete(buf, { force = true })
-    end
+  -- This is a hacky workaround, to delete the temporary buffer, that was
+  -- created, when creating the split.
+  if tempbuf then
+    vim.api.nvim_buf_delete(tempbuf, { force = true })
   end
 
   -- Apply all terminal buffer key mapping.
@@ -193,24 +188,27 @@ terminal.actions = {}
 function terminal.actions.open_file()
   local file = vim.call("expand", "<cWORD>")
 
-  vim.api.nvim_set_current_win(previous_win)
+  if previous_win ~= nil and window.is_editing_window(previous_win) then
+    vim.api.nvim_set_current_win(previous_win)
+  else
+    local win = window.get_editing_window()
+    if win ~= -1 then
+      vim.api.nvim_set_current_win(win)
+    end
+  end
 
   vim.cmd(string.format("e %s", file))
 end
 
-vim.cmd[[augroup terminal_closed]]
+vim.cmd[[augroup terminal_buf_hidden]]
   vim.cmd[[autocmd!]]
   vim.cmd[[autocmd BufHidden * lua require'relnod/terminal'.handle_term_closed()]]
-vim.cmd[[augroup END]]
-
-vim.cmd[[augroup terminal_deleted]]
-  vim.cmd[[autocmd!]]
-  vim.cmd[[autocmd BufDelete * lua require'relnod/terminal'.handle_term_deleted()]]
 vim.cmd[[augroup END]]
 
 function terminal.handle_term_closed()
   local bufname = vim.fn.expand("<afile>")
   local bufnr = vim.fn.bufnr(bufname)
+
   for _, term in pairs(_Terminals) do
     if term.buf == bufnr then
       term.open = false
@@ -219,12 +217,18 @@ function terminal.handle_term_closed()
   end
 end
 
-function terminal.handle_term_deleted()
+vim.cmd[[augroup terminal_buf_delete]]
+  vim.cmd[[autocmd!]]
+  vim.cmd[[autocmd BufDelete * lua require'relnod/terminal'.handle_term_delete()]]
+vim.cmd[[augroup END]]
+
+function terminal.handle_term_delete()
   local bufname = vim.fn.expand("<afile>")
   if bufname == "" then
     return
   end
   local bufnr = vim.fn.bufnr(bufname)
+
   for _, term in pairs(_Terminals) do
     if term.buf == bufnr then
       term.buf = nil

@@ -93,8 +93,24 @@ function M.execute_buffer_mapping(bufnr, map_key)
   end
 end
 
-function M.clear()
-  _Mappings = nil
+vim.cmd[[augroup keymap_buf_delete]]
+  vim.cmd[[autocmd!]]
+  vim.cmd[[autocmd BufDelete * lua require'relnod/keymap'.handle_buf_delete()]]
+vim.cmd[[augroup END]]
+
+function M.handle_buf_delete()
+  local bufname = vim.fn.expand("<afile>")
+  if bufname == "" then
+    return
+  end
+
+  local bufnr = vim.fn.bufnr(bufname)
+  for _, b in pairs(_MappingsBuffer) do
+    if b == bufnr then
+      _MappingsBuffer[bufnr] = nil
+      return
+    end
+  end
 end
 
 return M
