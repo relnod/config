@@ -89,7 +89,7 @@ function terminal.open(name)
     tempbuf = vim.api.nvim_get_current_buf()
   end
 
-  if term.buf == nil then
+  if term.buf == nil or not vim.api.nvim_buf_is_loaded(term.buf) then
     local bufnr, jobid = create_term(name, term.config.command)
     term.buf = bufnr
     term.jobid = jobid
@@ -129,6 +129,7 @@ function terminal.close(termname)
   end
 
   window.close(term.config.window)
+  term.open = false
 end
 
 --- Toggles the terminal window with the given name.

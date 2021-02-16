@@ -18,6 +18,8 @@ local map = function(mode, lhs, rhs, opts)
   end
   keymap.nvim_set_keymap(mode, lhs, rhs, options)
 end
+
+local home = os.getenv("HOME")
 -- }}}
 
 -- LEADER KEY {{{
@@ -49,13 +51,13 @@ end
 paq {"mhinz/vim-startify"}
 
 g.startify_lists = {
-  { type="dir",    header={"   MRU"} },
-  { type="commands", header={ '   Commands' } },
+  {type = "dir", header = {"   MRU"}},
+  {type = "commands", header = {"   Commands"}}
 }
 
 g.startify_commands = {
-  {g={"Find Git Files", "lua require('telescope.builtin').git_files()"}},
-  {u={"Update Plugins", ":PaqUpdate"}}
+  {g = {"Find Git Files", "lua require('telescope.builtin').git_files()"}},
+  {u = {"Update Plugins", ":PaqUpdate"}}
 }
 
 map("n", "<leader>h", "<cmd>Startify<CR>")
@@ -86,10 +88,34 @@ window.setup {
     size = 80
   }
 }
-map("n", "<A-v>", function() window.toggle("left") end)
-map("n", "<A-b>", function() window.toggle("bottom") end)
-map("n", "<A-n>", function() window.toggle("top") end)
-map("n", "<A-m>", function() window.toggle("right") end)
+map(
+  "n",
+  "<A-v>",
+  function()
+    window.toggle("left")
+  end
+)
+map(
+  "n",
+  "<A-b>",
+  function()
+    window.toggle("bottom")
+  end
+)
+map(
+  "n",
+  "<A-n>",
+  function()
+    window.toggle("top")
+  end
+)
+map(
+  "n",
+  "<A-m>",
+  function()
+    window.toggle("right")
+  end
+)
 -- }}}
 
 -- TERMINAL {{{
@@ -99,8 +125,7 @@ map("t", "<A-Esc>", "<C-\\><C-n>")
 
 RELOAD("relnod/terminal")
 local terminal = require("relnod/terminal")
-for i = 1,10,1
-do
+for i = 1, 10, 1 do
   local termname = string.format("term%d", i)
   terminal.setup {
     [termname] = {
@@ -110,15 +135,69 @@ do
           ["gf"] = terminal.actions.open_file
         }
       }
-    },
+    }
   }
-  map("n", string.format("<A-%s>", i), function() terminal.toggle(termname) end)
-  map("t", string.format("<A-%s>", i), function() terminal.toggle(termname) end)
+  map(
+    "n",
+    string.format("<A-%s>", i),
+    function()
+      terminal.toggle(termname)
+    end
+  )
+  map(
+    "t",
+    string.format("<A-%s>", i),
+    function()
+      terminal.toggle(termname)
+    end
+  )
 end
-map("n", "<A-t>", function() terminal.toggle("term1") end)
-map("t", "<A-t>", function() terminal.toggle("term1") end)
-map("n", "<A-r>", function() terminal.run_current_line("term1") end)
-map("v", "<A-r>", function() terminal.run_selection("term1") end)
+map(
+  "n",
+  "<A-t>",
+  function()
+    terminal.toggle("term1")
+  end
+)
+map(
+  "t",
+  "<A-t>",
+  function()
+    terminal.toggle("term1")
+  end
+)
+map(
+  "n",
+  "<A-r>",
+  function()
+    terminal.run_current_line("term1")
+  end
+)
+map(
+  "v",
+  "<A-r>",
+  function()
+    terminal.run_selection("term1")
+  end
+)
+-- }}}
+
+-- QUICKFIX {{{
+
+RELOAD("relnod/quickfix")
+local quickfix = require("relnod/quickfix")
+quickfix.setup {
+  ["qf"] = {
+    window = "bottom"
+  }
+}
+map(
+  "n",
+  "<A-q>",
+  function()
+    quickfix.toggle("qf")
+  end
+)
 -- }}}
 
 -- EXPLORER {{{
@@ -186,10 +265,12 @@ local tel_sorters = require("telescope.sorters")
 local function tel_actions_send_selected_to_qflist(...)
   tel_actions.send_selected_to_qflist(...)
   tel_actions.open_qflist(...)
+  -- quickfix.open("qf")
 end
 local function tel_actions_send_to_qflist(...)
   tel_actions.send_to_qflist(...)
   tel_actions.open_qflist(...)
+  -- quickfix.open("qf")
 end
 telescope.setup {
   defaults = {
@@ -250,19 +331,27 @@ local function edit_notes()
   }
 end
 
-map("n", "<leader>ff", function()
-  tel_builtin.find_files({find_command = find_command})
-end)
+map(
+  "n",
+  "<leader>ff",
+  function()
+    tel_builtin.find_files({find_command = find_command})
+  end
+)
 map("n", "<leader>fg", tel_builtin.git_files)
 map("n", "<leader>fa", tel_builtin.live_grep)
 map("n", "<leader>fw", tel_builtin.grep_string)
-map("n", "<leader>fb", function()
-  tel_builtin.buffers {
-    sort_lastused = true,
-    ignore_current_buffer = true,
-    sorter = tel_sorters.get_substr_matcher()
-  }
-end)
+map(
+  "n",
+  "<leader>fb",
+  function()
+    tel_builtin.buffers {
+      sort_lastused = true,
+      ignore_current_buffer = true,
+      sorter = tel_sorters.get_substr_matcher()
+    }
+  end
+)
 map("n", "<leader>fh", tel_builtin.help_tags)
 map("n", "<leader>fk", tel_builtin.keymaps)
 map("n", "<leader>fd", edit_dotfiles)
@@ -530,6 +619,9 @@ opt("o", "showbreak", "↪")
 
 -- swap, undo, backup
 opt("o", "swapfile", false)
+opt("o", "backupdir", home .. "/.local/share/nvim/backup/")
+vim.cmd[[ set undofile ]]
+vim.cmd[[ set nobackup ]]
 
 opt("w", "list", true)
 cmd "au BufRead,BufNewFile *.nix set filetype=nix"
@@ -538,9 +630,9 @@ cmd "au BufRead,BufNewFile *.nix set filetype=nix"
 map("n", "<leader>w", ":w<CR>") -- save file
 map("n", "<leader>sw", ":w !sudo -S tee %<CR>") -- save file using sudo
 map("n", "<leader>ir", ":luafile ~/.config/nvim/init.lua<CR>") -- reload init.lua
-map("n", "<ESC>", ":noh<CR>:ccl<CR>") -- stop search highlighting and close quickfix
+map("n", "<ESC>", ":noh<CR><CR>") -- stop search highlighting and close quickfix
 map("n", "gh", ":help <C-r><C-w><CR>") -- goto help file for word under curor
-map("n", "<A-q>", ":copen<CR>") -- open quickfix
+-- map("n", "<A-q>", ":copen<CR>") -- open quickfix
 
 -- sort selected lines
 map("v", "<leader>s", ":sort<CR>")

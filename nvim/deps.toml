@@ -1,38 +1,6 @@
 [[deps]]
-name = "golang.org/x/tools/gopls@master"
-manager = "go"
-
-[[deps]]
 name = "github.com/mattn/efm-langserver@latest"
 manager = "go"
-
-[[deps]]
-name = "prettier"
-manager = "npm"
-
-[[deps]]
-name = "typescript-language-server"
-manager = "npm"
-
-[[deps]]
-name = "dockerfile-language-server-nodejs"
-manager = "npm"
-
-[[deps]]
-name = "yaml-language-server"
-manager = "npm"
-
-[[deps]]
-name = "vscode-json-languageserver"
-manager = "npm"
-
-[[deps]]
-name = "vscode-css-languageserver-bin"
-manager = "npm"
-
-[[deps]]
-name = "bash-language-server"
-manager = "npm"
 
 [[deps]]
 name = "lua-fmt"
