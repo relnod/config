@@ -58,7 +58,7 @@ end
 --- @param opts table
 function M.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
   if type(rhs) == "string" then
-    vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+    vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
   else
     if _MappingsBuffer[bufnr] == nil then
       _MappingsBuffer[bufnr] = {}
@@ -67,7 +67,7 @@ function M.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
     local map_string = create_map_string_buf(map_key, bufnr)
     _MappingsBuffer[bufnr][map_key] = rhs
 
-    vim.api.nvim_set_keymap(mode, lhs, map_string, opts)
+    vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, map_string, opts)
   end
 end
 

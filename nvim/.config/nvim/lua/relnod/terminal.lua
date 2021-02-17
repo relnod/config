@@ -15,7 +15,7 @@ _Terminals = _Terminals or {}
 function terminal.setup(opts)
   for name, config in pairs(opts) do
     if not window.exists(config.window) then
-        vim.api.error_message("invalid window name")
+      vim.api.error_message("invalid window name")
     end
 
     if _Terminals[name] == nil then
@@ -29,7 +29,17 @@ function terminal.setup(opts)
       window = config.window,
       startinsert = config.startinsert ~= nil and config.startinsert or true,
       command = config.command,
-      mappings = config.mappings,
+      mappings = vim.tbl_deep_extend(
+        "keep",
+        config.mappings,
+        {
+          n = {
+            ["<C-c>"] = "i<C-c>",
+            ["q"] = "A",
+            ["r"] = terminal.restart_command
+          }
+        }
+      ),
       before_open = config.before_open
     }
   end
@@ -44,16 +54,16 @@ function terminal.isopen(termname)
   return term.open
 end
 
-local function create_term(name, command)
+local function create_term(command)
   -- Create a new non listed, non scratch buffer
   local bufnr = vim.api.nvim_create_buf(false, false)
   vim.api.nvim_set_current_buf(bufnr)
 
-  vim.call("termopen", "bash", { detach = 0 })
+  vim.call("termopen", "bash", {detach = 0})
   local jobid = vim.api.nvim_buf_get_var(bufnr, "terminal_job_id")
 
   if command ~= nil then
-    terminal.run_command(name, command)
+    vim.fn.chansend(jobid, command .. "\n")
   end
   return bufnr, jobid
 end
@@ -90,9 +100,7 @@ function terminal.open(name)
   end
 
   if term.buf == nil or not vim.api.nvim_buf_is_loaded(term.buf) then
-    local bufnr, jobid = create_term(name, term.config.command)
-    term.buf = bufnr
-    term.jobid = jobid
+    term.buf, term.jobid = create_term(term.config.command)
   else
     load_term(term.buf)
   end
@@ -100,14 +108,22 @@ function terminal.open(name)
   -- This is a hacky workaround, to delete the temporary buffer, that was
   -- created, when creating the split.
   if tempbuf then
-    vim.api.nvim_buf_delete(tempbuf, { force = true })
+    vim.api.nvim_buf_delete(tempbuf, {force = true})
   end
 
   -- Apply all terminal buffer key mapping.
   if term.config.mappings ~= nil then
     for mode, mappings in pairs(term.config.mappings) do
       for lhs, rhs in pairs(mappings) do
-        keymap.nvim_buf_set_keymap(term.buf, mode, lhs, rhs, { noremap = true })
+        local rhs2 = rhs
+        -- If the rhs is a function, wrap it and pass the terminal name to the
+        -- rhs.
+        if type(rhs) == "function" then
+          rhs2 = function()
+            rhs(name)
+          end
+        end
+        keymap.nvim_buf_set_keymap(term.buf, mode, lhs, rhs2, {noremap = true})
       end
     end
   end
@@ -148,13 +164,28 @@ function terminal.toggle(name)
   end
 end
 
+function terminal.restart_command(name)
+  local term = _Terminals[name]
+  if term == nil then
+    return
+  end
+
+  if term.config.command == nil then
+    return
+  end
+
+  vim.fn.chansend(term.jobid, "^C")
+  vim.fn.chansend(term.jobid, "clear")
+  vim.fn.chansend(term.jobid, term.config.command .. "\n")
+end
+
 function terminal.run_command(name, command)
   local term = _Terminals[name]
   if term == nil then
     return
   end
 
-    vim.call("jobsend", term.jobid, command .. "\n")
+  vim.fn.chansend(term.jobid, command .. "\n")
 end
 
 --- Runs the current line in the given terminal.
@@ -171,7 +202,8 @@ function terminal.run_current_line(name)
     terminal.open(name)
   end
 
-  terminal.run_command(name, current_line)
+  terminal.run_command(name, vim.trim(current_line))
+  vim.cmd("startinsert")
 end
 
 --- Runs the visual selection in the given terminal.
@@ -190,7 +222,8 @@ function terminal.run_selection(name)
     terminal.open(name)
   end
 
-  terminal.run_command(name, selection)
+  terminal.run_command(name, vim.trim(selection))
+  vim.cmd("startinsert")
 end
 
 terminal.actions = {}
@@ -214,10 +247,10 @@ function terminal.actions.open_file()
   vim.cmd(string.format("e %s", file))
 end
 
-vim.cmd[[augroup terminal_buf_hidden]]
-  vim.cmd[[autocmd!]]
-  vim.cmd[[autocmd BufHidden * lua require'relnod/terminal'.handle_term_closed()]]
-vim.cmd[[augroup END]]
+vim.cmd [[augroup terminal_buf_hidden]]
+vim.cmd [[autocmd!]]
+vim.cmd [[autocmd BufHidden * lua require'relnod/terminal'.handle_term_closed()]]
+vim.cmd [[augroup END]]
 
 function terminal.handle_term_closed()
   local bufname = vim.fn.expand("<afile>")
@@ -231,10 +264,10 @@ function terminal.handle_term_closed()
   end
 end
 
-vim.cmd[[augroup terminal_buf_delete]]
-  vim.cmd[[autocmd!]]
-  vim.cmd[[autocmd BufDelete * lua require'relnod/terminal'.handle_term_delete()]]
-vim.cmd[[augroup END]]
+vim.cmd [[augroup terminal_buf_delete]]
+vim.cmd [[autocmd!]]
+vim.cmd [[autocmd BufDelete * lua require'relnod/terminal'.handle_term_delete()]]
+vim.cmd [[augroup END]]
 
 function terminal.handle_term_delete()
   local bufname = vim.fn.expand("<afile>")

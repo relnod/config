@@ -7,6 +7,10 @@ in
   programs.neovim.enable = true;
   programs.neovim.package = pkgs.neovim-nightly;
 
+  home.packages = with pkgs; [
+    unstable.sumneko-lua-language-server
+  ];
+
   programs.neovim.extraPackages = with pkgs; [
     # For Treesitter
     gcc
@@ -21,7 +25,6 @@ in
     nodePackages.vscode-json-languageserver-bin
     nodePackages.vscode-css-languageserver-bin
     nodePackages.bash-language-server
-    unstable.sumneko-lua-language-server
     clang-tools # for ccls
 
     # For Telescope

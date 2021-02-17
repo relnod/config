@@ -1,7 +1,23 @@
+-- LEADER KEY {{{
+vim.g.mapleader = " "
+-- }}}
+
+-- PLUGIN MANAGER {{{
+local install_path = vim.fn.stdpath("data") .. "/site/pack/paqs/opt/paq-nvim"
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  vim.execute(
+    "!git clone https://github.com/savq/paq-nvim.git " .. install_path
+  )
+end
+
+vim.cmd [[ packadd paq-nvim ]]
+local paq = require("paq-nvim").paq
+paq {"savq/paq-nvim", opt = true}
+-- }}}
+
 -- HELPERS {{{
 local cmd, fn, g = vim.cmd, vim.fn, vim.g
 local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
-local execute = vim.api.nvim_command
 
 local opt = function(scope, key, value)
   scopes[scope][key] = value
@@ -20,24 +36,7 @@ local map = function(mode, lhs, rhs, opts)
 end
 
 local home = os.getenv("HOME")
--- }}}
 
--- LEADER KEY {{{
-vim.g.mapleader = " "
--- }}}
-
--- PLUGIN MANAGER {{{
-local install_path = fn.stdpath("data") .. "/site/pack/paqs/opt/paq-nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-  execute("!git clone https://github.com/savq/paq-nvim.git " .. install_path)
-end
-
-cmd "packadd paq-nvim"
-local paq = require("paq-nvim").paq
-paq {"savq/paq-nvim", opt = true}
--- }}}
-
--- GLOABLS {{{
 paq {"nvim-lua/plenary.nvim"}
 RELOAD = require("plenary.reload").reload_module
 
@@ -119,9 +118,7 @@ map(
 -- }}}
 
 -- TERMINAL {{{
-
 map("t", "<A-Esc>", "<C-\\><C-n>")
--- map("t", "q", "<C-\\><C-n>") -- TODO: buffer local mapping
 
 RELOAD("relnod/terminal")
 local terminal = require("relnod/terminal")
@@ -365,9 +362,15 @@ lspconfig.sumneko_lua.setup {
   cmd = {"lua-language-server"},
   settings = {
     Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (LuaJIT in the case of Neovim)
+        version = "LuaJIT",
+        -- Setup your lua path
+        path = vim.split(package.path, ";")
+      },
       diagnostics = {
         enable = true,
-        globals = {"vim", "RELOAD", "R"}
+        globals = {"vim", "RELOAD", "P"}
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
@@ -541,6 +544,9 @@ vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_li
 paq {"rhysd/git-messenger.vim"}
 map("n", "<leader>c", ":GitMessenger<CR>")
 
+-- Adds virtual text on the current line
+paq {"f-person/git-blame.nvim"}
+
 paq {"airblade/vim-gitgutter"}
 g.gitgutter_map_keys = 0
 -- }}}
@@ -620,8 +626,8 @@ opt("o", "showbreak", "↪")
 -- swap, undo, backup
 opt("o", "swapfile", false)
 opt("o", "backupdir", home .. "/.local/share/nvim/backup/")
-vim.cmd[[ set undofile ]]
-vim.cmd[[ set nobackup ]]
+vim.cmd [[ set undofile ]]
+vim.cmd [[ set nobackup ]]
 
 opt("w", "list", true)
 cmd "au BufRead,BufNewFile *.nix set filetype=nix"

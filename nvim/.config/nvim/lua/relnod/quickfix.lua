@@ -109,22 +109,23 @@ function quickfix.toggle(name)
   end
 end
 
-vim.cmd[[augroup quickfix_buf_hidden]]
-  vim.cmd[[autocmd!]]
-  vim.cmd[[autocmd BufUnload * lua require'relnod/quickfix'.handle_qf_closed()]]
-vim.cmd[[augroup END]]
+-- somewhat broken...
+-- vim.cmd[[augroup quickfix_buf_hidden]]
+--   vim.cmd[[autocmd!]]
+--   vim.cmd[[autocmd BufUnload * lua require'relnod/quickfix'.handle_qf_closed()]]
+-- vim.cmd[[augroup END]]
 
-function quickfix.handle_qf_closed()
-  local bufname = vim.fn.expand("<afile>")
-  local bufnr = vim.fn.bufnr(bufname)
+-- function quickfix.handle_qf_closed()
+--   local bufname = vim.fn.expand("<afile>")
+--   local bufnr = vim.fn.bufnr(bufname)
 
-  for _, qf in pairs(_Quickfixes) do
-    if qf.buf == bufnr then
-      qf.open = false
+--   for _, qf in pairs(_Quickfixes) do
+--     if qf.buf == bufnr then
+--       qf.open = false
 
-      return
-    end
-  end
-end
+--       return
+--     end
+--   end
+-- end
 
 return quickfix
