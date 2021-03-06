@@ -27,6 +27,11 @@ in
   ];
 
   home.packages = with pkgs; [
+    binutils
+    parted
+    p7zip
+    gparted
+
     unstable.hub
   ];
 

@@ -1,10 +1,20 @@
 local utils = require("relnod/utils")
 local keymap = require("relnod/keymap")
 local window = require("relnod/window")
+local actions = require("relnod/actions")
 
 local terminal = {}
 
 _Terminals = _Terminals or {}
+
+local default_mappings = {
+  n = {
+    ["<C-c>"] = "i<C-c>",
+    ["q"] = "A",
+    ["r"] = terminal.restart_command,
+    ["gf"] = actions.open_file_under_cursor
+  }
+}
 
 --- This will initialize all given terminals.
 ---
@@ -31,14 +41,8 @@ function terminal.setup(opts)
       command = config.command,
       mappings = vim.tbl_deep_extend(
         "keep",
-        config.mappings,
-        {
-          n = {
-            ["<C-c>"] = "i<C-c>",
-            ["q"] = "A",
-            ["r"] = terminal.restart_command
-          }
-        }
+        config.mappings or {},
+        default_mappings
       ),
       before_open = config.before_open
     }
@@ -123,7 +127,7 @@ function terminal.open(name)
             rhs(name)
           end
         end
-        keymap.nvim_buf_set_keymap(term.buf, mode, lhs, rhs2, {noremap = true})
+        keymap.map_buf(term.buf, mode, lhs, rhs2, {noremap = true})
       end
     end
   end
@@ -224,27 +228,6 @@ function terminal.run_selection(name)
 
   terminal.run_command(name, vim.trim(selection))
   vim.cmd("startinsert")
-end
-
-terminal.actions = {}
-
---- Opens the file under the cursor.
---- The file will be opened in the window where the terminal was created from.
-function terminal.actions.open_file()
-  local file = vim.call("expand", "<cWORD>")
-
-  local previous_win = window.get_previous_win(vim.api.nvim_get_current_win())
-
-  if previous_win ~= -1 and window.is_editing_win(previous_win) then
-    vim.api.nvim_set_current_win(previous_win)
-  else
-    local win = window.get_editing_win()
-    if win ~= -1 then
-      vim.api.nvim_set_current_win(win)
-    end
-  end
-
-  vim.cmd(string.format("e %s", file))
 end
 
 vim.cmd [[augroup terminal_buf_hidden]]

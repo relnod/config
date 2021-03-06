@@ -1,3 +1,5 @@
+local map = require("relnod/keymap").map
+
 function ToggleTask()
     local line = vim.api.nvim_get_current_line()
 

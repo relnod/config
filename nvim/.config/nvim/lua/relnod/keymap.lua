@@ -1,4 +1,20 @@
-local M = {}
+local keymap = {}
+
+function keymap.map(mode, lhs, rhs, opts)
+  local options = {noremap = true}
+  if opts then
+    options = vim.tbl_extend("force", options, opts)
+  end
+  keymap.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+function keymap.map_buf(bufnr, mode, lhs, rhs, opts)
+  local options = {noremap = true}
+  if opts then
+    options = vim.tbl_extend("force", options, opts)
+  end
+  keymap.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, options)
+end
 
 _Mappings = _Mappings or {}
 _MappingsBuffer = _MappingsBuffer or {}
@@ -36,7 +52,7 @@ end
 --- @param lhs string
 --- @param rhs string or function
 --- @param opts table
-function M.nvim_set_keymap(mode, lhs, rhs, opts)
+function keymap.nvim_set_keymap(mode, lhs, rhs, opts)
   if type(rhs) == "string" then
     vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
   else
@@ -56,7 +72,7 @@ end
 --- @param lhs string
 --- @param rhs string or function
 --- @param opts table
-function M.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+function keymap.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
   if type(rhs) == "string" then
     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
   else
@@ -74,7 +90,7 @@ end
 --- Executes a keymap.
 ---
 --- @param map_key string
-function M.execute_mapping(map_key)
+function keymap.execute_mapping(map_key)
   if _Mappings ~= nil and _Mappings[map_key] ~= nil then
     _Mappings[map_key]()
   end
@@ -84,7 +100,7 @@ end
 ---
 --- @param bufnr number
 --- @param map_key string
-function M.execute_buffer_mapping(bufnr, map_key)
+function keymap.execute_buffer_mapping(bufnr, map_key)
   if
     _MappingsBuffer ~= nil and _MappingsBuffer[bufnr][map_key] and
       _MappingsBuffer[bufnr][map_key] ~= nil
@@ -98,7 +114,7 @@ vim.cmd[[augroup keymap_buf_delete]]
   vim.cmd[[autocmd BufDelete * lua require'relnod/keymap'.handle_buf_delete()]]
 vim.cmd[[augroup END]]
 
-function M.handle_buf_delete()
+function keymap.handle_buf_delete()
   local bufname = vim.fn.expand("<afile>")
   if bufname == "" then
     return
@@ -113,4 +129,4 @@ function M.handle_buf_delete()
   end
 end
 
-return M
+return keymap

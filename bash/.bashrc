@@ -4,11 +4,12 @@
 set -o vi
 
 # Run keychain to start ssh-agent or load existing one.
-if [ -f ~/.ssh/id_rsa ]; then
-    eval `keychain --quiet --agents ssh --eval id_rsa`
-else
+# if [ -f ~/.ssh/id_rsa ]; then
+    # This errors: https://github.com/funtoo/keychain/issues/61
+    # eval `keychain --quiet --agents ssh --eval id_rsa`
+# else
     eval `keychain --quiet --agents ssh`
-fi
+# fi
 
 # Source local ~/.bashrc.local
 # This file can be used for local configurations,
