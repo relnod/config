@@ -2,7 +2,9 @@ local window = require("relnod/window")
 
 local actions = {}
 
---- Window selection order
+--- Selects an editing window.
+---
+--- Window selection order:
 ---   1. The current window if an editing window
 ---   2. The previous window if an editing window
 ---   3. Any editing window
