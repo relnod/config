@@ -12,14 +12,11 @@
 --   n <A-10> Toggle terminal 10 window
 -- }}}
 
-vim.g.mapleader = " "
-
 -- PLUGIN MANAGER {{{
-local plugin = require("relnod/plugin")
+local plugin = require("relnod/plugin").plugin
 vim.cmd [[ command! -nargs=* PluginInstall lua require("relnod/plugin").install() ]]
 vim.cmd [[ command! -nargs=* PluginUpdate lua require("relnod/plugin").update() ]]
-
-plugin = plugin.plugin
+vim.cmd [[ command! -nargs=* PluginStatus lua require("relnod/plugin").status() ]]
 -- }}}
 -- HELPERS {{{
 local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
@@ -88,6 +85,7 @@ opt("w", "list", true)
 vim.cmd "au BufRead,BufNewFile *.nix set filetype=nix"
 -- }}}
 -- GENERAL MAPPINGS {{{
+vim.g.mapleader = " "
 
 map("n", "<leader>w", ":w<CR>") -- save file
 map("n", "<leader>sw", ":w !sudo -S tee %<CR>") -- save file using sudo
@@ -156,8 +154,6 @@ plugin {
       {g = {"Find Git Files", "lua require('telescope.builtin').git_files()"}},
       {u = {"Update Plugins", ":PluginUpdate"}}
     }
-
-    map("n", "<leader>h", "<cmd>Startify<CR>")
   end
 }
 -- }}}
@@ -278,7 +274,6 @@ map(
 )
 -- }}}
 -- QUICKFIX {{{
-
 map("n", "<A-q>", ":copen<CR>")
 map("n", "<C-j>", ":cnext<CR>")
 map("n", "<C-k>", ":cprev<CR>")
@@ -499,7 +494,10 @@ plugin {
     map("n", "<leader>fg", tel_cmd(tel_builtin.git_files))
     map("n", "<leader>fa", tel_cmd(tel_builtin.live_grep))
     _Search = _Search or ""
-    map("n", "<leader>qr", function()
+    map(
+      "n",
+      "<leader>qr",
+      function()
         tel_cmd(
           tel_builtin.grep_string,
           {
@@ -551,7 +549,6 @@ opt("o", "completeopt", "menuone,noinsert,noselect") -- wildmenu, completion
 
 plugin {
   "hrsh7th/nvim-compe",
-  lazy = true,
   config = function()
     require "compe".setup {
       enabled = true,
@@ -578,6 +575,7 @@ plugin {
 
 plugin {
   "onsails/lspkind-nvim",
+  lazy = true,
   config = function()
     require("lspkind").init {}
   end
@@ -745,13 +743,27 @@ plugin {
         languages = languages
       }
     }
+    local function organize_imports()
+      local params = {
+        command = "_typescript.organizeImports",
+        arguments = {vim.api.nvim_buf_get_name(0)},
+        title = ""
+      }
+      vim.lsp.buf.execute_command(params)
+    end
     lspconfig.tsserver.setup {
       on_attach = function(client)
         -- Disable formatting. Using prettier via the efm server for this.
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
         on_attach(client)
-      end
+      end,
+      commands = {
+        OrganizeImports = {
+          organize_imports,
+          description = "Organize Imports"
+        }
+      }
     }
     lspconfig.jedi_language_server.setup {
       on_attach = on_attach

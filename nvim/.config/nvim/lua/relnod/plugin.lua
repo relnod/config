@@ -180,4 +180,8 @@ M.update_package = function(package)
   end)
 end
 
+M.status = function()
+  vim.notify(vim.inspect(_Packages))
+end
+
 return M
