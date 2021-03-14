@@ -3,9 +3,5 @@ name = "github.com/mattn/efm-langserver@latest"
 manager = "go"
 
 [[deps]]
-name = "lua-fmt"
-manager = "npm"
-
-[[deps]]
 name = "jedi-language-server"
 manager = "pip"

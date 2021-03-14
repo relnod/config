@@ -71,6 +71,11 @@ opt("o", "foldenable", false)
 
 -- search
 opt("o", "ignorecase", true)
+opt("o", "smartcase", true)
+
+--Decrease update time
+vim.o.updatetime = 250
+vim.wo.signcolumn="yes"
 
 -- opt('o', 'listchars', 'tab:▸ ,extends:❯,precedes:❮,trail:')
 opt("o", "fillchars", "eob:█")
@@ -529,10 +534,22 @@ plugin {
         tel_builtin.buffers,
         {
           sort_lastused = true,
-          ignore_current_buffer = true
-          -- sorter = tel_sorters.get_substr_matcher()
+          ignore_current_buffer = true,
+          sorter = tel_sorters.get_substr_matcher()
         }
       )
+    )
+    map(
+      "n",
+      "<leader>fc",
+      function()
+        tel_cmd(
+          tel_builtin.find_files,
+          {
+            cwd = vim.fn.expand("%:p:h")
+          }
+        )()
+      end
     )
     map("n", "<leader>fe", tel_cmd(tel_builtin.lsp_workspace_diagnostics))
     map("n", "<leader>fh", tel_cmd(tel_builtin.help_tags))
@@ -818,6 +835,10 @@ plugin {
 -- SEARCH {{{
 plugin {"brooth/far.vim"}
 --}}}
+
+-- EDITORCONFIG {{{
+plugin{ "editorconfig/editorconfig-vim" }
+-- }}}
 
 -- TEXT SURROUND {{{
 plugin {"tpope/vim-surround", lazy = true}

@@ -8,5 +8,7 @@
     tree
     fzf
     jq
+    ripgrep
+    fd
   ];
 }

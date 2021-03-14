@@ -101,7 +101,10 @@ function window.close(name)
 
   local previous_win = window.get_previous_win(win.handle)
 
-  vim.api.nvim_win_close(win.handle, true)
+  -- if vim.api.nvim_win_is_valid(win.handle) then
+    vim.api.nvim_win_close(win.handle, true)
+  -- end
+
   if previous_win ~= -1 then
     vim.api.nvim_set_current_win(previous_win)
   end

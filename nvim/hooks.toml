@@ -1,3 +1,0 @@
-post_update = [
-    "$HOME/.config/nvim/install.sh"
-]
