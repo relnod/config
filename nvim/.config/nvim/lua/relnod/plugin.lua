@@ -8,6 +8,11 @@ local PATH = vim.fn.stdpath("data") .. "/site/pack/plugins"
 local LOGFILE = vim.fn.stdpath("data") .. "/plugin.log"
 local REPO_RE = "^[%w-]+/([%w-_.]+)$"
 
+local log = function(message)  local log = uv.fs_open(LOGFILE, "a+", 0x1A4)
+  uv.fs_write(log, message .. "\n", -1)
+  uv.fs_close(log)
+end
+
 local setup_package
 --- This sets up a package, by converting args into a package table.
 --- It also recursively sets up all required packages.
@@ -124,7 +129,10 @@ local function call_proc(process, args, cwd)
   )
 end
 
+--- Installs all packages, that were registered previsously
 M.install = function()
+  log("---- START Installing Plugins ----")
+
   for _, package in pairs(_Packages) do
     M.install_package(package)
   end
@@ -152,8 +160,12 @@ M.install_package = function(package)
   end)
 end
 
+--- Updates all packages, that were registered previously.
 M.update = function()
+  log("---- Updating Plugins")
+
   for _, package in pairs(_Packages) do
+    log(string.format("-- Installing %s", package.name))
     M.update_package(package)
   end
 end

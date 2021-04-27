@@ -17,6 +17,7 @@ local plugin = require("relnod/plugin").plugin
 vim.cmd [[ command! -nargs=* PluginInstall lua require("relnod/plugin").install() ]]
 vim.cmd [[ command! -nargs=* PluginUpdate lua require("relnod/plugin").update() ]]
 vim.cmd [[ command! -nargs=* PluginStatus lua require("relnod/plugin").status() ]]
+vim.cmd [[ command! -nargs=* PluginLogs e ~/.local/share/nvim/plugin.log ]]
 -- }}}
 -- HELPERS {{{
 local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
@@ -52,6 +53,9 @@ opt("o", "wildignorecase", true)
 -- set wildignore+=tags
 -- set wildignorecase
 
+opt("o", "splitright", true)
+opt("o", "splitbelow", true)
+
 -- inccommand
 opt("o", "inccommand", "split")
 
@@ -75,7 +79,7 @@ opt("o", "smartcase", true)
 
 --Decrease update time
 vim.o.updatetime = 250
-vim.wo.signcolumn="yes"
+vim.wo.signcolumn = "yes"
 
 -- opt('o', 'listchars', 'tab:▸ ,extends:❯,precedes:❮,trail:')
 opt("o", "fillchars", "eob:█")
@@ -84,7 +88,9 @@ opt("o", "showbreak", "↪")
 -- swap, undo, backup
 opt("o", "swapfile", false)
 opt("o", "backupdir", home .. "/.local/share/nvim/backup/")
-vim.cmd [[ set undofile ]]
+opt("o", "undofile", true)
+opt("b", "undofile", true)
+-- vim.cmd [[ set undofile ]]
 
 opt("w", "list", true)
 vim.cmd "au BufRead,BufNewFile *.nix set filetype=nix"
@@ -277,6 +283,9 @@ map(
     terminal.run_selection("term1")
   end
 )
+-- }}}
+-- LOCATIONLIST {{{
+-- map("n", "<A-l>", ":lopen<CR>")
 -- }}}
 -- QUICKFIX {{{
 map("n", "<A-q>", ":copen<CR>")
@@ -585,8 +594,8 @@ plugin {
       }
     }
 
-    -- use <c-space> to force completion
-    map("i", "<c-space>", '<C-r>=luaeval(\'require"compe"._complete()\')<CR>')
+    -- -- use <c-space> to force completion
+    -- map("i", "<c-space>", '<C-r>=luaeval(\'require"compe"._complete()\')<CR>')
   end
 }
 
@@ -599,6 +608,11 @@ plugin {
 }
 -- }}}
 -- LSP {{{
+-- vim.cmd [[augroup lsp_loclist]]
+-- vim.cmd [[autocmd!]]
+-- vim.cmd [[autocmd BufHidden * vim.lsp.diagnostics.set_loclist({open_loclist = false })]]
+-- vim.cmd [[augroup END]]
+
 plugin {
   "neovim/nvim-lspconfig",
   lazy = true,
@@ -809,6 +823,9 @@ plugin {
     lspconfig.clangd.setup {
       on_attach = on_attach
     }
+    lspconfig.phpactor.setup {
+      on_attach = on_attach
+    }
   end
 }
 
@@ -826,18 +843,41 @@ plugin {
   lazy = true,
   config = function()
     map("n", "<leader>c", ":GitMessenger<CR>")
-
-    plugin {"airblade/vim-gitgutter"}
-    vim.g.gitgutter_map_keys = 0
+  end
+}
+-- plugin {
+--   "airblade/vim-gitgutter",
+--   config = function()
+--     vim.g.gitgutter_map_keys = 0
+--   end
+-- }
+plugin {
+  "lewis6991/gitsigns.nvim",
+  requires = {
+    {"nvim-lua/plenary.nvim"}
+  },
+  config = function()
+    require("gitsigns").setup()
   end
 }
 -- }}}
 -- SEARCH {{{
 plugin {"brooth/far.vim"}
 --}}}
+-- Diagnostics {{{
+plugin {
+  "folke/lsp-trouble.nvim",
+  requires = {{"kyazdani42/nvim-web-devicons"}},
+  config = function()
+    require("trouble").setup {}
+
+    map("n", "<leader>d", "<cmd>LspTroubleToggle<cr>")
+  end
+}
+--}}}
 
 -- EDITORCONFIG {{{
-plugin{ "editorconfig/editorconfig-vim" }
+plugin {"editorconfig/editorconfig-vim"}
 -- }}}
 
 -- TEXT SURROUND {{{
@@ -863,7 +903,7 @@ plugin {
   requires = {{"kyazdani42/nvim-web-devicons"}},
   config = function()
     local lualine = require("lualine")
-    lualine.status(
+    lualine.setup(
       {
         options = {
           theme = "onedark",
@@ -901,6 +941,12 @@ opt("w", "cursorline", true) -- enable line numbers
 -- }}}
 -- UI TAGS {{{
 plugin {"valloric/MatchTagAlways", lazy = true}
+plugin {
+  "windwp/nvim-ts-autotag",
+  config = function()
+    require("nvim-ts-autotag").setup()
+  end
+}
 -- }}}
 
 -- TODO {{{

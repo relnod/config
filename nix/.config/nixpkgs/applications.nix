@@ -50,5 +50,7 @@ in
     unstable.torbrowser
 
     virt-manager
+
+    calibre
   ];
 }

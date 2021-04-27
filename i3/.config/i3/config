@@ -5,6 +5,9 @@ exec readlink -f ~/background_image | xargs feh --bg-scale
 # Map escape to capslock.
 exec setxkbmap -option caps:escape
 
+# Faster keyboard input
+exec xset r rate 500 60
+
 # set mod keyword to Windows key
 set $mod Mod4
 

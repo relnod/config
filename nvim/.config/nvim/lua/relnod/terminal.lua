@@ -207,7 +207,10 @@ function terminal.run_current_line(name)
   end
 
   terminal.run_command(name, vim.trim(current_line))
-  vim.cmd("startinsert")
+
+  if vim.api.nvim_get_current_buf() == term.buf then
+    vim.cmd("startinsert")
+  end
 end
 
 --- Runs the visual selection in the given terminal.

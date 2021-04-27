@@ -10,5 +10,7 @@
     jq
     ripgrep
     fd
+    php73
+    php73Packages.composer
   ];
 }

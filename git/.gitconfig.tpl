@@ -15,7 +15,7 @@
 [commit]
     gpgsign = true
 
-[ore]
+[core]
 	excludesFile = ~/.config/git/gitignore
 
 [include]
